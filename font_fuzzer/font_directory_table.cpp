@@ -15,10 +15,12 @@ OffsetSubtable generateOffsetSubtable(uint16 num_Tables){
                 ost.rangeShift=ost.numTables*16-ost.searchRange;
                 return ost;                      
 };
+//calculating checksum
 uint32 CalcTableChecksum(uint32 *table, uint32 numberOfBytesInTable){
     uint32 sum = 0;
     uint32 nLongs = (numberOfBytesInTable + 3) / 4;
     while (nLongs-- > 0)
+        //adding 4-bytes number!
         sum += *table++;
     return sum;
 }

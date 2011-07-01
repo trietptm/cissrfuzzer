@@ -1,4 +1,3 @@
-#include <string>
 #include "name_table.h"
 nameRecord gener_nameRecord(uint16 platf_ID, uint16 platf_SID, uint16 langID,uint16 nameid, uint16 strlen, uint16 offSet){
            nameRecord nr;
@@ -46,3 +45,34 @@ name_table gener_name_table(uint16 num_records, char* path_to_records){
            return n_t;
 };
 uint32 name_table_size(name_table nt){return nt.stringOffset+nt.name.length(); }
+//no need checksum!
+uint32 name_table_checksum(name_table nt){
+       uint32 sum=0;
+       //first uint32 follows
+       sum+=((nt.format)<<16)+nt.count;
+       if(nt.count==0) return sum+((nt.stringOffset)<<16);
+       else{
+       
+       }
+       return sum;
+};
+TableDirectoryNod gener_name_table_header(name_table nt, uint32 offSet){
+                  TableDirectoryNod tdn;
+                  tdn.tag=0x6e616d65;
+                  tdn.length=name_table_size(nt);
+                  tdn.offset=offSet;
+                  return tdn;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
