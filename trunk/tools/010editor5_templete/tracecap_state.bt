@@ -1,0 +1,88 @@
+//--------------------------------------
+//--- 010 Editor v3.0.5 Binary Template
+//
+// File:
+// Author:
+// Revision:
+// Purpose:
+//--------------------------------------
+
+
+enum InsnType { CONDITIONAL = 0            
+               ,INDIRECT                                    
+               };
+
+
+
+string TypeToString(DWORD type)
+{
+    InsnType s_type = type;
+    return EnumToString(s_type);
+}
+
+string AddrToString(DWORD address)
+{
+    string result;
+    SPrintf(result, "0x%08x", address);
+    return  result;
+}
+
+typedef struct 
+{
+  DWORD operand_id;//eip
+  DWORD type<read = TypeToString>;
+  DWORD address_cur<read = AddrToString>;
+  DWORD address_next<read = AddrToString>;
+} RECORD;
+
+
+typedef struct
+{
+  DWORD magic;
+  DWORD version;
+} STATE_HEADER;
+
+typedef struct
+{
+  DWORD ebx;
+  DWORD ecx;
+  DWORD edx;
+  DWORD esi;
+  DWORD edi;
+  DWORD ebp;
+  DWORD eax;
+  DWORD xds;
+  DWORD xes;
+  DWORD xfs;
+  DWORD xgs;
+  DWORD orig_eax;
+  DWORD eip;
+  DWORD xcs;
+  DWORD eflags;
+  DWORD esp;
+  DWORD xss;
+} REGISTERS;
+
+/* A region */
+typedef struct {
+  DWORD begin;
+  DWORD end;
+} MEM_REGION;
+
+typedef struct {
+  BYTE val[4096];
+} MEM_VALS;
+
+LittleEndian();
+
+STATE_HEADER header;
+REGISTERS    regs;
+
+
+local int i  = 0;
+local int id = 0;
+while( !FEof() )
+{
+    MEM_REGION region;    
+    MEM_VALS vals;    
+}
