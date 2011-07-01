@@ -1,0 +1,42 @@
+//--------------------------------------
+//--- 010 Editor v3.0.5 Binary Template
+//
+// File:
+// Author:
+// Revision:
+// Purpose:
+//--------------------------------------
+
+
+enum InsnType { CONDITIONAL = 0            
+               ,INDIRECT                                    
+               };
+
+
+
+string TypeToString(DWORD type)
+{
+    InsnType s_type = type;
+    return EnumToString(s_type);
+}
+
+string AddrToString(DWORD address)
+{
+    string result;
+    SPrintf(result, "0x%08x", address);
+    return  result;
+}
+
+typedef struct 
+{
+  DWORD operand_id;//eip
+  DWORD type<read = TypeToString>;
+  DWORD address_cur<read = AddrToString>;
+  DWORD address_next<read = AddrToString>;
+} RECORD;
+
+
+while( !FEof() )
+{
+  RECORD rec;
+}

@@ -1,0 +1,267 @@
+//--------------------------------------
+//--- 010 Editor v2.1.3 Binary Template
+//
+// File: WMFTemplate.bt
+// Author: Didier Stevens (https://DidierStevens.com)
+// Revision: 0.3, prototype, only tested on 1 placeable WMF file and 1 WMF file
+// Date: 2007/08/09 - 2007/08/20
+// Purpose:  Defines a template for parsing WMF files.
+// References:
+//  http://wvware.sourceforge.net/caolan/ora-wmf.html
+//--------------------------------------
+
+enum OpType { TNone = 0, TRegister, TMemLoc, TImmediate, TJump, TFloatRegister, TMemAddress };
+
+enum InsnTaintType { TP_NONE = 0            // No taint propagation
+                        ,TP_SRC             // Taint propagated from SRC to DST
+                        ,TP_CJMP            // Cjmp using tainted EFLAG
+                        ,TP_MEMREAD_INDEX   // Memory read with tainted index
+                        ,TP_MEMWRITE_INDEX  // Memory write with tainted index
+                        ,TP_REP_COUNTER     // Instruction with REP prefix and tainted counter
+                        ,TP_SYSENTER        // Sysenter
+                        };
+
+typedef struct
+{
+  DWORD magic;
+  DWORD version;
+  DWORD number_of_processes;
+  DWORD gdt;
+  DWORD ldt;
+} TRACE_HEADER;
+
+typedef struct 
+{
+  char name[32];
+  DWORD pid;
+  DWORD number_of_modules;
+  DWORD ldt;
+} PROCESS_INFO;
+
+typedef struct 
+{
+  char name[32];
+  DWORD base;
+  DWORD size;
+} MODULE_INFO;
+
+typedef struct 
+{
+  BYTE unknown_crap;
+  DWORD source;
+  DWORD origin;
+  DWORD offset;
+} TRACECAP_RECORD;
+
+int GetSize(ushort taint,uchar length)
+{
+    local int size = 0, i =0;
+    for(i=0;i<length;i++){
+        if(taint & (1<<i))size++;
+    }
+    return size;
+}
+/*
+string CheckOperandUsage(BYTE usage)
+{
+    switch(usage){
+        case 0: SetBackColor(cNone);return "None";
+        case 1: SetBackColor(cBlue);return "Esp";
+        case 2: SetBackColor(cDkYellow);return "Counter";
+        case 3: SetBackColor(cNone);return "MemBase";
+        case 4: SetBackColor(cNone);return "MemIndex";
+        case 5: SetBackColor(cGreen);return "MemSegment";
+        case 6: SetBackColor(cPurple);return "MemSegment0";
+        case 7: SetBackColor(cLtRed);return "MemSegment1";
+        default: return "ERROR";
+    }
+}
+*/
+string AccessToStriong(BYTE access)
+{
+    switch(access)
+    {
+        case 0: return "XED_OPERAND_ACTION_INVALID";
+        case 1: return "XED_OPERAND_ACTION_RW"; ///< Read and written (must write)
+        case 2: return "XED_OPERAND_ACTION_R"; ///< Read-only
+        case 3: return "XED_OPERAND_ACTION_W"; ///< Write-only (must write)
+        case 4: return "XED_OPERAND_ACTION_RCW"; ///< Read and conditionlly written (may write)
+        case 5: return "XED_OPERAND_ACTION_CW"; ///< Conditionlly written (may write)
+        case 6: return "XED_OPERAND_ACTION_CRW"; ///< Conditionlly read, always written (must write)
+        case 7: return "XED_OPERAND_ACTION_CR"; ///< Conditional read
+        case 8: return "XED_OPERAND_ACTION_LAST";
+    }
+    return "ERROR";
+}
+
+string CheckOperandUsage(BYTE usage)
+{
+    switch(usage){
+        case 0: return "Unknown";break;
+        case 1: {
+            Printf("Usage ESP %Lx\n", FTell());SetBackColor(cBlue);return "Esp";break;
+        }
+        case 2: {
+             Printf("Usage Counter %Lx\n", FTell());SetBackColor(cDkYellow);return "Counter";break;
+        }
+        case 3: {
+            Printf("Usage MemBase %Lx\n", FTell());SetBackColor(cGreen);return "MemBase";break;
+        }
+        case 4: {
+            Printf("Usage MemIndex %Lx\n", FTell());return "MemIndex";break;
+        }
+        case 5: {
+            Printf("Usage MemSegment %Lx\n", FTell());return "MemSegment";break;
+        }
+        case 6: {
+            Printf("Usage MemSegment0 %Lx\n", FTell());return "MemSegment0";break;
+        }
+        case 7: {
+            Printf("Usage MemSegment1 %Lx\n", FTell());return "MemSegment1";break;
+        }
+        default: return "ERROR";
+    }
+}
+
+void ChangeColor(byte usage) {
+    switch(usage){
+        case 0: SetBackColor(cNone);break;
+        case 1: SetBackColor(cBlue);break;
+        case 2: SetBackColor(cBlack);break;
+        case 3: SetBackColor(cNone);break;
+        case 4: SetBackColor(cNone);break;
+        case 5: SetBackColor(cGreen);break;
+        case 6: SetBackColor(cPurple);break;
+        case 7: SetBackColor(cLtRed);break;
+        default: return ;
+    }
+}
+
+string RegToString(DWORD address)
+{
+    string result;
+    
+    switch(address) 
+    { 
+        case 100 : return "es_reg";
+        case 101 : return "cs_reg";
+        case 102 : return "ss_reg";
+        case 103 : return "ds_reg";
+        case 104 : return "fs_reg";
+        case 105 : return "gs_reg";
+
+        /* addressreturn "modifier dependent registers */
+        case 108 : return "eAX_reg";
+        case 109 : return "eCX_reg";
+        case 110 : return "eDX_reg";
+        case 111 : return "eBX_reg";
+        case 112 : return "eSP_reg";
+        case 113 : return "eBP_reg";
+        case 114 : return "eSI_reg";
+        case 115 : return "eDI_reg";
+
+        /* 8return "bit registers */
+        case 116 : return "al_reg";
+        case 117 : return "cl_reg";
+        case 118 : return "dl_reg";
+        case 119 : return "bl_reg";
+        case 120 : return "ah_reg";
+        case 121 : return "ch_reg";
+        case 122 : return "dh_reg";
+        case 123 : return "bh_reg";
+
+        /* 16return "bit registers */
+        case 124 : return "ax_reg";
+        case 125 : return "cx_reg";
+        case 126 : return "dx_reg";
+        case 127 : return "bx_reg";
+        case 128 : return "sp_reg";
+        case 129 : return "bp_reg";
+        case 138 : return "si_reg";
+        case 131 : return "di_reg";
+
+        /* 32return "bit registers */
+        case 132 : return "eax_reg";
+        case 133 : return "ecx_reg";
+        case 134 : return "edx_reg";
+        case 135 : return "ebx_reg";
+        case 136 : return "esp_reg";
+        case 137 : return "ebp_reg";
+        case 138 : return "esi_reg";
+        case 139 : return "edi_reg";
+
+        case 140 : return "eip_reg";
+        case 141 : return "cr3_reg";      
+    };
+    
+    SPrintf(result, "%08x", address);
+    return  result;
+}
+
+string TaintTypeToString(byte taint_p)
+{
+    InsnTaintType tp = taint_p;
+    return EnumToString(tp);
+}
+
+string OpTypeToString(byte op_type)
+{
+    OpType ot = op_type;
+    return EnumToString(ot);
+}
+/*
+void ChangeColor(byte usage) {
+    switch(usage){
+        case 0: SetBackColor(cNone);break;
+        case 1: SetBackColor(cBlue);break;
+        case 2: SetBackColor(cBlack);break;
+        case 3: SetBackColor(cNone);break;
+        case 4: SetBackColor(cNone);break;
+        default: return ;
+    }
+}
+*/
+
+typedef struct 
+{
+  BYTE access<read = AccessToStriong>;
+  uchar length;//count of records
+  ushort taint;
+  DWORD address<read = RegToString>;//address for memory, for register - index.for imm - null
+  DWORD value;
+  BYTE type<read = OpTypeToString>;
+  BYTE usage<read=CheckOperandUsage>;
+ChangeColor(usage);
+  local int size = GetSize(taint, length);
+  if( taint > 0) TRACECAP_RECORD records[size] <optimize=false>;
+} OPERAND;
+
+typedef struct 
+{
+  DWORD address;//eip
+  DWORD thread_id;
+  WORD size;
+  uchar  number_of_operands;
+  BYTE taint_type<read = TaintTypeToString >;
+  DWORD eflags;
+  DWORD cc_op;
+  DWORD df;
+  BYTE raw[size];
+  OPERAND operands[number_of_operands]<optimize=false>;
+} INSTRUCTION;
+
+//<optimize=false>
+
+LittleEndian();
+TRACE_HEADER header;
+
+PROCESS_INFO process;
+local int modules_count = 0;
+for( modules_count = 0; modules_count < process.number_of_modules ; modules_count++ ) {
+  MODULE_INFO module;
+}
+
+while( !FEof() )
+{
+  INSTRUCTION instruction;
+}

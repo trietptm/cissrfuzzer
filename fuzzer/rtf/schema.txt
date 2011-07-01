@@ -1,0 +1,571 @@
+Syntax	Meaning
+#PCDATA	Text (without control words)
+#SDATA	Hexadecimal data
+#BDATA	Binary data
+'c'	A literal, where c is one or more ASCII characters
+A?	Item A is optional
+A+	One or more repetitions of item A
+A*	Zero or more repetitions of item A
+A B	Item A followed by item B
+A | B	Item A or item B
+A & B	Item A or item B, in any order
+<letter>	a..z | A..Z
+<control name>	<letter>+
+<digit>	0..9
+<parameter>	'-'? <digit>+
+<control word entity>	'\' <control name><parameter>?
+
+<File>	'{' <header> <document> '}'
+
+<header>	\rtf1 \fbidis? <character set> <from>? <deffont> <deflang> <fonttbl>? <filetbl>? <colortbl>? <stylesheet>? <stylerestrictions>? <listtables>? <revtbl>? <rsidtable>? <mathprops>? <generator>?
+
+<document>	<info>? <xmlnstbl>? <docfmt>* <section>+
+
+<character set>	 (\ansi | \mac | \pc | \pca)? \ansicpgN?
+
+<from>	\fromtext | \fromhtml
+<deffont>	\deffN? \adeffN? (\stshfdbchN  \stshflochN  \stshfhichN  \stshfbiN)?
+<deflang>	\deflangN? \deflangfeN? \adeflangN?
+
+<themedata>	'{\*' \themedata #SDATA '}'
+
+<fonttbl>	'{' \fonttbl (<fontinfo> | ('{' <fontinfo> '}'))+ '}'
+<fontinfo>	<themefont>? \fN <fontfamily> \fcharsetN? \fprq? <panose>? <nontaggedname>? <fontemb>? \cpgN? <fontname> <fontaltname>? ';' 
+<themefont>	\flomajor | \fhimajor | \fdbmajor | \fbimajor | \flominor | \fhiminor | \fdbminor | \fbiminor
+<fontfamily>	\fnil | \froman | \fswiss | \fmodern | \fscript | \fdecor | \ftech | \fbidi
+<panose>	'{\*' \panose <data> '}'
+<nontaggedname>	'{\*' \fname #PCDATA ';}'
+<fontname>	#PCDATA
+<fontaltname>	'{\*' \falt #PCDATA '}'
+<fontemb>	'{\*' \fontemb <fonttype> <fontfname>? <data>? '}'
+<fonttype>	\ftnil | \fttruetype
+<fontfname>	'{\*' \fontfile \cpgN? #PCDATA '}'
+
+<filetbl> 	'{\*' \filetbl ('{' <fileinfo> '}')+ '}'
+<fileinfo>	\file \fidN \frelativeN? \fosnumN? <filesource>+ <file name>
+<filesource>	\fvalidmac | \fvaliddos | \fvalidntfs | \fvalidhpfs | \fnetwork | \fnonfilesys
+<file name>	#PCDATA
+
+<colortbl>	'{' \colortbl <colordef>+ '}'
+<colordef>	<themecolor>? & \ctintN? & \cshadeN? \redN? & \greenN? & \blueN? ';'
+<themecolor>	\cmaindarkone | \cmainlightone | \cmaindarktwo | \cmainlighttwo | \caccentone | \caccenttwo | \caccentthree | \caccentfour | \caccentfive | \caccentsix | \chyperlink | \cfollowedhyperlink | \cbackgroundone | 
+\ctextone | \cbackgroundtwo | \ctexttwo
+
+<stylesheet> 	'{' \stylesheet <style>+ '}'
+<style>	'{' <styledef>? <keycode>? <formatting> \additive? \sbasedonN? \snextN? \sautoupd? \slinkN? \sqformat? \spriorityN? \sunhideusedN? \slocked? \shidden? \ssemihiddenN? \spersonal? \scompose? \sreply? \styrsidN? <stylename>? ';}'
+<styledef>	\sN | \*\csN | \*\dsN | \*\tsN \tsrowd
+<keycode>	'{' \keycode <keys> '}'
+<keys>	(\shift? & \ctrl? & \alt?) <key>
+<key>	\fnN | #PCDATA
+<formatting>	(<brdrdef> | <parfmt> | <apoctl> | <tabdef> | <shading> | <chrfmt>)+
+<stylename>	#PCDATA
+
+<stylerestrictions> 	'{\*' \latentstyles \lsdstimaxN \lsdlockeddefN \lsdsemihiddendefN \lsdunhideuseddefN \lsdqformatdefN \lsdprioritydefN <exceptions>? '}'
+<exceptions>	'{' \lsdlockedexcept <stylenames>+ '}'
+<stylenames>	<stylename> ';'
+<stylename>	 \lsdpriorityN ? \lsdunhideusedN ? \lsdsemihiddenN ? \lsdqformatN ? \lsdlockedN ? #PCDATA
+
+<listtable>	'{\*' \listtable <listpicture>? <list>+ '}'
+<listpicture>	'{\*' \listpicture <shppictlist> '}'
+<list>	\list \listemplateid & (\listsimple | \listhybrid)? & <listlevel>+ & \listrestarthdn & \listidN & (\listname #PCDATA ';') \liststyleidN? \liststylename?
+<listlevel>	'{' \listlevel <number> <justification> & \levelfollowN & \levelstartatN & \lvltentative? (\leveloldN & \levelprevN? & \levelprevspaceN? & \levelspaceN? & \levelindentN?)? & <leveltext> & <levelnumbers> & \levellegalN? & \levelnorestartN? & <chrfmt>? & \levelpictureN & \liN? & \fiN? & (\jclisttab \txN)? & \linN? '}'
+<number>	\levelnfcN | \levelnfcnN | (\levelnfcN & \levelnfcnN)
+<justification>	\leveljcN | \leveljcnN | (\leveljcN & \leveljcnN)
+<leveltext>	'{' \leveltext \leveltemplateid? #SDATA ';}'
+<levelnumbers>	'{' \levelnumbers #SDATA ';}'
+
+<listoverridetable>	'{\*' \listoverridetable <listoverride>+ '}'
+<listoverride>	'{' \listoverride & \listidN & \listoverridecountN & \lsN <lfolevel>? '}'
+<lfolevel>	'{' \lfolevel \listoverrideformatN? \listoverridestartat? <listlevel> '}'
+
+<pgptbl>	'{\*' \pgptbl <entry>+ '}'
+<entry>	'{' \pgp <value> '}'
+<value>	\ipgpN <parfmt>+
+
+<rsidtable>	'{\*' \rsidtbl \rsidN+ '}'
+
+<userprotection>	'{\*' \protusertbl <user>+ '}'
+<user>	'{' #PCDATA '}'
+
+<generator>	'{\*' \generator <name> ';}'
+<name>	#PCDATA, the name of the program, the version, the build, and any other information about the emitting program can be listed here. Word 2002 lists {\*\generator Microsoft Word 10.0.XXXX} – Word 2003 lists {\*\generator Microsoft Word 11.0.XXXX} – Word 2007 lists {\*\generator Microsoft Word 12.0.XXXX} in which XXXX is replaced by the build number. Only ASCII text is allowed in this field.
+
+<info>	'{' \info <title>? & <subject>? & <author>? & <manager>? & <company>? <operator>? & <category>? & <keywords>? & <comment>? & \versionN? & <doccomm>? & \vernN? & <creatim>? & <revtim>? & <printim>? & <buptim>? & \edminsN? & \nofpagesN? & \nofwordsN? \nofcharsN? & \idN? '}'
+<title>	'{' \title #PCDATA '}'
+<subject>	'{' \subject #PCDATA '}'
+<author>	'{' \author #PCDATA '}'
+<manager>	'{' \manager #PCDATA '}'
+<company>	'{' \company #PCDATA '}'
+<operator>	'{' \operator #PCDATA '}'
+<category>	'{' \category #PCDATA '}'
+<keywords>	'{' \keywords #PCDATA '}'
+<comment>	'{' \comment #PCDATA '}'
+<doccomm>	'{' \doccomm #PCDATA '}'
+<hlinkbase>	'{' \hlinkbase #PCDATA '}'
+<creatim>	'{' \creatim <time> '}'
+<revtim>	'{' \revtim <time> '}'
+<printim>	'{' \printim <time> '}'
+<buptim>	'{' \buptim <time> '}'
+<time>	\yrN? \moN? \dyN? \hrN? \minN? \secN?
+
+<userprops>	'{\*' \userprops <propinfo>* '}'
+<propinfo>	'{' <propname> \proptypeN <staticval> <linkval>? '}'
+<propname>	'{' \propname #PCDATA '}'
+<staticval>	'{' \staticval #PCDATA '}'
+<linkval>	'{' \linkval #PCDATA '}'
+
+<passwordhash>	'{\*' \passwordhash #SDATA '}'
+
+<xmlnstbl>	'{\*' \xmlnstbl <xmlnsdecl>* '}'
+<xmlnsdecl>	'{' \xmlnsN #PCDATA '}'
+
+<mailmerge>	'{\*' \mailmerge <mmmaintype> \mmlinktoquery? <mmdatatype> \mmdefaultsql? (<mmconnectstrdata> | <mmconnectstr>)? <mmquery>? <mmdatasource>? \mmblanklinks? <mmheadersource> <mmdest> <mmaddfieldname>? <mmmailsubject>? \mmattach? \mmshowdata? \mmreccurN \mmerrorsN <mmodso>* \mmodsocoldelimN \mmjdsotypeN \mmodsofhdrN <mmodsorecipdata>+ '}'
+<mmmaintype>	\mmmaintypecatalog | \mmmaintypeenvelopes | \mmmaintypelabels | \mmmaintypeletters | \mmmaintypeemail | \mmmaintypefax 
+<mmdatatype>	\mmdatatypeaccess | \mmdatatypeexcel | \mmdatatypeqt | \mmdatatypeodbc | \mmdatatypeodso | \mmdatatypefile
+<mmconnectstrdata>	'{' \mmconnectstrdata #SDATA '}'
+<mmconnectstr>	'{' \mmconnectstr #PCDATA '}'
+<mmquery>	'{' \mmquery #PCDATA '}'
+<mmdatasource>	'{' \mmdatasource #PCDATA '}'
+<mmheadersource>	'{' \mmheadersource #PCDATA '}'
+<mmdest>	\mmdestnewdoc | \mmdestprinter | \mmdestemail | \mmdestfax
+<mmaddfieldname>	'{' \mmaddfieldname #PCDATA '}'
+<mmmailsubject>	'{' \mmmailsubject #PCDATA '}'
+<mmodso>	'{\*' \mmodso (<mmodsoudldata> | <mmodsoudl>)? <mmodsotable>? <mmodsosrc>? <mmodsofilter>? <mmodsosort>? <fldmpdata>? '}'
+<mmodsoudl>	'{' \mmodsoudl #PCDATA '}'
+<mmodsoudldata>	'{' \mmodsoudldata #SDATA '}'
+<mmodsotable>	'{' \mmodsotable #PCDATA '}'
+<mmodsosrc>	'{' \mmodsosrc #PCDATA '}'
+<mmodsofilter>	'{' \mmodsofilter #SDATA '}'
+<mmodsosort>	'{' \mmodsofilter #SDATA '}'
+<fldmpdata>	'{\*' \mmodsofldmpdata <mmfttype>? <mmodsoname>? <mmodsomappedname>? \mmodsofmcolumnN \mmodsodynaddrN \mmodsolidN '}'
+<mmfttype>	\mmfttypenull | \mmfttypedbcolumn | \mmfttypeaddress | \mmfttypesalutation | \mmfttypemapped | \mmfttypebarcode
+<mmodsoname>	'{' \mmodsoname #PCDATA '}'
+<mmodsomappedname>	'{' \mmodsomappedname #PCDATA '}'
+<mmodsorecipdata>	'{\*' \mmodsorecipdata \mmodsoactiveN <uniqueid> '}'
+<uniqueid>	'{' \mmodsohashN | \mmodsocolumnN & <mmodsouniquetag> '}'
+<mmodsouniquetag>	'{' \mmodsouniquetag #PCDATA ' }'
+
+<section>	 <secfmt>* <hdrftr>? <para>+ (\sect <section>)?
+
+<hdrftr>	'{' <hdrctl> <para>+ '}' <hdrftr>?
+<hdrctl>	\header | \footer | \headerl | \headerr | \headerf | \footerl | \footerr | \footerf
+
+<para>	<textpar> | <row>
+<textpar>	<pn>? <brdrdef>? <parfmt>* <apoctl>* <tabdef>? <shading>? (\v \spv)? 
+(\subdocumentN | <char>+) (\par <para>)?
+<row>	(<tbldef> <cell>+ <tbldef> \row) | (<tbldef> <cell>+ \row) | (<cell>+ <tbldef> \row)
+<cell>	(<nestrow>? <tbldef>?) & <textpar>+ \cell
+<nestrow>	<nestcell>+ '{\*' \nesttableprops <tbldef> \nestrow '}'
+<nestcell>	<textpar>+ \nestcell
+
+<tabdef>	(<tab> | <bartab>)+
+<tab>	<tabkind>? <tablead>? \txN
+<bartab>	<tablead>? \tbN
+<tabkind>	\tqr | \tqc | \tqdec 
+<tablead>	\tldot | \tlmdot | \tlhyph | \tlul | \tlth | \tleq
+
+<ptab>	'{' <ptableadding>? <relto> '}'
+<ptableadding> 	\ptablnone | \ptabldot | \ptablminus | \ptabluscore | \ptablmdot
+<relto>	<reltomargin> | <reltoindent>
+<reltomargin> 	\pmartabql | \pmartabqc | \pmartabqr 
+<reltoindend> 	\pindtabql | \pindtabqc | \pindtabqr
+
+<pn>	<pnseclvl> | <pnpara>
+<pnseclvl>	'{\*' \pnseclvlN <pndesc> '}'
+<pnpara>	<pntext> <pnprops>
+<pntext>	'{' \pntext <char> '}'
+<pnprops>	'{\*' \pn <pnlevel> <pndesc> '}'
+<pnlevel>	\pnlvlN | \pnlvlblt | \pnlvlbody | \pnlvlcont
+<pndesc>	<pnnstyle> & <pnchrfmt> & <pntxtb> & <pntxta> & <pnfmt>
+<pnnstyle>	\pncard | \pndec | \pnucltr | \pnucrm | \pnlcltr | \pnlcrm | \pnord | \pnordt | \pnbidia | \pnbidib | \pnaiu | \pnaiud | \pnaiueo | \pnaiueod | \pnchosung |
+\pncnum | \pndbnum | \pndbnumd | \pndbnumk | \pndbnuml | \pndbnumt | 
+\pndecd | \pnganada | \pngbnum | \pngbnumd | \pngbnumk | \pngbnuml | 
+\pniroha | \pnirohad | \pnuldash | \pnuldashd | \pnuldashdd | \pnulhair | 
+\pnulth | \pnulwave | \pnzodiac | \pnzodiacd | \pnzodiacl
+<pnchrfmt>	\pnf? & \pnfs? & \pnb? & \pni? & \pncaps? & \pnscaps? & <pnul>? & \pnstrike? & \pncf?
+<pnul>	\pnul | \pnuld | \pnuldb | \pnulnone | \pnulw
+<pnfmt>	\pnnumonce? & \pnacross? & \pnindent? & \pnsp? & \pnprev? & <pnjust>? &
+\pnstart? & \pnhang? & \pnrestart?
+<pnjust>	\pnqc | \pnql | \pnqr
+<pntxtb>	'{' \pntxtb #PCDATA '}'
+<pntxta>	'{' \pntxta #PCDATA '}'
+
+<brdrdef>	(<brdrseg> <brdr> )+
+<brdrseg>	\brdrt | \brdrb | \brdrl | \brdrr | \brdrbtw | \brdrbar | \box
+<brdr>	<brdrk> \brdrwN? \brspN? \brdrcfN?
+<brdrk>	\brdrs | \brdrth | \brdrsh | \brdrdb | \brdrdot | \brdrdash | \brdrhair | brdrinset | \brdrdashsm | \brdrdashd | \brdrdashdd | \brdrdashdot | \brdrdashdotdot | \brdrtriple | \brdrtnthsg | \brdrthtnsg | \brdrtnthtnsg | \brdrtnthmg | \brdrthtnmg | \brdrtnthtnmg | \brdrtnthlg | \brdrthtnlg | \brdrtnthtnlg | \brdrwavy | \brdrwavydb | \brdrdashdotstr | \brdremboss | \brdrengrave \brdroutset | \brdrnone | \brdrtbl | \brdrnil
+
+<shading>	(\shadingN | <pat>) \cfpatN? \cbpatN?
+<pat>	\bghoriz | \bgvert | \bgfdiag | \bgbdiag | \bgcross | \bgdcross | \bgdkhoriz | \bgdkvert | \bgdkfdiag | \bgdkbdiag | \bgdkcross | \bgdkdcross 
+
+<apoctl>	<framesize> & <horzpos> & <vertpos> & <txtwrap> & <dropcap> & <txtflow> & \absnoovrlpN?
+<framesize>	\abswN? & \abshN?
+<horzpos>	<hframe> & <hdist>
+<vertpos>	<vframe> & <vdist>
+<txtwrap>	\nowrap? & \dxfrtextN? & \dfrmtxtxN? & \dfrmtxtyN? & <wrap>?
+<wrap>	\wrapdefault? | \wraparound? | \wraptight? | \wrapthrough?
+<dropcap>	\dropcapli? & \dropcapt?
+<hframe>	\phmrg? | \phpg? | \phcol?
+<hdist>	\posxN? | \posnegxN? | \posxc? | \posxi? | \posxo? | \posxl? | \posxr?
+<vframe>	\pvmrg? | \pvpg? | \pvpara?
+<vdist>	\posyN? | \posnegyN? | \posyt? | \posyil? | \posyb? | \posyc? | \posyin? | \posyout? & \abslockN?
+<txtflow>	\frmtxlrtb | \frmtxtbrl | \frmtxbtlr | \frmtxlrtbv | \frmtxtbrlv
+
+<row>	(<tbldef> <cell>+ <tbldef> \row) | (<tbldef> <cell>+ \row) | (<cell>+ <tbldef> \row)
+<cell>	(<nestrow>? <tbldef>?) & <textpar>+ \cell
+<nestrow>	<nestcell>+ '{\*' \nesttableprops <tbldef> \nestrow '}'
+<nestcell>	<textpar>+ \nestcell
+
+<tbldef>	\trowd \irowN \irowbandN \tsN \trgaphN & <rowjust>? & <rowwrite>? & <rowtop>? & <rowbot>? & <rowleft>? & <rowright>? & <rowhor>? & <rowvert>? & <rowpos> ? & \trleft? & \trrh? \trhdr? & \trkeep? & <rowwidth>? & <rowinv>? & \trautofit? & <rowspc>? & <rowpad>? & <rowspcout>? & <rowpadout>? & \taprtl? <trrevision>? <tflags>? <celldef>+
+<rowjust>	\trql | \trqr | \trqc 
+<rowwrite>	\ltrrow | \rtlrow
+<rowtop>	\trbrdrt <brdr>
+<rowbot>	\trbrdrb <brdr>
+<rowleft>	\trbrdrl <brdr>
+<rowright>	\trbrdrr <brdr>
+<rowhor>	\trbrdrh <brdr>
+<rowvert>	\trbrdrv <brdr>
+<rowpos>	<rowhorzpos> & <rowvertpos> & <rowwrap> & \tabsnoovrlp?
+<rowhorzpos>	<rowhframe>& <rowhdist>
+<rowvertpos>	<rowvframe>& <rowvdist>
+<rowwrap>	\tdfrmtxtLeftN? & \tdfrmtxtRightN? & \tdfrmtxtTopN? & \tdfrmtxtBottomN?
+<rowhframe>	\phmrg? | \phpg? | \phcol?
+<rowhdist>	\tposxN? | \tposnegxN? | \tposxc? | \tposxi? | \tposxo? | \tposxl? | \tposxr?
+<rowvframe>	\tpvmrg? | \tpvpg? | \tpvpara?
+<rowvdist>	\tposyN? | \tposnegyN? | \tposyt? | \tposyil? | \tposyb? | \tposyc? | \tposyin | \tposyout 
+<rowwidth>	\trftsWidthN & \trwWidthN?
+<rowinv>	(\trftsWidthBN & \trwWidthBN?)? & (\trftsWidthAN & \trwWidthAN?)?
+<rowspc>	(\trspdlN & \trspdflN?)? & (\trspdtN & \trspdftN?)? & (\trspdbN & \trspdfbN?)? & (\trspdrN & \trspdfrN?)?
+<rowpad>	(\trpaddlN & \trpaddflN?)? & (\trpaddtN & \trpaddftN?)? & (\trpaddbN & \trpaddfbN?)? & (\trpaddrN & \trpaddfrN?)?
+<rowspcout>	(\trspolN & \trspoflN?)? & (\trspotN & \trspoftN?)? & (\trspobN & \trspofbN?)? & (\trsporN & \trspofrN?)?
+<rowpadout>	(\trpadolN & \trpadoflN?)? & (\trpadotN & \trpadoftN?)? & (\trpadobN & \trpadofbN?)? & (\trpadorN & \trpadofrN?)?
+<trrevision>	\trauthN \trdateN
+<tflags>	\tbllkborder & \tbllkshading & \tbllkfont & \tbllkcolor & \tbllkbestfit & \tbllkhdrrows & \tbllklastrow & \tbllkhdrcols & \tbllklastcol & \ tbllknorowband & \ tbllknocolband
+<celldef>	(\clmgf? & \clmrg? & \clvmgf? & \clvmrg? <celldgu>? & <celldgl>? & <cellalign>? & <celltop>? & <cellleft>? & <cellbot>? & <cellright>? & <cellshad>? & <cellflow>? & clFitText? & clNoWrap? & <cellwidth>? <cellrev>? & <cellins>? & <celldel>? & <cellpad>? & <cellsp>?) \cellxN
+<celldgu>	\cldglu <brdr>
+<celldgl>	\cldgll <brdr>
+<cellalign>	\clvertalt | \clvertalc | \clvertalb
+<celltop>	\clbrdrt <brdr>
+<cellleft>	\clbrdrl <brdr>
+<cellbot>	\clbrdrb <brdr>
+<cellright>	\clbrdrr <brdr>
+<cellshad>	<cellpat>? \clcfpatN? & \clcbpatN? & \clshdngN 
+<cellpat>	\clbghoriz | \clbgvert | \clbgfdiag | \clbgbdiag | \clbgcross | \clbgdcross | \clbgdkhor | \clbgdkvert | \clbgdkfdiag | \clbgdkbdiag | \clbgdkcross | \clbgdkdcross 
+<cellflow>	\cltxlrtb | \cltxtbrl | \cltxbtlr | \cltxlrtbv | \cltxtbrlv
+<cellwidth>	\clftsWidthN & \clwWidthN? & \clhidemark?
+<cellrev>	\clmrgd | \clmrgdr | \ clsplit | \clsplitr & <cellrevauth>? & <cellrevdate>?
+<cellrevauth>	\clmrgdauthN
+<cellrevdate>	\clmrgddttmN
+<cellins>	\clins & <cellinsauth>? & <cellinsdttm>?
+<cellinsauth>	\clinsauthN
+<cellinsdttm>	\clinsdttmN
+<celldel>	\cldel & <celldelauth>? & <celldeldttm>?
+<celldelauth>	\cldelauthN
+<celldeldttm>	\cldeldttmN
+<cellpad>	(\clpadlN & \clpadflN?)? & (\clpadtN & \clpadftN?)? & (\clpadbN & \clpadfbN?)? & (\clpadrN & \clpadfrN?)?
+<cellsp>	(\clsplN & \clspflN?)? & (\clsptN & \clspftN?)? & (\clspbN & \clspfbN?)? & (\clsprN & \clspfrN?)?
+
+<mathprops>	'{\*' \mmathPr <mathPr>* '}' 
+<mathPr>	\mbrkBinN | \mbrkBinSubN | \mdefJcN | \mdispDefN | \minterSpN | \mintLimN | \mintraSpN | \mlMarginN | \mmathFontN | \mnaryLimN | \mpostSpN | \mpreSpN | \mrMarginN | \msmallFracN | \mwrapIndentN | \mwrapRightN
+
+<mathzone>	'{' \mmath (<mathpara> | <mathinline>) <mathpict>? '}'
+<mathpara>	'{\*' \moMathPara <mathparaprops>? <oMath>+ '}'
+<mathparaprops>	'{' \moMathParaPr \mjcN? '}'
+<mathinline>	<oMath>
+<oMath>	'{\*' \moMath \fN (<mathobject> | <r>)* '}'
+<mathobject>	<acc> | <bar> | <borderBox> | <box> | <d> | <eqArr> | <f> | <func> | <groupChr> | <limLow> | <limUpp> | <m> | <nary> | <phant> | <rad> | <sPre> | <sSub> | <sSubSup> | <sSup>
+
+<acc>	'{' \macc <accPr><e> '}'
+<bar>	'{' \mbar <barPr><e> '}'
+<borderBox>	'{' \mborderBox <borderBoxPr><e> '}'
+<box>	'{' \mbox <boxPr><e> '}'
+<d>	'{' \md <dPr><e>+ '}'
+<eqArr>	'{' \meqArr <eqArrPr><e>+ '}'
+<f>	'{' \mf <mfPr><num><den> '}'
+<func>	'{' \mfunc <mfuncPr><fname><e> '}'
+<groupChr>	'{' \mgroupChr <groupChrPr><e> '}'
+<limLow>	'{' \mlimlow <limLowPr><lim><e> '}'
+<limUpp>	'{' \mlimUpp <limUppPr><lim><e> '}'
+<m>	'{' \mm <mPr><mr>+ '}'
+<nary>	'{' \mnary <naryPr><sub><sup><e> '}'
+<phant>	'{' \mphant <phantPr><e> '}'
+<rad>	'{' \mrad <radPr><e> '}'
+<sPre>	'{' \msPre <sPrePr><sub><sup><e> '}'
+<sSub>	'{' \msSub <sSubPr><sub><e> '}'
+<sSubSup>	'{' \msSubSup <sSubSupPr><sub><sup><e> '}'
+<sSup>	'{' \msSup <sSupPr><sup><e> '}'
+
+<accPr>	'{' \maccPr <chr>?<ctrlPr> '}'
+<barPr>	'{' \mbarPr <pos>?<ctrlPr> '}'
+<borderBoxPr>	'{' \mborderBoxPr <borderBoxPrp>* <ctrlPr> '}'
+<boxPr>	'{' \mboxPr <boxPrp>* \mbrk?<ctrlPr> '}'
+<dPr>	'{' \mdPr <begChr>? <endChr>? <sepChr>? <grow>? <shp>? <ctrlPr> '}'
+<eqArrPr>	'{' \meqArrPr <baseJc>? <maxdist>? <objdist>? \mrSpN? \mrSpRuleN? <ctrlPr> '}'
+<fPr>	'{' \mfPr <type>?<ctrlPr> '}'
+<funcPr>	'{' \mfuncPr <ctrlPr> '}'
+<groupChrPr>	'{' \mgroupChrPr <chr>? <pos>? <vertJc>? <ctrlPr> '}'
+<limLowPr>	'{' \mlimLowPr <ctrlPr> '}'
+<limUppPr>	'{' \mlimUppPr <ctrlPr> '}'
+<mPr>	'{' \mmPr <baseJc>? \mcGpN? \mcGpRuleN? \mcSpN? <mcs> <plcHide>? \mrSpN? \mrSpRuleN? <ctrlPr> '}'
+<naryPr>	'{' \mnaryPr <chr>? <grow>? <limloc>? <subhide>? <suphide>? <ctrlPr> '}'
+<phantPr>	'{' \mphantPr <phantprp>* <ctrlPr> '}'
+<radPr>	'{' \mradPr ('{' \mdegHide <onoff> '}')? <ctrlPr> '}'
+<sPrePr>	'{' \msPrePr <ctrlPr> '}'
+<sSubPr>	'{' \msSubPr <ctrlPr> '}'
+<sSubSupPr>	'{' \msSubSupPr ('{' \malnScr <onoff> '}')? <ctrlPr> '}'
+<sSupPr>	'{' \msSupPr <ctrlP> '}'
+<ctrlPr>	'{' \mctrlPr <chrfmt>* '}'
+
+<deg>	'{' \mdeg <argPr>? <math> '}'
+<den>	'{' \mden <argPr>? <math> '}'
+<e>	'{' \me <argPr>? <math> '}'
+<lim>	'{' \mlim <argPr>? <math> '}'
+<fname>	'{' \mfName <argPr>? <math> '}'
+<mr>	'{' \mr <e>+ '}'
+<num>	'{' \mnum <argPr>? <math> '}'
+<sub>	'{' \msub <argPr>? <math> '}'
+<sup>	'{' \msup <argPr>? <math> '}'
+<argPr>	'{' \margPr \margSz? '}'
+
+<baseJc>	'{' \mbaseJc ('bot' | 'top') '}'
+<borderBoxPrp>	'{' (\mhideBot | \mhideLeft | \mhideRight | \mhideTop | \mstrikeBLTR | \mstrikeH | \mstrikeTLBR | \mstrikeV) <onoff> '}'
+<boxPrp>	'{' (\maln | \mdiff | \mnoBreak | \mopEmu) <onoff> '}'
+<chr>	'{' \mchr <single char> '}'
+<count>	'{' \mcount <digits> '}'
+<begChr>	'{' \mbegChr <single char> '}'
+<endChr>	'{' \mendChr <single char> '}'
+<grow>	'{' \mgrow <onoff> '}'
+<limLoc>	'{' \mlimLoc ('undovr' | 'subsup') '}'
+<lit>	'{' \mlit <onoff> '}'
+<math>	(<mathobject> | <r> | <char> | <u>)*
+<mathPict>	'{' \mmathPict '{\*' \shppict <pict> '}{' \nonshppict <pict> '}}'
+<mc>	'{' \mmc <mcpr> '}'
+<mcPr>	'{' \mmcPr <count>? <mjc>? '}'
+<mcs>	'{' \mmcs <mc>+ '}'
+<mjc>	'{' \mmjc ('left' | 'center' | 'right') '}'
+<r>	'{' \mr (\mnor | \mscrN \mstyN)? \mlit? <char>* <u>* '}'
+<maxDist>	'{' \mmaxDist <onoff> '}'
+<objDist>	'{' \mobjDist <onoff> '}'
+<onoff>	'on' | 'off'
+<phantPrp>	'{' (\mshow | \mtransp | \mzeroAsc | \mzeroDesc | \mzeroWid) <onoff> '}'
+<plcHide>	'{' \mplcHide <onoff> '}'
+<pos>	'{' \mpos ('top' | 'bot') '}'
+<sepChr>	'{' \msepChr <single char> '}'
+<single char>	single character or <u>
+<shp>	'{' \mshp ('match' | 'centered') '}'
+<subHide>	'{' \msubHide <onoff> '}'
+<supHide>	'{' \msupHide <onoff> '}'
+<type>	'{' \mtype ('bar' | 'lin' | 'nobar' | 'skw') '}'
+<u>	\uN '?'
+<vertJc>	'{' \mvertJc ('bot' | 'top') '}'
+
+<char>	<ptext> | <atext> | '{' <char> '}'
+<ptext>	((<chrfmt> | <chshading> | <chrev>)* <data>+ )+
+<data>	#PCDATA | <uN> | <spec> | <pict> | <obj> | <do> | <footnote> | <annot> | <field> |
+ <idx> | <toc> | <bookmark>
+<uN>	\uN followed by equivalent character(s) in ANSI representation (see \uN & \ucN)
+
+<chshading>	(\chshdngN | <pat>) \chcfpatN? \chcbpatN?
+<pat>	\chbghoriz | \chbgvert | \chbgfdiag | \chbgbdiag | \chbgcross | \chbgdcross | \chbgdkhoriz | \chbgdkvert | \chbgdkfdiag | \chbgdkbdiag | \chbgdkcross | \chbgdkdcross 
+
+<chrev>	\revised? \revauthN? \revdttmN? \crauthN? \crdateN? \deleted? \revauthdelN? \revdttmdelN? \mvf? \mvt? \mvauthN? \mvdateN?
+
+<atext>	<ltrrun> | <rtlrun> | <sarun> | <nonsarun> | <saltrrun> | <nonsaltrrun> | <nonsartlrun> | <losbrun> | <hisbrun> | <dbrun>
+<ltrrun>	\rtlch \afN & <aprops>* \ltrch <ptext>
+<rtlrun>	\ltrch \afN & <aprops>* \rtlch <ptext>
+<sarun>	\fcs0 \afN & <aprops>* \fcs1 <ptext>
+<nonsarun>	\fcs1 \afN & <aprops>* \fcs0 <ptext>
+<saltrrun>	\rtlch \fcs0 \af & <aprops>* \ltrch \fcs1 <ptext>
+<nonsaltrrun>	\rtlch \fcs1 \af & <aprops>* \ltrch \fcs0 <ptext>
+<nonsartlrun>	\ltrch \fcs1 \af & <aprops>* \rtlch \fcs0 <ptext>
+<losbrun>	\hich \afN & <aprops> \dbch \afN & <aprops> \loch <ptext>
+<hisbrun>	\loch \afN & <aprops> \dbch \afN & <aprops> \hich <ptext>
+<dbrun>	\loch \afN & <aprops> \hich \afN & <aprops> \dbch <ptext>
+
+<variables>	'{\*' \docvar '{' <varname> '}{' <vartext> '}}'
+<varname>	#PCDATA
+<vartext>	#PCDATA
+
+<bookmark>	<bookstart> | <bookend>
+<bookstart>	'{\*' \bkmkstart (\bkmkcolfN? & \bkmkcollN?) #PCDATA '}'
+<bookend>	'{\*' \bkmkend #PCDATA '}'
+
+<movebook>	<movebookstart> | <movebookend>
+<movebookstart>	'{\*' (\mvfmf | \mvtof) #PCDATA #SDATA '}'
+<movebookend>	'{\*' (\mvfml | \mvtol) #PCDATA '}'
+
+<protexcept>	<protstart> | <protend>
+<protstart>	'{\*' \protstart #PCDATA '}'
+<protend>	'{\*' \protend #PCDATA '}'
+
+<pict>	'{' \pict (<pictdata> | <shpdata>) '}'
+<pictdata>	(<brdr>? & <shading>? & <picttype> & <pictsize> & <metafileinfo>?) <data>
+<picttype>	\emfblip | \pngblip | \jpegblip | \macpict | \pmmetafileN | \wmetafileN | \dibitmapN <bitmapinfo> | \wbitmapN <bitmapinfo>
+<bitmapinfo>	\wbmbitspixel & \wbmplanes & \wbmwidthbytes
+<pictsize>	(\picwN & \pichN) \picwgoal? & \pichgoal? \picscalex? & \picscaley? & \picscaled? & \piccropt? & \piccropb? & \piccropr? & \piccropl?
+<metafileinfo>	\picbmp & \picbppN
+<data>	(\binN #BDATA) | #SDATA
+<shpdata>	'{\*' \picprop \shplidN? <shpprop>+ '}'
+<shpprop>	'{' \sp '{' \sn <shpname> '}{' \sv <shpvalue> '}}'
+<shpname>	#PCDATA
+<shpvalue>	#BDATA
+
+<xmltagopen>	'{\*' \xmlopen \xmlnsN <xmltagtype><xmltagname><xmlattr>* '}'
+<xmltagtype>	\xmlsdttunknown | \xmlsdttregular | \xmlsdttpara | \xmlsdttcell | \xmlsdttrow | \xmlattr
+<xmltagname>	'{' \xmlname #PCDATA '}'
+<xmlattr>	'{' \xmlattr <xmlattrns><xmlattrname><xmlattrvalue> '}'
+<xmlattrns>	\xmlattrnsN
+<xmlattrname>	\xmlattrname #PCDATA
+<xmlattrvalue>	\xmlattrvalue #PCDATA
+<xmltagclose>	'{\*' \xmlclose '}'
+
+<smarttagopen>	'{\*' \xmlopen \xmlnsN <smarttagname><xmlattr>* '}'
+<smarttagname>	'{' \factoidname #PCDATA '}'
+<xmlattr>	'{' \xmlattr \xmlattrnsN <xmlattrname><xmlattrvalue> '}'
+<xmlattrname>	\xmlattrname #PCDATA
+<xmlattrvalue>	\xmlattrvalue #PCDATA
+<smarttagclose>	'{\*' \xmlclose '}'
+\factoidname	Specifies the name of the given SmartTag.
+
+<datastore>	'{\*' \datastore #SDATA '}'
+
+<obj>	('{' \object (<objtype> & <objmod>? & <objclass>? & <objname>? & <objtime>? & <objsize>? & <rsltmod>?) <objclsid> ? <objdata> <result> '}' ) | <pubobject>
+<objtype>	\objemb | \objlink | \objautlink | \objsub | \objpub | \objicemb | \objhtml | \objocx
+<objmod>	\linkself? & \objlock? | \objupdate?
+<objclass>	'{\*' \objclass #PCDATA '}'
+<objname>	'{\*' \objname #PCDATA '}'
+<objtime>	'{\*' \objtime <time> '}'
+<rsltmod>	\rsltmerge? & <rslttype>?
+<rslttype>	\rsltrtf | \rslttxt | \rsltpict | \rsltbmp | \rslthtml
+<objsize>	\objsetsize? & \objalignN? & \objtransyN? & <objhw>? & \objcroptN? & \objcropbN? & \objcroplN? & \objcroprN? & \objscalexN? & \objscaleyN?
+<objhw>	\objhN & \objwN
+<objclsid> 	'{\*' \oleclsid #PCDATA '}'
+<objdata>	'{\*' \objdata (<objalias>? & <objsect>?) <data> '}'
+<objalias>	'{\*' \objalias <data> '}'
+<objsect>	'{\*' \objsect <data> '}'
+<result>	'{' \result <para>+ '}'
+
+<pubobject>	'{\*' \bkmkstart \bkmkpub \pubauto? (<objalias>? & <objsect>) #PCDATA '}'
+
+<do>	'{\*' \do <dohead> <dpinfo> '}'
+<dohead>	<dobx> <doby> <dodhgt> <dolock>?
+<dobx>	\dobxpage | \dobxcolumn | \dobxmargin
+<doby>	\dobypage | \dobypara | \dobymargin
+<dodhgt>	\dodhgtN
+<dolock>	\dolock
+<dpinfo>	 <dpgroup> | <dpcallout> | <dpsimple>
+<dpgroup>	\dpgroup \dpcountN <dphead> <dpinfo>+ \dpendgroup <dphead> 
+<dpcallout>	\dpcallout <cotype> <coangle>? <coaccent>? <cosmartattach>? <cobestfit>? <cominusx>? <cominusy>? <coborder>? <codescent>? \dpcooffsetN \dpcolengthN <dphead> <dppolyline> <dphead> <dpprops> <dptextbox> <dphead> <dpprops>
+<dpsimple>	<dpsimpledpk> <dphead> <dpprops>
+<dpsimpledpk>	<dpline> | <dprect> | <dptextbox> | <dpellipse> | <dppolyline> | <dparc>
+<dpline>	\dpline <dppt> <dppt>
+<dprect>	\dprect (\dproundr)?
+<dptextbox>	\dptxbx (\dptxlrtb | \dptxtbrl | \dptxbtlr | \dptxlrtbv | \dptxtbrlv)? \dptxbxmarN '{' \dptxbxtext <para>+’}’
+<dpellipse>	\dpellipse
+<dparc>	\dparc \dparcflipx? \dparcflipy?
+<dppolyline>	\dppolyline (\dppolygon)? \dppolycountN <dppt>+
+<dppt>	\dpptxN \dpptyN
+<dphead>	\dpxN \dpyN \dpxsizeN \dpysizeN
+
+<cotype>	\dpcotright | \dpcotsingle | \dpcotdouble | \dpcottriple
+<coangle>	\dpcoa
+<coaccent>	\dpcoaccent
+<cosmartattach>	\dpcosmarta
+<cobestfit>	\dpcobestfit
+<cominusx>	\dpcominusx
+<cominusy>	\dpcominusy
+<coborder>	\dpcoborder
+<codescent>	\dpcodtop | \dpcodcenter | \dpcodbottom | \dpcodabs
+
+<dpprops>	<lineprops>? <fillprops>? <endstylestart>? <endstyleend>? <shadow>?
+<lineprops>	<linestyle> <linecolor> \dplinewN
+<linestyle>	\dplinesolid | \dplinehollow | \dplinedash | \dplinedot | \dplinedado | \dplinedadodo
+<linecolor>	<linegray> | <linergb>
+<linegray>	\dplinegray
+<linergb>	\dplinecor \dplinecog \dplinecob<linepal>?
+<linepal>	\dplinepal
+<fillprops>	<fillcolorfg> <fillcolorbg> \dpfillpatN
+<fillcolorfg>	<fillfggray> | <fillfgrgb>
+<fillfggray>	\dpfillfggray
+<fillfgrgb>	\dpfillfgcr \dpfillfgcg \dpfillfgcb<fillfgpal>?
+<fillfgpal>	\dpfillfgpal
+<fillcolorbg>	<fillbggray> | <fillbgrgb>
+<fillbggray>	\dpfillbggray
+<fillbgrgb>	\dpfillbgcr \dpfillbgcg \dpfillbgcb<fillbgpal>?
+<fillbgpal>	\dpfillbgpal
+<endstylestart>	<arrowstartfill> \dpastartlN \dpastartwN
+<arrowstartfill>	\dpastartsol | \dpastarthol
+<endstyleend>	<arrowendfill> \dpaendlN \dpaendwN
+<arrowendfill>	\dpaendsol | \dpaendhol
+<shadow>	\dpshadow \dpshadx \dpshady
+
+<shape>	'{' \shp <shpinfo> <shpinst> <shprslt> '}'
+<shpinfo>	\shpleftN? \shptopN? \shpbottomN? \shprightN? \shplidN? \shpzN? \shpfhdrN? \shpbxpage ? \shpbxmargin ? \shpbxcolumn? \shpbxignore? \shpbypage ? \shpbymargin ? \shpbypara? \shpbyignore? \shpwrN? \shpwrkN? \shpfblwtxtN? \shplockanchor? \shptxt?
+<shpinst>	'{\*' \shpinst <sp>+ '}'
+<sp>	'{' \sp <sn> <sv> <hsv>? '}'
+<sn>	'{' \sn ... '}'
+<sv>	'{' \sv ... '}'
+<shprslt>	'{\*' \shprslt ... '}'
+<hsv>	'{\*' \hsv <accent> & \ctintN & \cshadeN '}'
+<accent>	\caccentone | \caccenttwo | \caccentthree | \caccentfour | \caccentfive | \caccentsix
+
+<footnote>	'{' \footnote \ftnalt? <para>+ '}'
+
+<atrfstart>	'{\*' \atrfstart N '}'
+<atrfend>	'{\*' \atrfend N '}'
+
+<annot>	<annotid> <atnauthor> <atntime>? \chatn <atnicn>? <annotdef> 
+<annotid>	'{\*' \atnid #PCDATA '}'
+<atnauthor>	'{\*' \atnauthor #PCDATA '}'
+<annotdef>	'{\*' \annotation <atndate>? <atnref> <atnparent> <para>+ '}'
+<atnref>	'{\*' \atnrefN '}'
+<atntime>	'{\*' \atntime <time> '}'
+<atndate>	'{\*' \atndate <date> '}'
+<atnparent>	'{\*' \atnparent <annotid of parent> '}'
+<atnicn>	'{\*' \atnicn <pict> '}'
+
+<field>	'{' \field <fieldmod>? <fieldinst> <fieldrslt> '}'
+<fieldmod>	\flddirty? & \fldedit? & \fldlock? & \fldpriv?
+<fieldinst>	'{\*' \fldinst <fieldtype><para>+ \fldalt? <datafield>? <formfield>? '}'
+<fieldrslt>	'{' \fldrslt <para>+ '}'
+<datafield>	'{' \*\datafield #SDATA '}'
+<fieldtype>	<datetime> | <docauto> | <docinfo> | <form> | <formulas> | <indextables> | <links> | <mailmerge> | <numbering> | <userinfo>
+<datetime>	'CREATEDATE' | 'DATE' | 'EDITTIME' | 'PRINTDATE' | 'SAVEDATE' | 'TIME'
+<docauto>	'COMPARE' | 'DOCVARIABLE' | 'GOTOBUTTON' | 'IF' | 'MACROBUTTON' | 'PRINT'
+<docinfo>	'AUTHOR' | 'COMMENTS' | 'DOCPROPERTY' | 'FILENAME' | 'FILESIZE' | 'INFO' | 'KEYWORDS' | 'LASTSAVEDBY' | 'NUMCHARS' | 'NUMPAGES' | 'NUMWORDS' | 'SUBJECT' | 'TEMPLATE' | 'TITLE'
+<form>	'FORMTEXT' | 'FORMCHECKBOX' | 'FORMDROPDOWN'
+<formulas>	('=' <formula>) | 'ADVANCE' | 'EQ' | 'SYMBOL'
+<indextables>	'INDEX' | 'RD' | 'TA' | 'TC' | 'TOA' | 'TOC' | 'XE'
+<links>	'AUTOTEXT' | 'AUTOTEXTLIST' | 'HYPERLINK' | 'INCLUDEPICTURE' | 'INCLUDETEXT' | 'LINK' | 'NOTEREF' | 'PAGEREF' | 'QUOTE' | 'REF' | 'STYLEREF'
+<mailmerge>	'ADDRESSBLOCK' | 'ASK' | 'COMPARE' | 'DATABASE' | 'FILLIN' | 'GREETINGLINE' | 'IF' | 'MERGEFIELD' | 'MERGEREC' | 'MERGESEQ' | 'NEXT' | 'NEXTIF' | 'SET' | 'SKIPIF'
+<numbering>	'AUTONUM' | 'AUTONUMLGL' | 'AUTONUMOUT' | 'BARCODE' | 'LISTNUM' | 'PAGE' | 'REVNUM' | 'SECTION' | 'SECTIONPAGES' | 'SEQ'
+<userinfo>	'USERADDRESS' | 'USERINITIALS' | 'USERNAME'
+<formula>	See Office Open XML, Section 2.15.3.
+
+<formfield>	'{\*' \formfield '{' <formparams> <formstrings> '}}'
+<formparams>	\fftypeN? \ffownhelpN? \ffownstatN? \ffprotN? \ffsizeN? \fftypetxtN? \ffrecalcN? \ffhaslistboxN? \ffhaslistboxN? \ffmaxlenN? \ffhpsN? \ffdefresN? \ffresN? 
+<formstrings>	<ffname>? <ffdeftext>? <ffformat>? <ffhelptext>? <ffstattext>? <ffentrymcr>? <ffexitmcr>? <ffl>*
+<ffl>	'{\*' \ffl #PCDATA '}'
+<ffname>	'{' \ffname #PCDATA '}'
+<ffdeftext>	'{' \ffdeftext #PCDATA '}'
+<ffformat>	'{' \ffformat #PCDATA '}'
+<ffhelptext>	'{' \ffhelptext #PCDATA '}'
+<ffstattext>	'{' \ffstattext #PCDATA '}'
+<ffentrymcr>	'{' \ffentrymcr #PCDATA '}'
+<ffexitmcr>	'{' \ffexitmcr #PCDATA '}'
+
+<idx>	'{' \xe (\xefN? & \bxe? & \ixe?) <entry> (<txe> | <rxe>)? '}'
+<entry>	(<char>+ <yxe>?) | ('{' <char>+ <yxe>? '}')
+<yxe>	\yxe <char>+ #PCDATA
+<txe>	'{' \txe <char>+ #PCDATA '}'
+<rxe>	'{' \rxe #PCDATA '}'
+<pxe>	'\*' \pxe <char>+ #PCDATA
+
+<toc>	'{' \tc | \tcn (\tcfN? & \tclN?) <char>+ '}'
+
+<atext>	<losbrun> | <hisbrun> | <dbrun>
+<losbrun>	\hich \afN & <aprops> \dbch \afN & <aprops> \loch <ptext>
+<hisbrun>	\loch \afN & <aprops> \dbch \afN & <aprops> \hich <ptext>
+<dbrun>	\loch \afN & <aprops> \hich \afN & <aprops> \dbch <ptext>
+
+
