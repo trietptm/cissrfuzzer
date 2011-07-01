@@ -1,4 +1,5 @@
 #include "header.h"
+#include "font_directory_table.h"
 //table name consist of: format,count, stringOffset, nameRecord[], name
 //description of they follows
 struct nameRecord{
@@ -25,4 +26,8 @@ extern nameRecord gener_nameRecord(uint16 platf_ID, uint16 platf_SID, uint16 lan
 //in coded with ANSI file with address "path_to_records" each string is seperated name record
 //each record not longer then 2^16
 extern name_table gener_name_table(uint16 num_records, char* path_to_records);
+//returning size of name_table in bytes
 extern uint32 name_table_size(name_table nt);
+extern uint32 name_table_checksum(name_table nt);
+//generating table directory element of first table 
+extern TableDirectoryNod gener_name_table_header(name_table nt,uint32 offSet);
