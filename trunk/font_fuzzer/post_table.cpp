@@ -17,9 +17,9 @@ post_table gener_post_table_v2(post_table pt, uint16 numGlyfs, uint16 new_glyfs_
            pt.names=new char[new_glyfs_size];
            pt.numGlyphs=numGlyfs;
            pt.glyphNameIndex=new uint16[numGlyfs];
-           memcpy(pt.glyphNameIndex,glyphIndex,numGlyfs);
+           memcpy(pt.glyphNameIndex,glyphIndex,numGlyfs*2); //each glyphIndex 2 bytes long
            pt.num_new_glyph=new_glyfs_size;
-           memcpy(pt.names,Names,new_glyfs_size); 
+           memcpy(pt.names,Names,new_glyfs_size); //new_glyfs_size=number of byte, correct copying
            return pt;        
 };
 uint32 post_table_size(post_table pt){

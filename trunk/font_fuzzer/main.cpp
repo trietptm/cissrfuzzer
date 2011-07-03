@@ -1,4 +1,4 @@
-
+#include <ctime>
 #include "cmap_table.h"
 #include "font_directory_table.h"
 #include "name_table.h"
