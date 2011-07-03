@@ -33,7 +33,7 @@ name_table gener_name_table(uint16 num_records, char* path_to_records){
                          n_t.records[i].platformID=rand()%4;
                          n_t.records[i].platformSpecificID=rand()%7;//%13 if PID=1, but nobody cares, it's just a name!
                          n_t.records[i].languageID=rand()%151;
-                         n_t.records[i].nameID=(rand()%(20-i))+i;      //nameID were set randomly
+                         n_t.records[i].nameID=(rand()%(20-i))+i;//nameID were set randomly
                          n_t.records[i].length=tmp.length();
                          n_t.records[i].offset=offset;
                          offset+=(uint16)tmp.length();
@@ -63,16 +63,3 @@ TableDirectoryNod gener_name_table_header(name_table nt, uint32 offSet){
                   tdn.offset=offSet;
                   return tdn;
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
