@@ -1,5 +1,4 @@
 #include "cmap_table.h"
-uint16 cmap_version=0;
 format_0_table gener_format_0_table( char GlyphIdArray[256], unsigned short lang)
 {
                format_0_table res;
@@ -8,5 +7,8 @@ format_0_table gener_format_0_table( char GlyphIdArray[256], unsigned short lang
                res.language=lang;
                res.format=0;
                return res; 
+};
+format_6_table gener_format_6_table( uint16 segNum, uint16 *startSeg, uint16 *endSeg, short *delta, uint16 *rangeOffset, uint16 *glyfId){
+                      
 };
 

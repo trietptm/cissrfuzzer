@@ -13,7 +13,7 @@ struct nameRecord{
        uint16	length;	//Name string length in bytes.
        uint16	offset;	//Name string offset in bytes from stringOffset.
 };
-struct name_table{
+struct name_table: public table{
        uint16	format;	//Format selector. Set to 0.
        uint16	count;	//The number of nameRecords in this name table.
        uint16	stringOffset;	//Offset in bytes to the beginning of the name character strings.
@@ -21,13 +21,13 @@ struct name_table{
        //12 - size of each nameRecord, 6 - size of 3 first fields
        nameRecord * records;	//The name records array. size of array equals to count
        std::string    name;	//character strings The character strings of the names. Note that these are not necessarily ASCII!
+       virtual void printTable(char* path);
+       virtual uint32 getSize();
 };
+
 extern nameRecord gener_nameRecord(uint16 platf_ID, uint16 platf_SID, uint16 langID, uint16 nameid, uint16 strlen, uint16 offSet);                  
 //in coded with ANSI file with address "path_to_records" each string is seperated name record
 //each record not longer then 2^16
-extern name_table gener_name_table(uint16 num_records, char* path_to_records);
-//returning size of name_table in bytes
-extern uint32 name_table_size(name_table nt);
-extern uint32 name_table_checksum(name_table nt);
+extern void gener_name_table(name_table &nt,uint16 num_records, char* path_to_records);
 //generating table directory element of first table 
-extern TableDirectoryNod gener_name_table_header(name_table nt,uint32 offSet);
+extern void gener_name_table_header(TableDirectoryNod &tdn,uint32 length,uint32 offSet);

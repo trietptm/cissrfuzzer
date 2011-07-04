@@ -9,8 +9,7 @@ nameRecord gener_nameRecord(uint16 platf_ID, uint16 platf_SID, uint16 langID,uin
            nr.offset=offSet;        
 };
 //todo: the NameRecords are sorted by platform ID, then platform-specific ID, then language ID, and then by name ID.
-name_table gener_name_table(uint16 num_records, char* path_to_records){
-           name_table n_t;
+void gener_name_table(name_table &n_t,uint16 num_records, char* path_to_records){
            n_t.format=0;
            n_t.count=num_records;
            n_t.stringOffset=12*n_t.count+6;
@@ -22,7 +21,6 @@ name_table gener_name_table(uint16 num_records, char* path_to_records){
            uint16 offset=0;
            if((stream=fopen(path_to_records, "r"))==NULL){
                 printf("file open error.\n");
-                return n_t;
            }else{
                  for(int i=0;i<n_t.count;i++){
                          fgets(buff,65535,stream);
@@ -42,24 +40,30 @@ name_table gener_name_table(uint16 num_records, char* path_to_records){
            }
            
            n_t.name = text;
-           return n_t;
 };
-uint32 name_table_size(name_table nt){return nt.stringOffset+nt.name.length(); }
-//no need checksum!
-uint32 name_table_checksum(name_table nt){
-       uint32 sum=0;
-       //first uint32 follows
-       sum+=((nt.format)<<16)+nt.count;
-       if(nt.count==0) return sum+((nt.stringOffset)<<16);
-       else{
-       
-       }
-       return sum;
-};
-TableDirectoryNod gener_name_table_header(name_table nt, uint32 offSet){
-                  TableDirectoryNod tdn;
+uint32 name_table::getSize(){return stringOffset+name.length(); }
+//parametr length calulating in the previous function
+void gener_name_table_header(TableDirectoryNod &tdn,uint32 length, uint32 offSet){
                   tdn.tag=0x6e616d65;
-                  tdn.length=name_table_size(nt);
+                  tdn.length=length;
                   tdn.offset=offSet;
-                  return tdn;
+};
+void name_table::printTable(char* path){
+     ofstream file;
+     file.open("C:\\txt.ttx",ios::binary|ios::app);
+     cout<<"good file: "<<file.good()<<endl;
+     file<<(char)0<<(char)0<<(char)0<<(char)0;//format default 0x00000000
+     file<<(char)(count>>8)<<(char)(count%256);//number of records
+     file<<(char)(stringOffset>>8)<<(char)(stringOffset%256);//number of records    
+     //
+     for(uint16 i=0;i<count;i++){
+                file<<(char)(records[i].platformID>>8)<<(char)((records[i].platformID)%256);
+                file<<(char)(records[i].platformSpecificID>>8)<<(char)(records[i].platformSpecificID%256);
+                file<<(char)(records[i].languageID>>8)<<(char)((records[i].languageID)%256);
+                file<<(char)(records[i].nameID>>8)<<(char)((records[i].nameID)%256);
+                file<<(char)(records[i].length>>8)<<(char)((records[i].length)%256);
+                file<<(char)(records[i].offset>>8)<<(char)((records[i].offset)%256);
+     };
+     file<<name.c_str(); //last symbol is '\n', that's why conversion to char* here
+     file.close();
 };
