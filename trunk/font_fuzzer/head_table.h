@@ -1,6 +1,8 @@
 #include "header.h"
-//#include "font_directory_table.h"
-struct head_table{
+#include "font_directory_table.h"
+struct head_table: public table{
+       virtual void printTable(char* path);//pure virtual in base class had to be redefined
+       virtual uint32 getSize();
        uint32 version; //any version 0x00010000 for 0.1
        uint32 revision; //any revision
        uint32 checkSum; 
@@ -40,7 +42,7 @@ struct head_table{
        short yMin;
        short xMax;
        short yMax;
-       uint16 macStyle;
+       uint16 macStyle; 
        /*Bit 0: Bold (if set to 1); 
        Bit 1: Italic (if set to 1) 
        Bit 2: Underline (if set to 1) 
@@ -53,9 +55,8 @@ struct head_table{
        //set this value for fuzzing like rand()%64
        uint16 lowestRecPPEM; //Smallest readable size in pixels.
        short fontDirectionHint; //deprecated, set to 2
-       uint16 indexToLocFormat; //0 for short offsets, 1 for long
+       uint16 indexToLocFormat; //0 for short offsets, 1 for long, used in 'loca' table
        uint16 glyphDataFormat; //reserved as 0      
 };
-extern head_table gener_head_table(short xmin, short ymin, short xmax, short ymax,uint16 unitsperEm, uint16 lowestRecPix);
-extern uint32 head_table_size();
-extern TableDirectoryNod gener_head_table_header(head_table ht,uint32 offSet);
+extern void gener_head_table(head_table &ht,short xmin, short ymin, short xmax, short ymax,uint16 unitsperEm, uint16 lowestRecPix);
+extern void gener_head_table_header(TableDirectoryNod &tdn, head_table ht,uint32 offSet);

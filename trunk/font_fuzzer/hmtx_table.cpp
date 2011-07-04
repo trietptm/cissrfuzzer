@@ -1,6 +1,5 @@
 #include "hmtx_table.h"
-hmtx_table gener_hmtx_table(uint16 numOflhm, uint16 numGlyphs, longHorMetric* metrics , short* Lsb){
-           hmtx_table hmt;
+void gener_hmtx_table(hmtx_table &hmt,uint16 numOflhm, uint16 numGlyphs, longHorMetric* metrics , short* Lsb){
            hmt.numOfLongHorMmetrics=numOflhm;
            hmt.numGlyfs=numGlyphs;
            hmt.hMetrics=new longHorMetric[numOflhm];
@@ -8,17 +7,14 @@ hmtx_table gener_hmtx_table(uint16 numOflhm, uint16 numGlyphs, longHorMetric* me
            //copying of the fieldsm that's why it correct
            hmt.lsb=new short[numGlyphs-numOflhm];
            memcpy(hmt.lsb, Lsb,(numGlyphs-numOflhm)*2);//2 bytes long short
-           return hmt;
 };
-uint32 hmtx_table_size(hmtx_table hmt){
-       return (2*hmt.numOfLongHorMmetrics-hmt.numGlyfs)*2;
+uint32 hmtx_table::getSize(){
+       return (2*numOfLongHorMmetrics-numGlyfs)*2;
 };
-TableDirectoryNod gener_hmtx_table_header(hmtx_table hmt,uint32 offSet){
-                  TableDirectoryNod tdn;
+void gener_hmtx_table_header(TableDirectoryNod &tdn,hmtx_table hmt,uint32 offSet){
                   tdn.tag=0x686d7478;
-                  tdn.length=hmtx_table_size(hmt);
+                  tdn.length=hmt.getSize();
                   tdn.offset=offSet;
-                  return tdn;
 };
 uint16 getMaxAdvance(hmtx_table hmt){
        uint16 max=0;
@@ -26,11 +22,26 @@ uint16 getMaxAdvance(hmtx_table hmt){
             if(hmt.hMetrics[i].advanceWidth>max) max=hmt.hMetrics[i].advanceWidth;
        return max;    
 };
-short getMinlsb(hmtx_table hmt){
+short getMinlsb(hmtx_table hmt){ //finding minimal left side bearing
        short min=hmt.hMetrics[0].lsb;
        for(uint16 i=0;i<hmt.numOfLongHorMmetrics;i++)
            if(hmt.hMetrics[i].lsb<min) min=hmt.hMetrics[i].lsb;
        for(uint16 i=0;i<hmt.numGlyfs-hmt.numOfLongHorMmetrics;i++)   
            if(hmt.lsb[i]<min) min=hmt.lsb[i];
        return min;
+};
+void hmtx_table::printTable(char* path){
+     ofstream file;
+     file.open("C:\\txt.ttx",ios::binary|ios::app);
+     cout<<"good file: "<<file.good()<<endl;
+     for(uint16 i=0;i<numOfLongHorMmetrics;i++){
+                //writting longHorMetric info
+                file<<(char)(hMetrics[i].advanceWidth>>8)<<(char)(hMetrics[i].advanceWidth%255);
+                file<<(char)(hMetrics[i].lsb>>8)<<(char)(hMetrics[i].lsb%255);                
+     };
+     for(uint16 i=0;i<numGlyfs-numOfLongHorMmetrics;i++){
+                //writting lsb info
+                file<<(char)(lsb[i]>>8)<<(char)(lsb[i]%255);              
+     };
+     file.close();
 };
