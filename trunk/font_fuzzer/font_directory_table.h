@@ -1,4 +1,5 @@
 #include "header.h"
+#pragma once //only once this file will be included
 //all tables are inherits this table
 struct table{
        virtual void printTable(char* path)=0;

@@ -1,13 +1,12 @@
 #include "post_table.h"
-void gener_post_table_v1_3(post_table &pt,uint16 numGlyfs,uint32 ver, uint32 Angle, short underPos, short underThick, uint32 FixedPitch){
-           if(ver!=0x10000&&ver!=0x30000) ver=0x10000;
+void gener_post_table_v1_3(post_table &pt,uint32 ver, uint32 Angle, short underPos, short underThick, uint32 FixedPitch){
+           if(ver!=0x00010000&&ver!=0x00030000) ver=0x00010000;
            pt.version=ver;
            pt.italicAngle=Angle;
            pt.underlinePosition=underPos;
            pt.underlineThickness=underThick;
            pt.isFixedPitch=FixedPitch;
            pt.minMemType42=pt.maxMemType42=pt.minMemType1=pt.maxMemType1=0;
-           pt.numGlyphs=numGlyfs;
            pt.num_new_glyph=0;
 };
 void gener_post_table_v2(post_table &pt, uint16 numGlyfs, uint16 new_glyfs_size, uint16* glyphIndex, char* Names){
@@ -34,16 +33,16 @@ void gener_post_table_header(TableDirectoryNod &tdn, uint32 length,uint32 offSet
 };
 void post_table::printTable(char* path){
      ofstream file;
-     file.open("C:\\txt.ttx",ios::binary|ios::app);
+     file.open(path,ios::binary|ios::app);
      cout<<"good file: "<<file.good()<<endl;
-     file<<(char)(version>>24)<<(char)((version>>16)^255);
-     file<<(char)((version>>8)^255)<<(char)(version%255);
-     file<<(char)(italicAngle>>24)<<(char)((italicAngle>>16)^255);
-     file<<(char)((italicAngle>>8)^255)<<(char)(italicAngle%255);  
+     file<<(char)(version>>24)<<(char)((version>>16)&255);
+     file<<(char)((version>>8)&255)<<(char)(version%256);
+     file<<(char)(italicAngle>>24)<<(char)((italicAngle>>16)&255);
+     file<<(char)((italicAngle>>8)&255)<<(char)(italicAngle%256);  
      file<<(char)(underlinePosition>>8)<<(char)(underlinePosition%256);
      file<<(char)(underlineThickness>>8)<<(char)(underlineThickness%256);
-     file<<(char)(isFixedPitch>>24)<<(char)((isFixedPitch>>16)^255);
-     file<<(char)((isFixedPitch>>8)^255)<<(char)(isFixedPitch%255);
+     file<<(char)(isFixedPitch>>24)<<(char)((isFixedPitch>>16)&255);
+     file<<(char)((isFixedPitch>>8)&255)<<(char)(isFixedPitch%256);
      //16 bytes of zeros follows
      for(uint16 i=0;i<16;i++){
                 file<<(char)0;
