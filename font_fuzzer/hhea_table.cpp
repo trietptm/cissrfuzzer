@@ -1,6 +1,7 @@
 #include "hhea_table.h"
-void gener_hhea_table(hhea_table &hh,short param[9], uint16 hmetrixNum){
-                      //if exists 'OS/2' table parametrs 0-2 would be taken from there
+void gener_hhea_table(hhea_table &hh,short param[10], uint16 hmetrixNum){
+           //if exists 'OS/2' table parametrs 0-2 would be taken from there
+           hh.version=0x00010000;
            hh.ascend=param[0];
            hh.descend=param[1];
            hh.lineGap=param[2];
@@ -24,7 +25,7 @@ void gener_hhea_table_header(TableDirectoryNod &tdn,uint32 offSet){
 };
 void hhea_table::printTable(char* path){
      ofstream file;
-     file.open("C:\\txt.ttx",ios::binary|ios::app);
+     file.open(path,ios::binary|ios::app);
      cout<<"good file: "<<file.good()<<endl;
      //before writing each elemental strucrure divides into bytes, then writing to file
      file<<(char)0<<(char)1<<(char)0<<(char)0;//version

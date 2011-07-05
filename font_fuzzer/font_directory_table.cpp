@@ -16,7 +16,7 @@ void generateOffsetSubtable(OffsetSubtable &os, uint16 num_Tables){
 //writting into the file with address "path" font directory table
 void font_directory_table::printTable(char* path){
      ofstream file;
-     file.open("C:\\txt.ttx",ios::binary|ios::app);
+     file.open(path,ios::binary|ios::app);
      cout<<"good file: "<<file.good()<<endl;
      //before writing each elemental strucrure divides into bytes, then writing to file
      file<<(char)0<<(char)1<<(char)0<<(char)0;//os.scaller, default 0x00010000
@@ -27,17 +27,17 @@ void font_directory_table::printTable(char* path){
      //offset subtable have been written. Table directory nods writing follows
      for(uint16 i=0;i<os.numTables;i++){
                 //writting tag
-                file<<(char)(nods[i].tag>>24)<<(char)((nods[i].tag>>16)^255);
-                file<<(char)((nods[i].tag>>8)^255)<<(char)(nods[i].tag%255);
+                file<<(char)(nods[i].tag>>24)<<(char)((nods[i].tag>>16)&255);
+                file<<(char)((nods[i].tag>>8)&255)<<(char)(nods[i].tag%256);
                 //writting checkSum
-                file<<(char)(nods[i].checkSum>>24)<<(char)((nods[i].checkSum>>16)^255);
-                file<<(char)((nods[i].checkSum>>8)^255)<<(char)(nods[i].checkSum%255);
+                file<<(char)(nods[i].checkSum>>24)<<(char)((nods[i].checkSum>>16)&255);
+                file<<(char)((nods[i].checkSum>>8)&255)<<(char)(nods[i].checkSum%256);
                 //writting offset
-                file<<(char)(nods[i].offset>>24)<<(char)((nods[i].offset>>16)^255);
-                file<<(char)((nods[i].offset>>8)^255)<<(char)(nods[i].offset%255);
+                file<<(char)(nods[i].offset>>24)<<(char)((nods[i].offset>>16)&255);
+                file<<(char)((nods[i].offset>>8)&255)<<(char)(nods[i].offset%256);
                 //writting length
-                file<<(char)(nods[i].length>>24)<<(char)((nods[i].length>>16)^255);
-                file<<(char)((nods[i].length>>8)^255)<<(char)(nods[i].length%255);
+                file<<(char)(nods[i].length>>24)<<(char)((nods[i].length>>16)&255);
+                file<<(char)((nods[i].length>>8)&255)<<(char)(nods[i].length%256);
      };
      file.close();
 };

@@ -32,16 +32,16 @@ short getMinlsb(hmtx_table hmt){ //finding minimal left side bearing
 };
 void hmtx_table::printTable(char* path){
      ofstream file;
-     file.open("C:\\txt.ttx",ios::binary|ios::app);
+     file.open(path,ios::binary|ios::app);
      cout<<"good file: "<<file.good()<<endl;
      for(uint16 i=0;i<numOfLongHorMmetrics;i++){
                 //writting longHorMetric info
-                file<<(char)(hMetrics[i].advanceWidth>>8)<<(char)(hMetrics[i].advanceWidth%255);
-                file<<(char)(hMetrics[i].lsb>>8)<<(char)(hMetrics[i].lsb%255);                
+                file<<(char)(hMetrics[i].advanceWidth>>8)<<(char)(hMetrics[i].advanceWidth%256);
+                file<<(char)(hMetrics[i].lsb>>8)<<(char)(hMetrics[i].lsb%256);                
      };
      for(uint16 i=0;i<numGlyfs-numOfLongHorMmetrics;i++){
                 //writting lsb info
-                file<<(char)(lsb[i]>>8)<<(char)(lsb[i]%255);              
+                file<<(char)(lsb[i]>>8)<<(char)(lsb[i]%256);              
      };
      file.close();
 };

@@ -58,5 +58,5 @@ struct head_table: public table{
        uint16 indexToLocFormat; //0 for short offsets, 1 for long, used in 'loca' table
        uint16 glyphDataFormat; //reserved as 0      
 };
-extern void gener_head_table(head_table &ht,short xmin, short ymin, short xmax, short ymax,uint16 unitsperEm, uint16 lowestRecPix);
+extern void gener_head_table(head_table &ht,short xmin, short ymin, short xmax, short ymax);
 extern void gener_head_table_header(TableDirectoryNod &tdn, head_table ht,uint32 offSet);
