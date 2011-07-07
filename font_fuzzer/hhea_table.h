@@ -26,5 +26,5 @@ struct hhea_table: public table{
 };
 //array param[9] in the following function is: ascend, descend, lineGap, 
 //advanceWidthMax, minLeft(Right)Sidebearing, xMaxExtent, caretSlopeRise(Run) and carretOffset
-extern void gener_hhea_table(hhea_table &hh, short param[9], uint16 hmetrixNum);
+extern void gener_hhea_table(hhea_table &hh, uint16 hmetrixNum);
 extern void gener_hhea_table_header(TableDirectoryNod &tdn,uint32 offSet);

@@ -25,7 +25,7 @@ struct name_table: public table{
        virtual uint32 getSize();
 };
 
-extern nameRecord gener_nameRecord(uint16 platf_ID, uint16 platf_SID, uint16 langID, uint16 nameid, uint16 strlen, uint16 offSet);                  
+extern nameRecord gener_nameRecord(uint16 nameid, uint16 strlen, uint16 offSet);                  
 //in coded with ANSI file with address "path_to_records" each string is seperated name record
 //each record not longer then 2^16
 extern void gener_name_table(name_table &nt,uint16 num_records, char* path_to_records);

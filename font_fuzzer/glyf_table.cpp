@@ -44,9 +44,9 @@ void gener_simpleGlyphArr(simpleGlyph* sg,uint16 numSimpleGlyph){
               uint16 numPts=sg[i].endPtsOfContour[sg[i].numberOfContours-1];
               sg[i].endPtsOfContour[0]=rand()%20+1;
               for(uint16 j=1;j<sg[i].numberOfContours;j++)
-                     sg[i].endPtsOfContour[j]=sg[i].endPtsOfContour[j]+rand()%20;
+                     sg[i].endPtsOfContour[j]=sg[i].endPtsOfContour[j-1]+rand()%20;
               //generating instructions
-              sg[i].instructionLength=rand()%200+1;
+              sg[i].instructionLength=rand()%64+1;
               sg[i].instructions=new char[sg[i].instructionLength];
               for(uint16 j=0;j<sg[i].instructionLength;j++)
                       sg[i].instructions[j]=(char)(rand()%256);

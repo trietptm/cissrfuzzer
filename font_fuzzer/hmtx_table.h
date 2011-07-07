@@ -19,8 +19,8 @@ struct hmtx_table: public table{
        virtual uint32 getSize();
        
 };
-extern void gener_hmtx_table(hmtx_table &hmt,uint16 numOflhm, uint16 numGlyphs, longHorMetric* metrics , short* Lsb);
+extern void gener_hmtx_table(hmtx_table &hmt,uint16 numOflhm, uint16 numGlyphs);
 extern uint32 hmtx_table_size(hmtx_table hmt);
 extern void gener_hmtx_table_header(TableDirectoryNod &tdn,hmtx_table hmt,uint32 offSet);
-extern uint16 getMaxAdvance(hmtx_table hmt);
-extern short getMinlsb(hmtx_table hmt);//returns minimal left side bearing
+extern uint16 getMaxAdvance(hmtx_table &hmt);
+extern short getMinlsb(hmtx_table &hmt);//returns minimal left side bearing

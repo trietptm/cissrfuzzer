@@ -1,18 +1,18 @@
 #include "hhea_table.h"
-void gener_hhea_table(hhea_table &hh,short param[10], uint16 hmetrixNum){
+void gener_hhea_table(hhea_table &hh, uint16 hmetrixNum){
            //if exists 'OS/2' table parametrs 0-2 would be taken from there
            hh.version=0x00010000;
-           hh.ascend=param[0];
-           hh.descend=param[1];
-           hh.lineGap=param[2];
+           hh.ascend=rand()%40;
+           hh.descend=rand()%40;
+           hh.lineGap=rand()%50;
            //parameters 3-5 must be consistent with 'hmtx' table!
-           hh.advanceWidthMax=(uint16)param[3];
-           hh.minLeftSideBearing=param[4];
-           hh.minRightSideBearing=param[5];
-           hh.xMaxExtent=param[6];
-           hh.caretSlopeRise=param[7];
-           hh.caretSlopeRun=param[8];
-           hh.caretOffset=param[9];
+           hh.advanceWidthMax=0;
+           hh.minLeftSideBearing=0;
+           hh.minRightSideBearing=0;
+           hh.xMaxExtent=0;
+           hh.caretSlopeRise=rand()%256;
+           hh.caretSlopeRun=rand()%256;
+           hh.caretOffset=rand()%256;
            for(int i=0;i<3;i++) hh.reserved[i]=0;
            hh.metricDataFormat=0;
            hh.numberOfHMetrics=hmetrixNum;
