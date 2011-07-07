@@ -1,9 +1,9 @@
 #include "name_table.h"
-nameRecord gener_nameRecord(uint16 platf_ID, uint16 platf_SID, uint16 langID,uint16 nameid, uint16 strlen, uint16 offSet){
+nameRecord gener_nameRecord(uint16 nameid, uint16 strlen, uint16 offSet){
            nameRecord nr;
-           nr.platformID=platf_ID;
-           nr.platformSpecificID=platf_SID;
-           nr.languageID=langID;
+           nr.platformID=3*(rand()%2);//unicode or MS
+           nr.platformSpecificID=rand()%33;
+           nr.languageID=rand()%151;
            nr.nameID=nameid;
            nr.length=strlen;  
            nr.offset=offSet;        
@@ -27,7 +27,7 @@ void gener_name_table(name_table &n_t,uint16 num_records, char* path_to_records)
                          tmp=std::string(buff);
                          if(i!=n_t.count-1)tmp=tmp.substr(0,tmp.length()-1);
                          text=text+tmp;
-                         //i need something to do with PID,PSID and LID!
+                         //PID,PSID&NID set randomly()
                          n_t.records[i].platformID=rand()%4;
                          n_t.records[i].platformSpecificID=rand()%7;//%13 if PID=1, but nobody cares, it's just a name!
                          n_t.records[i].languageID=rand()%151;

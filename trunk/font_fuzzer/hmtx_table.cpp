@@ -1,12 +1,16 @@
 #include "hmtx_table.h"
-void gener_hmtx_table(hmtx_table &hmt,uint16 numOflhm, uint16 numGlyphs, longHorMetric* metrics , short* Lsb){
+void gener_hmtx_table(hmtx_table &hmt,uint16 numOflhm, uint16 numGlyphs){
            hmt.numOfLongHorMmetrics=numOflhm;
            hmt.numGlyfs=numGlyphs;
            hmt.hMetrics=new longHorMetric[numOflhm];
-           for(int i=0;i<numOflhm;i++) hmt.hMetrics[i]=metrics[i];//default copying - 
-           //copying of the fieldsm that's why it correct
+           for(int i=0;i<numOflhm;i++) {
+                   hmt.hMetrics[i].advanceWidth=rand()%50;
+                   hmt.hMetrics[i].lsb=(rand()%50)-25;
+           }
            hmt.lsb=new short[numGlyphs-numOflhm];
-           memcpy(hmt.lsb, Lsb,(numGlyphs-numOflhm)*2);//2 bytes long short
+           for(int i=0;i<numGlyphs-numOflhm;i++) {
+                   hmt.lsb[i]=(rand()%50)-25;
+           }
 };
 uint32 hmtx_table::getSize(){
        return (2*numOfLongHorMmetrics-numGlyfs)*2;
@@ -16,13 +20,13 @@ void gener_hmtx_table_header(TableDirectoryNod &tdn,hmtx_table hmt,uint32 offSet
                   tdn.length=hmt.getSize();
                   tdn.offset=offSet;
 };
-uint16 getMaxAdvance(hmtx_table hmt){
+uint16 getMaxAdvance(hmtx_table &hmt){
        uint16 max=0;
        for(uint16 i=0;i<hmt.numOfLongHorMmetrics;i++)
             if(hmt.hMetrics[i].advanceWidth>max) max=hmt.hMetrics[i].advanceWidth;
        return max;    
 };
-short getMinlsb(hmtx_table hmt){ //finding minimal left side bearing
+short getMinlsb(hmtx_table &hmt){ //finding minimal left side bearing
        short min=hmt.hMetrics[0].lsb;
        for(uint16 i=0;i<hmt.numOfLongHorMmetrics;i++)
            if(hmt.hMetrics[i].lsb<min) min=hmt.hMetrics[i].lsb;

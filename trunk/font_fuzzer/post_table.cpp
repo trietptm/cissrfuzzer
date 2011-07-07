@@ -1,11 +1,11 @@
 #include "post_table.h"
-void gener_post_table_v1_3(post_table &pt,uint32 ver, uint32 Angle, short underPos, short underThick, uint32 FixedPitch){
-           if(ver!=0x00010000&&ver!=0x00030000) ver=0x00010000;
+void gener_post_table_v1_3(post_table &pt,uint32 ver){
+           if(ver!=0x00010000&&ver!=0x00030000) ver=0x00030000;
            pt.version=ver;
-           pt.italicAngle=Angle;
-           pt.underlinePosition=underPos;
-           pt.underlineThickness=underThick;
-           pt.isFixedPitch=FixedPitch;
+           pt.italicAngle=rand();
+           pt.underlinePosition=(rand()%32)-16;
+           pt.underlineThickness=(rand()%32)-16;
+           pt.isFixedPitch=rand()%2;
            pt.minMemType42=pt.maxMemType42=pt.minMemType1=pt.maxMemType1=0;
            pt.num_new_glyph=0;
 };
