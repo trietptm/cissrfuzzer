@@ -42,7 +42,7 @@ void font_directory_table::printTable(char* path){
      file.close();
 };
 uint32 font_directory_table::getSize(){
-       return 12+os.numTables*4;
+       return 12+os.numTables*16;
 };
 void gener_fdirectory_table(font_directory_table &fdt,uint16 numTables, TableDirectoryNod * nodes){
      generateOffsetSubtable(fdt.os ,numTables);
