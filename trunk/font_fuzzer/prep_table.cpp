@@ -5,7 +5,7 @@ uint32 prep_table::getSize(){
 void prep_table::printTable(char* path){
      ofstream file;
      file.open(path,ios::binary|ios::app);
-     cout<<"good file: "<<file.good()<<endl;
+     cout<<"good file:(prep) "<<file.good()<<endl;
      for(uint16 i=0;i<num;i++){
            file<<instr[i];              
      };
