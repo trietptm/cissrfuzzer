@@ -33,9 +33,35 @@ private:
 	char pHYSspecifier;//1 or 0
 	char pHYSCRC [4];
 
+	char cHRMfield [8];//Primary chromaticities and white point
+	char cHRMWhiteX [4];
+	char cHRMWhiteY [4];
+	char cHRMRedX [4];
+	char cHRMRedY [4];
+	char cHRMGreenX [4];
+	char cHRMGreenY [4];
+	char cHRMBlueX [4];
+	char cHRMBlueY [4];
+	char cHRMCRC [4];
+	/*unsigned int cHRMWhiteX;
+	unsigned intcHRMWhiteY;
+	unsigned int cHRMRedX;
+	unsigned int cHRMRedY;
+	unsigned int cHRMGreenX;
+	unsigned int cHRMGreenY;
+	unsigned int cHRMBlueX;
+	unsigned int cHRMBlueY;
+	char cHRMCRC [4];*/
+
+
+
 	char PLTEfield [8];//Palette
 	char PLTERedGreenBBlue[3];//from 1 to 256
 	char PLTECRC [4];
+
+	char hISTfield [8];//Image histogram
+	char hISTFreq[2];
+	char hISTCRC [4];
 
 	char IDATfield [8];//Image data
 	char IDATdata[12];//data from example file
