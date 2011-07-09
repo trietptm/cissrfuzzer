@@ -1,3 +1,4 @@
+#include <time.h>
 #include "cmap_table.h"
 #include "font_directory_table.h"
 #include "name_table.h"
@@ -15,11 +16,15 @@
 //for now checked writing and creating functions of:
 //post,name,hmtx,hhea,head
 void generate_tables(){
-     uint16 numGlyphs=rand()%512+1;//let it be: 1..513 glyphs
+     srand ( time(NULL) );
+     uint16 numGlyphs=rand()%512;//let it be: 1..513 glyphs
+     //uint16 numGlyphs=10;
+     cout<<"nuber of glyphs: "<<numGlyphs<<endl;
      //generating glyph table
-     //there are 9 tables,so we have 9 table directory nods
+     //there are 13 tables,so we have 13 table directory nods
      TableDirectoryNod * tdn=new TableDirectoryNod[13];
-     uint32 offset=9*16+12;
+     for(int i=0;i<13;i++) tdn[i].checkSum=0;
+     uint32 offset=13*16+12;
      //order of tables: table directory,glyf,cmap,head,maxp,post,hhea,hmtx,name,
      simpleGlyph *sg=new simpleGlyph[numGlyphs];
      gener_simpleGlyphArr(sg,numGlyphs);
@@ -117,7 +122,7 @@ void generate_tables(){
      //generating name table
      name_table nt;
      //nameRecords.txt should have 20+ records, and all of them should be in ANSI encoding;
-     gener_name_table(nt,rand()%20+1,"nameRecords.txt");
+     gener_name_table(nt,ct.numTables,"nameRecords.txt");
      //generating table directory nod for 'name'
      tdn[7].tag=0x6e616d65;
      tdn[7].offset=offset;
@@ -156,7 +161,7 @@ void generate_tables(){
      cvt_table cvt;
      gener_cvt_table(cvt);
      //generating  table directory nod for 'cvt'
-     tdn[11].tag=0x63807420;
+     tdn[11].tag=0x63767420;
      tdn[11].offset=offset;
      tdn[11].length=cvt.getSize();
       offset+=cvt.getSize();
@@ -164,7 +169,7 @@ void generate_tables(){
      fpgm_table fgt;
      gener_fpgm_table(fgt);
      //generating  table directory nod for 'fpgm'
-     tdn[12].tag=0x70726570;
+     tdn[12].tag=0x6670676d;
      tdn[12].offset=offset;
      tdn[12].length=fgt.getSize();
       offset+=fgt.getSize();
@@ -185,13 +190,32 @@ void generate_tables(){
      prt.printTable("C:\\tab.ttf");
      lc.printTable("C:\\tab.ttf");
      cvt.printTable("C:\\tab.ttf");
-     //fpt.printTable("C:\\tab.ttf");
      fgt.printTable("C:\\tab.ttf");
      
+     /*for(int i=0;i<nt.count;i++){
+             cout<<"PId: "<<nt.records[i].platformID<<" PSId: "<<nt.records[i].platformSpecificID;
+     }*/
 }
 int main(int argc, char *argv[])
 {
     generate_tables();
+    /*glyf_table gt;
+    simpleGlyph * sg=new simpleGlyph[10];
+    gener_simpleGlyphArr(sg,10);
+    gt.sg=sg;
+    gt.numSimpleGlyph=10;
+    ofstream file;  
+    char path[]="E:\\glf\\fontGlyphX.ttt";
+    for(int i=0;i<10;i++){
+              path[16]=(char)(i+69);
+              printf(path);
+              cout<<endl;
+              file.open(path,ios::binary|ios::app);
+              cout<<"good file: "<<file.good()<<" : "<<sg[i].getSize()<<endl;
+             sg[i].printGlyph(file);
+             file.close();
+    }
+    gt.printTable("E:\\glf\\glyfs.gg");*/
     system("PAUSE");
     return EXIT_SUCCESS;
 }

@@ -25,6 +25,19 @@ struct os_2_table:public table{
        uint16 fsSelection; //2-byte bit field containing information concerning the nature of the font patterns   
        uint16 fsFirstCharIndex; //The minimum Unicode index in this font.   
        uint16 fsLastCharIndex; //The maximum Unicode index in this font.
+       ///for version 4
+       short sTypoAscender;//
+       short sTypoDescender;//
+       short sTypoLineGap;
+       short usWinAscent;
+       short usWinDescent;
+       uint32 ulCodePageRange1; //((rand()%64)<<16)+(rand()%256)
+       uint32 ulCodePageRange2; //(rand()%65535)<<16
+       short sxHeight;	 
+       short sCapHeight;	
+       uint16 usDefaultChar; //<0xffff
+       uint16 usBreakChar;	 //<0xffff
+       uint16	usMaxContext; 
        virtual void printTable(char* path);
        virtual uint32 getSize();
 };
