@@ -27,11 +27,16 @@ void gener_name_table(name_table &n_t,uint16 num_records, char* path_to_records)
                          tmp=std::string(buff);
                          if(i!=n_t.count-1)tmp=tmp.substr(0,tmp.length()-1);
                          text=text+tmp;
-                         //PID,PSID&NID set randomly()
-                         n_t.records[i].platformID=rand()%4;
-                         n_t.records[i].platformSpecificID=rand()%7;//%13 if PID=1, but nobody cares, it's just a name!
-                         n_t.records[i].languageID=rand()%151;
-                         n_t.records[i].nameID=(rand()%(20-i))+i;//nameID were set randomly
+                         //PID,PSID&NID set randomly, generating windows symbols
+                         //todo: consistent with 'cmap' table!!
+                         /*n_t.records[i].platformID=3*(rand()%2);
+                         if(n_t.records[i].platformID==2) n_t.records[i].platformID=3;*/
+                         n_t.records[i].platformID=3;
+                         //n_t.records[i].platformSpecificID=rand()%7;//%13 if PID=1, but nobody cares, it's just a name!
+                         n_t.records[i].platformSpecificID=0;
+                         //n_t.records[i].languageID=rand()%151;
+                         n_t.records[i].languageID=0;
+                         n_t.records[i].nameID=i;//
                          n_t.records[i].length=tmp.length();
                          n_t.records[i].offset=offset;
                          offset+=(uint16)tmp.length();
@@ -64,5 +69,9 @@ void name_table::printTable(char* path){
                 file<<(char)(records[i].offset>>8)<<(char)((records[i].offset)%256);
      };
      file<<name.c_str(); //last symbol is '\n', that's why conversion to char* here
+     int ofs=getSize();
+     if(ofs%4!=0){
+          for(int i=0;i<4-ofs%4;i++) file<<(char)0;
+     }
      file.close();
 };

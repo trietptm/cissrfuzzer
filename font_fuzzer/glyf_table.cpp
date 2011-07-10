@@ -53,7 +53,8 @@ void gener_simpleGlyphArr(simpleGlyph* sg,uint16 numSimpleGlyph){
               //generating flags
               sg[i].flags=new char[numPts];
               for(uint16 j=0;j<numPts;j++)
-                      sg[i].flags[j]=(char)((rand()%256)&236);//236=11101100b mask, that applies to flag,
+                      //sg[i].flags[j]=(char)((rand()%256)&140);//140=10001100b mask, that applies to flag,
+                      sg[i].flags[j]=0;
                       //that guarantee correct simplification
               //generating x cordiates
               sg[i].xCordinates=new char[numPts];
@@ -62,7 +63,7 @@ void gener_simpleGlyphArr(simpleGlyph* sg,uint16 numSimpleGlyph){
               //generating y cordiates 
               sg[i].yCordinates=new char[numPts];
               for(uint16 j=0;j<numPts;j++) 
-                      sg[i].xCordinates[j]=(char)(rand()%256);        
+                      sg[i].yCordinates[j]=(char)(rand()%256);        
      }
 };
 short glyf_table::getxMax(){
@@ -115,6 +116,10 @@ void glyf_table::printTable(char* path){
      if(!file.good()) printf("output file corrupted!\n");
      for(uint16 i=0; i<numSimpleGlyph;i++){
            sg[i].printGlyph(file);
+     }
+     int ofs=getSize();
+     if(ofs%4!=0){
+          for(int i=0;i<4-ofs%4;i++) file<<(char)0;
      }
      file.close();
 };

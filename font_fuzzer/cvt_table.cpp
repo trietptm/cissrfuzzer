@@ -9,6 +9,10 @@ void cvt_table::printTable(char* path){
      for(uint16 i=0;i<num;i++){
            file<<(char)(instr[i]>>8)<<(char)(instr[i]%256);              
      };
+     int ofs=getSize();
+     if(ofs%4!=0){
+          for(int i=0;i<4-ofs%4;i++) file<<(char)0;
+     }
      file.close();
 };
 void gener_cvt_table(cvt_table &ft){

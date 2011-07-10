@@ -13,7 +13,7 @@ void gener_hmtx_table(hmtx_table &hmt,uint16 numOflhm, uint16 numGlyphs){
            }
 };
 uint32 hmtx_table::getSize(){
-       return (2*numOfLongHorMmetrics-numGlyfs)*2;
+       return (2*numOfLongHorMmetrics+2*numGlyfs);
 };
 void gener_hmtx_table_header(TableDirectoryNod &tdn,hmtx_table hmt,uint32 offSet){
                   tdn.tag=0x686d7478;
@@ -47,5 +47,9 @@ void hmtx_table::printTable(char* path){
                 //writting lsb info
                 file<<(char)(lsb[i]>>8)<<(char)(lsb[i]%256);              
      };
+     int ofs=getSize();
+     if(ofs%4!=0){
+          for(int i=0;i<4-ofs%4;i++) file<<(char)0;
+     }
      file.close();
 };
