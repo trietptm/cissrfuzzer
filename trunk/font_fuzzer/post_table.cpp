@@ -2,18 +2,20 @@
 void gener_post_table_v1_3(post_table &pt,uint32 ver){
            if(ver!=0x00010000&&ver!=0x00030000) ver=0x00030000;
            pt.version=ver;
-           pt.italicAngle=rand();
+           pt.italicAngle=0;
            pt.underlinePosition=(rand()%32)-16;
            pt.underlineThickness=(rand()%32)-16;
-           pt.isFixedPitch=rand()%2;
+           //pt.isFixedPitch=rand()%2;
+           pt.isFixedPitch=0;
            pt.minMemType42=pt.maxMemType42=pt.minMemType1=pt.maxMemType1=0;
            pt.num_new_glyph=0;
 };
-void gener_post_table_v2(post_table &pt, uint16 numGlyfs, uint16 new_glyfs_size, uint16* glyphIndex, char* Names){
+void gener_post_table_v2(post_table &pt, uint16 numGlyfs, uint16 new_glyfs_size,const char* Names){
+           pt.version=0x00020000;
            pt.names=new char[new_glyfs_size];
            pt.numGlyphs=numGlyfs;
            pt.glyphNameIndex=new uint16[numGlyfs];
-           memcpy(pt.glyphNameIndex,glyphIndex,numGlyfs*2); //each glyphIndex 2 bytes long
+           for(uint16 i=0;i<numGlyfs;i++) pt.glyphNameIndex[i]=rand()%32768; 
            pt.num_new_glyph=new_glyfs_size;
            memcpy(pt.names,Names,new_glyfs_size); //new_glyfs_size=number of byte, correct copying       
 };
@@ -21,9 +23,9 @@ uint32 post_table::getSize(){
        uint32 size;
        if(version!=0x20000) return 32;
        //for 'post' version 2
-       size=36;//first 10 fields
+       size=34;//first 10 fields
        size+=numGlyphs*2; //+size of glyph index array
-       size+=num_new_glyph;//+size of names, each symbol of names string is a byte
+       size+=num_new_glyph;//+size of names, each symbol of 'names' string is a byte
        return size;
 };
 void gener_post_table_header(TableDirectoryNod &tdn, uint32 length,uint32 offSet){
@@ -54,5 +56,10 @@ void post_table::printTable(char* path){
            };
            file<<names;
      }
+     int ofs=getSize();
+     if(ofs%4!=0){
+          for(int i=0;i<4-ofs%4;i++) file<<(char)0;
+     }
+     //file<<(char)0<<(char)0;
      file.close();
 };

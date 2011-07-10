@@ -2,7 +2,7 @@
 void os_2_table::printTable(char* path){
       ofstream file;
       file.open(path,ios::binary|ios::app);
-      file<<(char)0<<(char)4;//version
+      file<<(char)0<<(char)0;//version
       file<<(char)(xAvgCharWidth>>8)<<(char)(xAvgCharWidth%256);
       file<<(char)(usWeightClass>>8)<<(char)(usWeightClass%256);
       file<<(char)(usWidthClass>>8)<<(char)(usWidthClass%256);
@@ -28,7 +28,7 @@ void os_2_table::printTable(char* path){
       file<<(char)(fsFirstCharIndex>>8)<<(char)(fsFirstCharIndex%256);
       file<<(char)(fsLastCharIndex>>8)<<(char)(fsLastCharIndex%256);
       //for version 4
-      file<<(char)(sTypoAscender>>8)<<(char)(sTypoAscender%256);
+      /*file<<(char)(sTypoAscender>>8)<<(char)(sTypoAscender%256);
       file<<(char)(sTypoDescender>>8)<<(char)(sTypoDescender%256);
       file<<(char)(sTypoLineGap>>8)<<(char)(sTypoLineGap%256);
       file<<(char)(usWinAscent>>8)<<(char)(usWinAscent%256);
@@ -41,11 +41,11 @@ void os_2_table::printTable(char* path){
       file<<(char)(sCapHeight>>8)<<(char)(sCapHeight%256);
       file<<(char)(usDefaultChar>>8)<<(char)(usDefaultChar%256);
       file<<(char)(usBreakChar>>8)<<(char)(usBreakChar%256);
-      file<<(char)(usMaxContext>>8)<<(char)(usMaxContext%256);
+      file<<(char)(usMaxContext>>8)<<(char)(usMaxContext%256);*/
       file.close();
 }
 uint32 os_2_table::getSize(){
-       return 96;
+       return 68;
 }
 void gener_os_2_table(os_2_table &ost){
      ost.version=0;
@@ -77,11 +77,11 @@ void gener_os_2_table(os_2_table &ost){
      for(int i=0;i<4;i++) ost.ulCharRange[i]=0;//not completed yet
      ost.achVendID[0]='n';ost.achVendID[1]='o';ost.achVendID[2]='n';ost.achVendID[3]='e';
      //vendor name, unnecessary
-     ost.fsSelection=rand()%6;
+     ost.fsSelection=0;
      ost.fsFirstCharIndex=rand()%64;
      ost.fsLastCharIndex=ost.fsFirstCharIndex+rand()%256;
      //for ver. 4
-     ost.sTypoAscender=rand()%64;
+     /*ost.sTypoAscender=rand()%64;
      ost.sTypoDescender=rand()%64;
      ost.sTypoLineGap=rand()%64;
      ost.usWinAscent=rand()%64;
@@ -92,5 +92,5 @@ void gener_os_2_table(os_2_table &ost){
      ost.sCapHeight=rand()%64;	
      ost.usDefaultChar=rand()%0xffff; //<0xffff
      ost.usBreakChar=rand()%0xffff;	 //<0xffff
-     ost.usMaxContext=rand()%10; 
+     ost.usMaxContext=rand()%10; */
 }

@@ -13,7 +13,8 @@ void gener_maxp_table(maxp_table &mt,uint16 numGlyfs, short param[12]){
      mt.maxInstructionDefs=param[7];
      mt.maxStackElements=param[8];
      mt.maxSizeOfInstructions=param[9];
-     mt.maxComponentElements=param[10];
+     //mt.maxComponentElements=param[10];
+     mt.maxComponentElements=0;
      mt.maxComponentDepth=param[11];   
 };
 void gener_maxp_table_header(TableDirectoryNod &tdn,uint32 offSet){

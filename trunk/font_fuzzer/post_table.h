@@ -27,5 +27,5 @@ struct post_table: public table{
 };
 //generating v1 and v3 tables
 extern void gener_post_table_v1_3(post_table &pt,uint32 ver);
-extern void gener_post_table_v2(post_table &pt,uint16 numGlyfs, uint16 new_glyfs_size, uint16* glyphIndex ,char* names);
+extern void gener_post_table_v2(post_table &pt,uint16 numGlyfs, uint16 new_glyfs_size ,const char* names);
 extern void gener_post_table_header(TableDirectoryNod &tdn, uint32 length,uint32 offSet);

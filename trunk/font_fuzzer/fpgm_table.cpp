@@ -9,6 +9,10 @@ void fpgm_table::printTable(char* path){
      for(uint16 i=0;i<num;i++){
            file<<instr[i];              
      };
+     int ofs=getSize();
+     if(ofs%4!=0){
+          for(int i=0;i<4-ofs%4;i++) file<<(char)0;
+     }
      file.close();
 };
 void gener_fpgm_table(fpgm_table &ft){

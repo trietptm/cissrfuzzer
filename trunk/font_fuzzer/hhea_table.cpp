@@ -3,7 +3,7 @@ void gener_hhea_table(hhea_table &hh, uint16 hmetrixNum){
            //if exists 'OS/2' table parametrs 0-2 would be taken from there
            hh.version=0x00010000;
            hh.ascend=rand()%40;
-           hh.descend=rand()%40;
+           hh.descend=-(rand()%40);
            hh.lineGap=rand()%50;
            //parameters 3-5 must be consistent with 'hmtx' table!
            hh.advanceWidthMax=0;
@@ -11,7 +11,7 @@ void gener_hhea_table(hhea_table &hh, uint16 hmetrixNum){
            hh.minRightSideBearing=0;
            hh.xMaxExtent=0;
            hh.caretSlopeRise=rand()%256;
-           hh.caretSlopeRun=rand()%256;
+           hh.caretSlopeRun=0;//for consistence with other simplificatiob
            hh.caretOffset=rand()%256;
            for(int i=0;i<3;i++) hh.reserved[i]=0;
            hh.metricDataFormat=0;

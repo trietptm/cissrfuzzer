@@ -12,6 +12,10 @@ void loca_table::printTable(char* path){
            file<<(char)(offset[i]>>24)<<(char)((offset[i]>>16)&255);
            file<<(char)((offset[i]>>8)&255)<<(char)(offset[i]%256);             
      };
+     int ofs=getSize();
+     if(ofs%4!=0){
+          for(int i=0;i<4-ofs%4;i++) file<<(char)0;
+     }
      file.close();
 };
 uint32 loca_table::getSize(){

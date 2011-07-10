@@ -65,7 +65,7 @@ struct cmap_table: public table{
 //procedure of generating different format subtables
 //warning! before generating subtable cmap_base had to be generated!
 //functions don't set language Id
-extern void gener_cmap_table(cmap_table &cmt);
+extern void gener_cmap_table(cmap_table &cmt, uint16 numGlyphs);
 extern void gener_format_0_table(format_0_table &f0);
-extern void gener_format_4_table(format_4_table &f4);
-extern void gener_format_6_table(format_6_table &f6);
+extern void gener_format_4_table(format_4_table &f4,uint16 numGlyphs);
+extern void gener_format_6_table(format_6_table &f6,uint16 numGlyphs);
