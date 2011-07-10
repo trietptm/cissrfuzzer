@@ -1,15 +1,13 @@
 #include "stdafx.h"
 #include "Chunks.h"
 #include <string>
-#include <fstream>
-//#include <iostream>
 
 using namespace std;
 
 void chunk::tofile()
 {
 	FILE *f;
-	char b [512];
+	char b [1024];
 	int i;
 	int temp;
 // Signature
@@ -73,6 +71,54 @@ void chunk::tofile()
 			b[i]=cHRMBlueY[i-temp];
 		for (temp=i;i<temp+4;i++)
 			b[i]=cHRMCRC[i-temp];
+//sBIT
+		for(temp=i;i<temp+8;i++)
+			b[i]=sBITfield [i-temp];
+		if (IHDRColour==0) 
+			b[i++]=sBITGrey;
+		if (IHDRColour==2||IHDRColour==3)
+		{
+			b[i++]=sBITRed;
+			b[i++]=sBITGreen;
+			b[i++]=sBITBlue;
+		}	
+		if (IHDRColour==4)
+		{
+			b[i++]=sBITGrey;
+			b[i++]=sBITAlpha;
+		}
+		if (IHDRColour==6)
+		{
+			b[i++]=sBITRed;
+			b[i++]=sBITGreen;
+			b[i++]=sBITBlue;
+			b[i++]=sBITAlpha;
+		}
+		for (temp=i;i<temp+4;i++)
+			b[i]=sBITCRC[i-temp];
+//bKGD
+		for(temp=i;i<temp+8;i++)
+			b[i]=bKGDfield [i-temp];
+		if (IHDRColour==0||IHDRColour==4) 
+		{
+			b[i++]=bKGDgreyscale [0];
+			b[i++]=bKGDgreyscale [1];
+		}
+		if (IHDRColour==2||IHDRColour==6)
+		{
+			b[i++]=bKGDred [0];
+			b[i++]=bKGDred [1];
+			b[i++]=bKGDgreen [0];
+			b[i++]=bKGDgreen [1];
+			b[i++]=bKGDblue [0];
+			b[i++]=bKGDblue [1];
+		}
+		if (IHDRColour==3)
+		{
+			b[i++]=bKGDpalette;
+		}			
+		for (temp=i;i<temp+4;i++)
+			b[i]=bKGDCRC[i-temp];
 //PLTE
 		for(temp=i;i<temp+8;i++)
 			b[i]=PLTEfield [i-temp];
@@ -90,7 +136,7 @@ void chunk::tofile()
 //IDAT
 		for(temp=i;i<temp+8;i++)
 			b[i]=IDATfield [i-temp];
-		for (temp=i;i<temp+12;i++)
+		for (temp=i;i<temp+IDATsize;i++)
 			b[i]=IDATdata[i-temp];
 		for (temp=i;i<temp+4;i++)
 			b[i]=IDATCRC[i-temp];
@@ -100,14 +146,9 @@ void chunk::tofile()
 		for (temp=i;i<temp+4;i++)
 			b[i]=IENDCRC[i-temp];
 	
-	//a=a+IHDRfield;
-	//a=sign+(string)IHDRfield;
-	//cout<<sign;
-	//cin.get();
-    ofstream file("test1.png");
-	f=fopen("d://2.png","rb+");
+	
+    //ofstream file("test1.png");
+	f=_wfopen(L"d://2.png",L"wb+");
 	fwrite(b,i*sizeof(char),1,f);
-	//for(i=0;i<8;i++)
-	//char c=a[5];
-	//file<<c;
+	
 }
