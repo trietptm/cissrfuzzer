@@ -37,7 +37,6 @@ short getMinlsb(hmtx_table &hmt){ //finding minimal left side bearing
 void hmtx_table::printTable(char* path){
      ofstream file;
      file.open(path,ios::binary|ios::app);
-     cout<<"good file: "<<file.good()<<endl;
      for(uint16 i=0;i<numOfLongHorMmetrics;i++){
                 //writting longHorMetric info
                 file<<(char)(hMetrics[i].advanceWidth>>8)<<(char)(hMetrics[i].advanceWidth%256);

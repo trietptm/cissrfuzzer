@@ -25,7 +25,6 @@ void gener_maxp_table_header(TableDirectoryNod &tdn,uint32 offSet){
 void maxp_table::printTable(char* path){
      ofstream file;
      file.open(path,ios::binary|ios::app);
-     cout<<"good file: "<<file.good()<<endl;
      file<<(char)0<<(char)1<<(char)0<<(char)0;//default 0x00010000
      file<<(char)(numGlyphs>>8)<<(char)(numGlyphs%256);
      file<<(char)(maxPoints>>8)<<(char)(maxPoints%256);

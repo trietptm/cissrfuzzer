@@ -29,7 +29,6 @@ void gener_head_table_header(TableDirectoryNod &tdn,head_table ht, uint32 offSet
 void head_table::printTable(char* path){
      ofstream file;
      file.open(path,ios::binary|ios::app);
-     cout<<"good file: "<<file.good()<<endl;
      //writting version
      file<<(char)0<<(char)1<<(char)0<<(char)0;//version set to 0x00010000
      //writting revision, which is set to 0x00010000
