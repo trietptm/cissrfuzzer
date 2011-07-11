@@ -36,7 +36,6 @@ void gener_post_table_header(TableDirectoryNod &tdn, uint32 length,uint32 offSet
 void post_table::printTable(char* path){
      ofstream file;
      file.open(path,ios::binary|ios::app);
-     cout<<"good file: "<<file.good()<<endl;
      file<<(char)(version>>24)<<(char)((version>>16)&255);
      file<<(char)((version>>8)&255)<<(char)(version%256);
      file<<(char)(italicAngle>>24)<<(char)((italicAngle>>16)&255);

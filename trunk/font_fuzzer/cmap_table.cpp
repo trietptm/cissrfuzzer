@@ -35,7 +35,7 @@ void gener_format_4_table(format_4_table &f4,uint16 numGlyphs){
                for(int i=1;i<segNum;i++){
                        f4.idDelta[i]=rand()%numGlyphs/8-numGlyphs/16;//
                }
-               f4.idDelta[segNum]=1;
+               f4.idDelta[segNum-1]=1;
                f4.segCountX2=segNum*2;    
                f4.glyphIndxArray=new uint16[1];
                f4.glyphIndxArray[0]=0;
@@ -45,7 +45,7 @@ void gener_format_4_table(format_4_table &f4,uint16 numGlyphs){
                int i=1;
                while(i<segNum) {i*=2;pow++;}
                f4.searchRange=i;
-               f4.entrySelector=pow-1;
+               f4.entrySelector=pow;
                f4.rangeShift=segNum*2-i;
 };
 void gener_format_6_table(format_6_table &f6, uint16 numGlyphs){
@@ -157,7 +157,6 @@ string format_6_table::toString(){
 void cmap_table::printTable(char* path){
      ofstream file;
      file.open(path,ios::binary|ios::app);
-     cout<<"good file: "<<file.good()<<endl;
      file<<(char)0<<(char)0;
      file<<(char)(numTables>>8)<<(char)(numTables%256);
      //writting encoding records
@@ -201,7 +200,9 @@ void gener_cmap_table(cmap_table &cmt, uint16 numGlyphs){
      cmt.subTables=new string[cmt.numTables];
      uint32 offset=4+8*cmt.numTables;
      for(uint16 i=0;i<cmt.numTables;i++){
-                int type=rand()%3;
+                int type;
+                if(numGlyphs>256) type=1+(rand()%2);
+                type=rand()%3;
                 //int type=0;
                 if (type==0) {
                    format_0_table f0;

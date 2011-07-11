@@ -26,7 +26,6 @@ void gener_hhea_table_header(TableDirectoryNod &tdn,uint32 offSet){
 void hhea_table::printTable(char* path){
      ofstream file;
      file.open(path,ios::binary|ios::app);
-     cout<<"good file: "<<file.good()<<endl;
      //before writing each elemental strucrure divides into bytes, then writing to file
      file<<(char)0<<(char)1<<(char)0<<(char)0;//version
      file<<(char)(ascend>>8)<<(char)(ascend%256);

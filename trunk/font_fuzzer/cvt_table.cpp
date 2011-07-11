@@ -5,7 +5,6 @@ uint32 cvt_table::getSize(){
 void cvt_table::printTable(char* path){
      ofstream file;
      file.open(path,ios::binary|ios::app);
-     cout<<"good file: "<<file.good()<<endl;
      for(uint16 i=0;i<num;i++){
            file<<(char)(instr[i]>>8)<<(char)(instr[i]%256);              
      };

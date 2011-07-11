@@ -56,7 +56,6 @@ void gener_name_table_header(TableDirectoryNod &tdn,uint32 length, uint32 offSet
 void name_table::printTable(char* path){
      ofstream file;
      file.open(path,ios::binary|ios::app);
-     cout<<"good file: "<<file.good()<<endl;
      file<<(char)0<<(char)0;//format default 0x00000000
      file<<(char)(count>>8)<<(char)(count%256);//number of records
      file<<(char)(stringOffset>>8)<<(char)(stringOffset%256);//number of records    

@@ -17,7 +17,6 @@ void generateOffsetSubtable(OffsetSubtable &os, uint16 num_Tables){
 void font_directory_table::printTable(char* path){
      ofstream file;
      file.open(path,ios::binary|ios::app);
-     cout<<"good file: "<<file.good()<<endl;
      //before writing each elemental strucrure divides into bytes, then writing to file
      file<<(char)0<<(char)1<<(char)0<<(char)0;//os.scaller, default 0x00010000
      file<<(char)(os.numTables>>8)<<(char)(os.numTables%256);//number of tables
