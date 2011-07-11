@@ -1,0 +1,110 @@
+<html>
+<head>
+<script src="firefox_interface.js" type="text/javascript"></script>
+<script src="jquery.js" type="text/javascript"></script>
+<script src="some_function.js" type="text/javascript"></script>
+<script src="variable.js" type="text/javascript"></script>
+<script src="func.js" type="text/javascript"></script>
+<script src="attr.js" type="text/javascript"></script>
+<script src="clas.js" type="text/javascript"></script>
+<script type="text/javascript">
+var fun = all_function.split("\n");
+
+var all_class = [];
+var j = -1;
+var new_clas;
+for(var i=0; i<fun.length; i++) {
+	if (fun[i].length > 4) 
+	{
+		if(fun[i].substring(fun[i].length-5,fun[i].length-1) == ".idl") 
+		{
+			j++;
+			/*
+			new_clas = clone(clas);
+			new_clas.init_name(fun[i].substring(0,fun[i].length-5));
+			all_class[j] = new_clas;
+			*/
+			//all_class[j] = clone(clas);
+			all_class[j] = new clas;
+			//console.log(all_class[j]);
+			//$.extend(all_class[j], clas);
+			
+			//all_class[j].prototype.init_name = init_names;
+			/*
+			all_class[j].prototype.add_attribute = add_attribute;
+			all_class[j].prototype.add_functions = add_functions;
+			all_class[j].prototype.ret_name = ret_name;
+			*/
+			
+			//all_class[j] = clone(clas);
+			//all_class[j] = clas.clone();
+			//all_class[j].init_name(fun[i].substring(0,fun[i].length-5));
+			all_class[j].name = fun[i].substring(0,fun[i].length-5);
+						
+			//all_class.push(new_clas);
+			//console.log(fun[i].substring(0,fun[i].length-5));
+			/*
+			if (j < 100) 
+			console.log(j + " " + all_class[j].ret_name());
+			*/
+		}
+		else {
+		if (fun[i].length > 9) 
+		{ 	//console.log(fun[i]);
+			if(fun[i].substring(0,9) == "attribute") 
+			{	
+				var new_attribute = fun[i].split(" ");
+				all_class[j].add_attribute(new_attribute[2], new_attribute[1]);
+				//console.log(fun[i]);
+			}
+		}
+		
+		if (fun[i].indexOf("(") != -1) 
+		{
+			var fun_1 = fun[i].split("(");
+			var fun_2 = fun_1[0].split(" ");
+			var fun_type = fun_2[0]; // не нужно
+			var fun_name = fun_2[1];
+			fun_1[1] = fun_1[1].replace(')','');
+			var fun_3 = fun_1[1].split(", ");
+			var fun_t = [];
+			var fun_n = [];
+			for(var k =0; k<fun_3.length; k++) 
+			{
+				var fun_4 = fun_3[k].split(" ");
+				fun_t.push(fun_4[0]);
+				fun_n.push(fun_4[1]);
+			};
+			//console.log(all_class[j]);
+			all_class[j].add_functions(fun_name, fun_t, fun_n);
+		};
+		}
+	}
+	
+
+}
+
+//for ( var x = 0; x < j+1; x++ ) 
+
+for ( var x = 0; x < 50; x++ ) 
+{
+	console.log("var xyz" + x + " = new " +  all_class[x].name + "(); \n");
+	var all_at = all_class[x].get_attribute();
+	for (var y = 0; y < all_at.length; y++)
+	{
+	console.log("xyz" + x + all_at[y]);
+	}
+	var all_fun = all_class[x].get_function();
+	for (var y = 0; y < all_fun.length; y++)
+	{
+	console.log("xyz" + x + all_fun[y]);
+	}	
+
+
+}	
+
+</script>
+</head>
+<body>
+</body>
+</html>

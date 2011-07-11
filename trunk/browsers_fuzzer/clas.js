@@ -1,56 +1,116 @@
-function randint(local_array) {
-	return Math.floor(Math.random() * (local_array.length));
+function clas() {
+	this.name =  "";
+	this.all_func = [];
+	this.num_func = 0;
+	this.all_atrib = [];
 };
 
+clas.prototype.init_name = function (name_parameter) {
+	this.name = name_parameter;
+};
+clas.prototype.add_attribute = function (name_attribute, type_attribute) 
+{
+	var new_clas = new attr;
+	new_clas.add(name_attribute, type_attribute);
+	this.all_atrib.push(new_clas);
+};
+clas.prototype.add_functions = function (name_function, fun_type, fun_name)
+{
+	var new_func = new func;
+	new_func.ini_name(name_function);
+	new_func.init_attribute(fun_name, fun_type);
+	this.all_func[this.num_func] = new_func;
+	this.num_func ++;
+};
+clas.prototype.ret_name = function () {
+	return this.name;
+}
+
+clas.prototype.get_attribute = function () {
+	var result = [];
+	for(var i = 0; i < this.all_atrib.length; i++ )
+	{
+		//result += this.all_atrib[i].ret_str();
+		//if (this.all_atrib[i].ret_str() )
+		result.push(this.all_atrib[i].ret_str());
+		//result += this.all_atrib[i];
+	}
+	return result;
+}
+clas.prototype.get_function = function () {
+	var result = [];
+	for(var i = 0; i < this.num_func; i++ )
+	{
+		//result += this.all_atrib[i].ret_str();
+		//if (this.all_atrib[i].ret_str() )
+		result.push(this.all_func[i].ret_str());
+		//result += this.all_atrib[i];
+	}
+	return result;
+}
+
+/*
 var clas = {
 	name: "",
-	attribute: [],
-	s_eval: "",
-	num_attribute: 0
+	all_func: [],
+	num_func: 0,
+	all_atrib: []	
 };
+
 clas.init_name = function (name_parameter) {
-	name = name_parameter;
+	this.name = name_parameter;
 };
-clas.init_num_attribute = function(num_attribute_parameter) {
-	num_attribute = num_attribute_parameter;
+clas.add_attribute = function (name_attribute, type_attribute) 
+{
+	var new_clas = clone(attr);
+	new_clas.add(name_attribute, type_attribute);
+	this.all_atrib.push(new_clas);
 };
-clas.init_attribute = function(attribute_parameter) {
-	this.attribute.push(attribute_parameter);
+clas.add_functions = function (name_function, fun_type, fun_name)
+{
+	var new_func = clone(func);
+	new_func.ini_name(name_function);
+	new_func.init_attribute(fun_name, fun_type);
+	this.all_func[this.num_func] = new_func;
+	this.num_func ++;
 };
-clas.ret_name = function() {
+clas.ret_name = function () {
 	return name;
+}
+clas.clone = function() {
+	var myclone = {	
+	name: "",
+	all_func: [],
+	num_func: 0,
+	all_atrib: [],
+	init_name : function (name_parameter) {this.name = name_parameter;},
+	add_attribute : function (name_attribute, type_attribute) {var new_clas = clone(attr); new_clas.add(name_attribute, type_attribute); this.all_atrib.push(new_clas);},
+	add_functions : function (name_function, fun_type, fun_name) { 	var new_func = clone(func); 	new_func.ini_name(name_function); 	new_func.init_attribute(fun_name, fun_type); 	this.all_func[this.num_func] = new_func; 	this.num_func ++;},
+	ret_name : function () { 	return name; }
+	};
+   
+   return myclone;
+}
+*/
+/*
+function init_names(name_parameter) {
+	this.name = name_parameter;
 };
-clas.ret_num_attribute = function() {
-	return num_attribute;
+function add_attribute(name_attribute, type_attribute) 
+{
+	var new_clas = clone(attr);
+	new_clas.add(name_attribute, type_attribute);
+	this.all_atrib.push(new_clas);
 };
-clas.ret_attribute = function() {
-	return attribute;
+function add_functions(name_function, fun_type, fun_name)
+{
+	var new_func = clone(func);
+	new_func.ini_name(name_function);
+	new_func.init_attribute(fun_name, fun_type);
+	this.all_func[this.num_func] = new_func;
+	this.num_func ++;
 };
-clas.clean = function() {
-	attribute = [];
-	num_attribute = 0;
-};
-clas.creat_eval = function() {
-	s_eval = name + "(";
-	for(var i=0; i<num_attribute; i++) {
-		s_eval += this.attribute[i][randint(this.attribute[i])];
-		if (i != num_attribute - 1) s_eval += ", ";
-	}
-	
-	s_eval += ");"
-};  
-clas.ret_eval = function() {
-	return s_eval;
-};
-clas.make = function() {
-	eval(s_eval);
-};
-clas.creat_and_make = function() {
-	s_eval = name + "(";
-	for(var i=0; i<num_attribute; i++) {
-		s_eval += this.attribute[i][randint(this.attribute[i])];
-		if (i != num_attribute - 1) s_eval += ", ";
-	}
-	s_eval += ");"
-	eval(s_eval);
-}; 
+function ret_name() {
+	return this.name;
+}
+*/
