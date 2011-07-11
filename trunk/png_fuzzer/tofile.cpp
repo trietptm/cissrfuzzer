@@ -7,7 +7,7 @@ using namespace std;
 void chunk::tofile()
 {
 	FILE *f;
-	char b [1024];
+	char b [2048];
 	int i;
 	int temp;
 // Signature
@@ -126,6 +126,68 @@ void chunk::tofile()
 			b[i]=PLTERedGreenBBlue[i-temp];
 		for (temp=i;i<temp+4;i++)
 			b[i]=PLTECRC[i-temp];
+//tRNS
+		
+			
+		if(IHDRColour==0||IHDRColour==2||IHDRColour==3)
+		for(temp=i;i<temp+8;i++)
+			b[i]=tRNSfield [i-temp];
+		if (IHDRColour==0) 
+		{
+
+			b[i++]=tRNSgrey [0];
+			b[i++]=tRNSgrey [1];
+		}
+		if (IHDRColour==2) 
+		{
+			b[i++]=tRNSred [0];
+			b[i++]=tRNSred [1];
+			b[i++]=tRNSgreen [0];
+			b[i++]=tRNSgreen [1];
+			b[i++]=tRNSblue [0];
+			b[i++]=tRNSblue [1];
+		}
+		if (IHDRColour==3) 
+		{
+			b[i++]=tRNSone;
+			b[i++]=tRNStwo;
+		}
+		if(IHDRColour==0||IHDRColour==2||IHDRColour==3)
+		for (temp=i;i<temp+4;i++)
+			b[i]=tRNSCRC[i-temp];
+//sPLT
+		for(temp=i;i<temp+8;i++)
+			b[i]=sPLTfield [i-temp];
+		for(temp=i;i<temp+sPLTsize;i++)
+			b[i]=sPLTname [i-temp];
+		b[i++]=sPLTnull;
+		b[i++]=sPLTdepth;
+		if(sPLTdepth==8)
+		{
+			b[i++]=sPLTred[1];
+			b[i++]=sPLTgreen[1];
+			b[i++]=sPLTblue[1];
+			b[i++]=sPLTalpha[1];
+			b[i++]=sPLTfreq[0];
+			b[i++]=sPLTfreq[1];
+		}
+		if(sPLTdepth==16)
+		{
+			b[i++]=sPLTred[0];
+			b[i++]=sPLTred[1];
+			b[i++]=sPLTgreen[0];
+			b[i++]=sPLTgreen[1];
+			b[i++]=sPLTblue[0];
+			b[i++]=sPLTblue[1];
+			b[i++]=sPLTalpha[0];
+			b[i++]=sPLTalpha[1];
+			b[i++]=sPLTfreq[0];
+			b[i++]=sPLTfreq[1];
+		}
+		for (temp=i;i<temp+4;i++)
+			b[i]=sPLTCRC[i-temp];
+
+
 //hIST
 		for(temp=i;i<temp+8;i++)
 			b[i]=hISTfield [i-temp];
@@ -140,6 +202,63 @@ void chunk::tofile()
 			b[i]=IDATdata[i-temp];
 		for (temp=i;i<temp+4;i++)
 			b[i]=IDATCRC[i-temp];
+//tIME
+		for(temp=i;i<temp+8;i++)
+			b[i]=tIMEfield [i-temp];
+		b[i++]=tIMEyear[0];
+		b[i++]=tIMEyear[1];
+		b[i++]=tIMEmonth;
+		b[i++]=tIMEday;
+		b[i++]=tIMEhour;
+		b[i++]=tIMEminute;
+		b[i++]=tIMEsecond;
+		for (temp=i;i<temp+4;i++)
+			b[i]=tIMECRC[i-temp];
+//iTXt 
+		for(temp=i;i<temp+8;i++)
+			b[i]=iTXtfield[i-temp];
+		if(iTXtsize!=0)
+		for (temp=i;i<temp+iTXtsize;i++)
+			b[i]=iTXtkey[i-temp];
+		b[i++]=iTXtnull;
+		b[i++]=iTXtcomp;
+		b[i++]=iTXtmethod;
+		if(iTXtsizel!=0)
+		for (temp=i;i<temp+iTXtsizel;i++)
+			b[i]=iTXtlang[i-temp];
+		b[i++]=iTXtlangnull;
+		if(iTXtsizet!=0)
+		for (temp=i;i<temp+iTXtsizet;i++)
+			b[i]=iTXttrans[i-temp];
+		b[i++]=iTXtnulltr;
+		if(iTXtsizete!=0)
+		for (temp=i;i<temp+iTXtsizete;i++)
+			b[i]=iTXttext[i-temp];
+
+		for (temp=i;i<temp+4;i++)
+			b[i]=iTXtCRC[i-temp];
+//tEXt
+		for(temp=i;i<temp+8;i++)
+			b[i]=tEXtfield[i-temp];
+		for (temp=i;i<temp+tEXtkeysize;i++)
+			b[i]=tEXtkey[i-temp];
+		b[i++]=tEXtnull;
+		if(tEXttextsize!=0)
+		for (temp=i;i<temp+tEXttextsize;i++)
+			b[i]=tEXttext[i-temp];
+		for (temp=i;i<temp+4;i++)
+			b[i]=tEXtCRC[i-temp];
+//zTXt 
+		for(temp=i;i<temp+8;i++)
+			b[i]=zTXtfield[i-temp];
+		for (temp=i;i<temp+zTXtkeysize;i++)
+			b[i]=zTXtkey[i-temp];
+		b[i++]=zTXtnull;
+		b[i++]=zTXtcomp;
+		for (temp=i;i<temp+zTXtdatasize;i++)
+			b[i]=zTXtdata[i-temp];
+		for (temp=i;i<temp+4;i++)
+			b[i]=zTXtCRC[i-temp];
 //IEND		
 		for(temp=i;i<temp+8;i++)
 			b[i]=IENDfield [i-temp];
