@@ -6,7 +6,19 @@ class chunk
 {
 public:
 	chunk();
-	~chunk(){delete [] IDATdata;}
+	~chunk()
+	{
+		delete [] IDATdata;
+		delete [] sPLTname;
+		delete [] iTXtkey;
+		delete [] iTXtlang;
+		delete [] iTXttrans;
+		delete [] iTXttext;
+		delete [] tEXtkey;
+		delete [] tEXttext;
+		delete [] zTXtkey;
+		delete [] zTXtdata;
+	}
 	void tofile();
 private:
 	char sign[8];
@@ -65,7 +77,7 @@ private:
 	char PLTERedGreenBBlue[3];//from 1 to 256
 	char PLTECRC [4];
 
-	char tRNSfield [8];
+	char tRNSfield [8];//Transparency
 	char tRNSgrey [2];
 	char tRNSred [2];
 	char tRNSgreen [2];
@@ -74,16 +86,71 @@ private:
 	char tRNStwo;
 	char tRNSCRC [4];
 
+	char sPLTfield [8];//Suggested palette
+	char * sPLTname;
+	int sPLTsize;
+	char sPLTnull;
+	char sPLTdepth;
+	char sPLTred[2];
+	char sPLTgreen[2];
+	char sPLTblue[2];
+	char sPLTalpha[2];
+	char sPLTfreq[2];
+	char sPLTCRC [4];
+
+
 	char hISTfield [8];//Image histogram
 	char hISTFreq[2];
 	char hISTCRC [4];
 
 	char IDATfield [8];//Image data
-	char * IDATdata;//data from example file
+	char * IDATdata;
 	int IDATsize;
 	char IDATCRC [4];
 
-	char IENDfield [8];
+	char tIMEfield [8];//Image last-modification time
+	char tIMEyear[2];
+	char tIMEmonth;
+	char tIMEday;
+	char tIMEhour;
+	char tIMEminute;
+	char tIMEsecond;
+	char tIMECRC [4];
+
+	char iTXtfield [8];//International textual data
+	char * iTXtkey;
+	int iTXtsize;
+	char iTXtnull;
+	char iTXtcomp;
+	char iTXtmethod;
+	char * iTXtlang;
+	int iTXtsizel;
+	char iTXtlangnull;
+	char * iTXttrans;
+	int iTXtsizet;
+	char iTXtnulltr;
+	char * iTXttext;
+	int iTXtsizete;
+	char iTXtCRC [4];
+
+	char tEXtfield [8];//Textual data
+	char * tEXtkey;
+	int tEXtkeysize;
+	char tEXtnull;
+	char * tEXttext;
+	int tEXttextsize;
+	char tEXtCRC [4];
+
+	char zTXtfield [8];//Compressed textual data
+	char * zTXtkey;
+	int zTXtkeysize;
+	char zTXtnull;
+	char zTXtcomp;
+	char * zTXtdata;
+	int zTXtdatasize;
+	char zTXtCRC [4];
+
+	char IENDfield [8];//Image trailer
 	char IENDCRC[4];
 
 
