@@ -139,13 +139,13 @@ void generate_tables(char * path){
      tdn[0].tag=0x4f532f32;
      tdn[0].offset=offset;
      tdn[0].length=ot.getSize();
-     tdn[0].checkSum=checkSum(ot);
+     //tdn[0].checkSum=checkSum(ot);
      offset+=ot.getSize();
      //generating table directory nod for 'cmap'
      tdn[1].tag=0x636d6170;
      tdn[1].offset=offset;
      tdn[1].length=ct.getSize();
-     tdn[1].checkSum=checkSum(ct);
+     //tdn[1].checkSum=checkSum(ct);
      offset+=ct.getSize();
      //padding offset with 0 to full 4 bytes
      if(offset%4!=0) offset+=(4-(offset%4));
@@ -153,7 +153,7 @@ void generate_tables(char * path){
      tdn[2].tag=0x63767420;
      tdn[2].offset=offset;
      tdn[2].length=cvt.getSize();
-     tdn[2].checkSum=checkSum(cvt);
+     //tdn[2].checkSum=checkSum(cvt);
       offset+=cvt.getSize();
       //padding offset with 0 to full 4 bytes
      if(offset%4!=0) offset+=(4-(offset%4));
@@ -161,7 +161,7 @@ void generate_tables(char * path){
      tdn[3].tag=0x6670676d;
      tdn[3].offset=offset;
      tdn[3].length=fgt.getSize();
-     tdn[3].checkSum=checkSum(ot);
+     //tdn[3].checkSum=checkSum(ot);
       offset+=fgt.getSize();
       //padding offset with 0 to full 4 bytes
      if(offset%4!=0) offset+=(4-(offset%4));
@@ -169,7 +169,7 @@ void generate_tables(char * path){
      tdn[4].tag=0x676c7966;
      tdn[4].offset=offset;
      tdn[4].length=gt.getSize();
-     tdn[4].checkSum=checkSum(gt);
+     //tdn[4].checkSum=checkSum(gt);
      offset+=gt.getSize();
      //padding offset with 0 to full 4 bytes
      if(offset%4!=0) offset+=(4-(offset%4));  
@@ -177,7 +177,7 @@ void generate_tables(char * path){
      tdn[5].tag=0x68656164;
      tdn[5].offset=offset;
      tdn[5].length=ht.getSize();
-     tdn[5].checkSum=checkSum(ht);
+     //tdn[5].checkSum=checkSum(ht);
      offset+=ht.getSize();
      //padding offset with 0 to full 4 bytes
      if(offset%4!=0) offset+=(4-(offset%4));
@@ -185,7 +185,7 @@ void generate_tables(char * path){
      tdn[6].tag=0x68686561;
      tdn[6].offset=offset;
      tdn[6].length=hh.getSize();
-     tdn[6].checkSum=checkSum(hh);
+     //tdn[6].checkSum=checkSum(hh);
      offset+=hh.getSize();
      //padding offset with 0 to full 4 bytes
      if(offset%4!=0) offset+=(4-(offset%4));
@@ -193,7 +193,7 @@ void generate_tables(char * path){
      tdn[7].tag=0x686d7478;
      tdn[7].offset=offset;
      tdn[7].length=hmt.getSize();
-     tdn[7].checkSum=checkSum(hmt);
+     //tdn[7].checkSum=checkSum(hmt);
      offset+=hmt.getSize();
      //padding offset with 0 to full 4 bytes
      if(offset%4!=0) offset+=(4-(offset%4));
@@ -201,7 +201,7 @@ void generate_tables(char * path){
      tdn[8].tag=0x6c6f6361;
      tdn[8].offset=offset;
      tdn[8].length=lc.getSize();
-     tdn[8].checkSum=checkSum(lc);
+     //tdn[8].checkSum=checkSum(lc);
       offset+=lc.getSize();
       //padding offset with 0 to full 4 bytes
      if(offset%4!=0) offset+=(4-(offset%4));
@@ -209,7 +209,7 @@ void generate_tables(char * path){
      tdn[9].tag=0x6d617870;
      tdn[9].offset=offset;
      tdn[9].length=mt.getSize();
-     tdn[9].checkSum=checkSum(mt);
+     //tdn[9].checkSum=checkSum(mt);
      offset+=mt.getSize();
      //padding offset with 0 to full 4 bytes
      if(offset%4!=0) offset+=(4-(offset%4));
@@ -217,7 +217,7 @@ void generate_tables(char * path){
      tdn[10].tag=0x6e616d65;
      tdn[10].offset=offset;
      tdn[10].length=nt.getSize();
-     tdn[10].checkSum=checkSum(nt);
+     //tdn[10].checkSum=checkSum(nt);
      offset+=nt.getSize();
      //padding offset with 0 to full 4 bytes
      if(offset%4!=0) offset+=(4-(offset%4));
@@ -225,7 +225,7 @@ void generate_tables(char * path){
      tdn[11].tag=0x706f7374;
      tdn[11].offset=offset;
      tdn[11].length=pt.getSize();
-     tdn[11].checkSum=checkSum(pt);
+     //tdn[11].checkSum=checkSum(pt);
      offset+=pt.getSize();
      //padding offset with 0 to full 4 bytes
      if(offset%4!=0) offset+=(4-(offset%4));   
@@ -233,7 +233,7 @@ void generate_tables(char * path){
      tdn[12].tag=0x70726570;
      tdn[12].offset=offset;
      tdn[12].length=prt.getSize();
-     tdn[12].checkSum=checkSum(prt);
+     //tdn[12].checkSum=checkSum(prt);
      offset+=prt.getSize();
      //padding offset with 0 to full 4 bytes
      if(offset%4!=0) offset+=(4-(offset%4));
@@ -267,9 +267,7 @@ int main(int argc, char *argv[])
     //cmap_table ct;
     //uint32 res=checkSum(ct);
     char path[]="fonts\\fntX.ttf";
-    {
         generate_tables(path);
-    }
-    system("PAUSE");
+    //system("PAUSE");
     return EXIT_SUCCESS;
 }
