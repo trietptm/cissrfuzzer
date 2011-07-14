@@ -18,6 +18,7 @@ void CreateSOI()
     id[1] = 0xD8;
     Marker SOI(id);
     SOI.WriteToFile();
+    delete[] id;
 }
 
 void CreateEOI()
@@ -28,6 +29,7 @@ void CreateEOI()
     id[1] = 0xD9;
     Marker EOI(id);
     EOI.WriteToFile();
+    delete[] id;
 }
 
 void CreateAPP0()
@@ -36,10 +38,13 @@ void CreateAPP0()
     id = new char[2];
     id[0] = 0xFF;
     id[1] = 0xE0;
-    appid = new char[5];
+    appid = new char[4];
     strcpy(appid, "JFIF");
     APPx APP0(id, appid);
+    APP0.DetSize();
     APP0.WriteToFile();
+    delete[] id;
+    //delete[] appid;
 }
 
 void CreateSOF0(char num)
@@ -49,7 +54,9 @@ void CreateSOF0(char num)
     id[0] = 0xFF;
     id[1] = 0xC0;
     SOFx SOF0(id, num);
+    SOF0.DetSize();
     SOF0.WriteToFile();
+    delete[] id;
 }
 
 void CreateDHT(char t_t, char t_i)
@@ -59,7 +66,9 @@ void CreateDHT(char t_t, char t_i)
     id[0] = 0xFF;
     id[1] = 0xC4;
     DHT dht(id, t_t, t_i);
+    dht.DetSize();
     dht.WriteToFile();
+    delete[] id;
 }
 
 void CreateSOS(char num)
@@ -69,7 +78,9 @@ void CreateSOS(char num)
     id[0] = 0xFF;
     id[1] = 0xDA;
     SOS sos(id, num);
+    sos.DetSize();
     sos.WriteToFile();
+    delete[] id;
 }
 
 void Fill(int num_mcu)
@@ -83,10 +94,11 @@ void Fill(int num_mcu)
     }
     for(int i=0;i<buf.size();i++)
     {
-	fprintf (filehandle, "%c", buf[i]);
+    fprintf (filehandle, "%c", buf[i]);
     }
     fclose(filehandle);
     buf.clear();
+    //delete filehandle;
 }
 
 void CreateDQT()
@@ -96,7 +108,9 @@ void CreateDQT()
     id[0] = 0xFF;
     id[1] = 0xDB;
     DQT dqt(id);
+    dqt.DetSize();
     dqt.WriteToFile();
+    delete[] id;
 }
 
 void CreateDRI()
@@ -106,7 +120,9 @@ void CreateDRI()
     id[0] = 0xFF;
     id[1] = 0xDD;
     DRI dri(id);
+    dri.DetSize();
     dri.WriteToFile();
+    delete[] id;
 }
 
 void CreateCOM()
@@ -116,7 +132,11 @@ void CreateCOM()
     id[0] = 0xFF;
     id[1] = 0xFE;
     COM com(id);
+    com.DetSize();
+    cout<<"good COM generation";
     com.WriteToFile();
+    cout<<"good COM writting";
+    delete[] id;
 }
 
 
@@ -124,12 +144,12 @@ void CreateCOM()
 int main()
 {
     char counterDHT=0;
-    char num=1;
+    char num=3;
     int numMCU = (127+(char)(Random(127)))*num;
     vector <string> ord;
     vector <string>::iterator cur;
-    CreateSOI();
-    CreateAPP0();
+    CreateSOI(); cout<<"SOI is good\n";
+    CreateAPP0(); cout<<"APP0 is good\n";
     ord = Order();
     for (cur=ord.begin();cur<ord.end();cur++)
     {
@@ -138,19 +158,21 @@ int main()
     cur=ord.begin();
     while(cur!=ord.end())
     {
-        if(*cur=="DQT") CreateDQT();
+        if(*cur=="DQT") { CreateDQT(); cout<<"DQT is good\n"; }
         if(*cur=="DHT")
         {
-            if(counterDHT==0) CreateDHT(0, 0); counterDHT++;
-            if(counterDHT==1) CreateDHT(0, 1); counterDHT++;
-            if(counterDHT==2) CreateDHT(1, 0); counterDHT++;
-            if(counterDHT==3) CreateDHT(1, 1);
+            if(counterDHT==0) { CreateDHT(0, 0); cout<<"DHT1 is good\n"; }
+            if(counterDHT==1) { CreateDHT(0, 1); cout<<"DHT2 is good\n"; }
+            if(counterDHT==2) { CreateDHT(1, 0); cout<<"DHT3 is good\n"; }
+            if(counterDHT==3) { CreateDHT(1, 1); cout<<"DHT4 is good\n"; }
+            counterDHT++;
         }
-        if(*cur=="SOFx") CreateSOF0(num);
-        if(*cur=="SOS") CreateSOS(num); Fill(numMCU);
-        if(*cur=="COM") CreateCOM();
+        if(*cur=="SOFx") { CreateSOF0(num); cout<<"SOFx is good\n"; }
+        if(*cur=="SOS") { CreateSOS(num); Fill(numMCU); cout<<"SOS is good\n"; }
+        if(*cur=="COM") { CreateCOM(); cout<<"COM is good\n"; }
         cur++;
     }
-    CreateEOI();
+    CreateEOI(); cout<<"EOI is good\n";
+    ord.clear();
     return 0;
 }
