@@ -8,19 +8,18 @@ using namespace std;
 
 void Marker::WriteToFile()
 {
-	vector <char> buf;
-	FILE *filehandle;
-	filehandle = fopen("test.jpg", "ab");
-	buf.push_back(ID[0]);
-	buf.push_back(ID[1]);
-	buf.push_back(size[0]);
-	buf.push_back(size[1]);
-	for(int i=0;i<buf.size();i++)
-	{
-		fprintf (filehandle, "%c", buf[i]);
-	}
-	fclose(filehandle);
+    vector <char> buf;
+    FILE *filehandle;
+    filehandle = fopen("test.jpg", "ab");
+    buf.push_back(ID[0]);
+    buf.push_back(ID[1]);
+    for(int i=0;i<buf.size();i++)
+    {
+        fprintf (filehandle, "%c", buf[i]);
+    }
+    fclose(filehandle);
         buf.clear();
+        //delete filehandle;
 }
 
 void APPx::WriteToFile()
@@ -46,16 +45,18 @@ void APPx::WriteToFile()
     buf.push_back(Ydensity[1]);
     buf.push_back(xThumbnail);
     buf.push_back(yThumbnail);
-    for(int i=0;i<sizeof(Preview);i++)
+    int length=3*(int)xThumbnail*(int)yThumbnail;
+    for(int i=0;i<length;i++)
     {
-	buf.push_back(Preview[i]);
+    buf.push_back(Preview[i]);
     }
     for(int i=0;i<buf.size();i++)
     {
-	fprintf (filehandle, "%c", buf[i]);
+    fprintf (filehandle, "%c", buf[i]);
     }
     fclose(filehandle);
     buf.clear();
+    //delete filehandle;
 }
 
 void SOFx::WriteToFile()
@@ -81,10 +82,11 @@ void SOFx::WriteToFile()
     }
     for(int i=0;i<buf.size();i++)
     {
-	fprintf (filehandle, "%c", buf[i]);
+    fprintf (filehandle, "%c", buf[i]);
     }
     fclose(filehandle);
     buf.clear();
+    //delete filehandle;
 }
 
 void DHT::WriteToFile()
@@ -107,10 +109,11 @@ void DHT::WriteToFile()
     }
     for(int i=0;i<buf.size();i++)
     {
-	fprintf (filehandle, "%c", buf[i]);
+    fprintf (filehandle, "%c", buf[i]);
     }
     fclose(filehandle);
     buf.clear();
+    //delete filehandle;
 }
 
 void SOS::WriteToFile()
@@ -134,10 +137,11 @@ void SOS::WriteToFile()
     }
     for(int i=0;i<buf.size();i++)
     {
-	fprintf (filehandle, "%c", buf[i]);
+    fprintf (filehandle, "%c", buf[i]);
     }
     fclose(filehandle);
     buf.clear();
+    //delete filehandle;
 }
 
 void DQT::WriteToFile()
@@ -168,10 +172,11 @@ void DQT::WriteToFile()
     }
     for(int i=0;i<buf.size();i++)
     {
-	fprintf (filehandle, "%c", buf[i]);
+    fprintf (filehandle, "%c", buf[i]);
     }
     fclose(filehandle);
     buf.clear();
+    //delete filehandle;
 }
 
 void DRI::WriteToFile()
@@ -187,10 +192,11 @@ void DRI::WriteToFile()
     buf.push_back(RI[1]);
     for(int i=0;i<buf.size();i++)
     {
-	fprintf (filehandle, "%c", buf[i]);
+    fprintf (filehandle, "%c", buf[i]);
     }
     fclose(filehandle);
     buf.clear();
+    //delete filehandle;
 }
 
 void COM::WriteToFile()
@@ -202,15 +208,16 @@ void COM::WriteToFile()
     buf.push_back(ID[1]);
     buf.push_back(size[0]);
     buf.push_back(size[1]);
-    for(int i=0;i<sizeof(comment);i++)
+    for(int i=0;i<len_com;i++)
     {
         buf.push_back(comment[i]);
     }
     for(int i=0;i<buf.size();i++)
     {
-	fprintf (filehandle, "%c", buf[i]);
+    fprintf (filehandle, "%c", buf[i]);
     }
     fclose(filehandle);
     buf.clear();
+    //delete filehandle;
 }
 
