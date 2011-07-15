@@ -66,6 +66,7 @@ class DHT : public Marker
     char HT_info;
     char HT_len[16];
     char *HT_symb;
+        int length;
 };
 
 class SOS : public Marker
