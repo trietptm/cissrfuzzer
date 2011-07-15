@@ -44,7 +44,6 @@ void CreateAPP0()
     APP0.DetSize();
     APP0.WriteToFile();
     delete[] id;
-    //delete[] appid;
 }
 
 void CreateSOF0(char num)
@@ -98,7 +97,6 @@ void Fill(int num_mcu)
     }
     fclose(filehandle);
     buf.clear();
-    //delete filehandle;
 }
 
 void CreateDQT()
@@ -133,9 +131,7 @@ void CreateCOM()
     id[1] = 0xFE;
     COM com(id);
     com.DetSize();
-    cout<<"good COM generation";
     com.WriteToFile();
-    cout<<"good COM writting";
     delete[] id;
 }
 
@@ -145,7 +141,7 @@ int main()
 {
     char counterDHT=0;
     char num=3;
-    int numMCU = (127+(char)(Random(127)))*num;
+    int numMCU = (511+(int)(Random(127)))*num;
     vector <string> ord;
     vector <string>::iterator cur;
     CreateSOI(); cout<<"SOI is good\n";
