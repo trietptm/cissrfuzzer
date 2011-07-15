@@ -1,3 +1,4 @@
+#include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string>
@@ -51,9 +52,9 @@ SOFx::SOFx(char *id, char num) : Marker(id)
         SOFx::discr[0] = (Random(2))*17;
         SOFx::discr[1] = (Random(2))*17;
         SOFx::discr[2] = (Random(2))*17;
-        SOFx::num_quant_tab[0] = Random(2);
-        SOFx::num_quant_tab[1] = Random(2);
-        SOFx::num_quant_tab[2] = Random(2);
+        SOFx::num_quant_tab[0] = 0x11;
+        SOFx::num_quant_tab[1] = 0x11;
+        SOFx::num_quant_tab[2] = 0x11;
                 SOFx::size_int+=9;
     }
 }
@@ -61,19 +62,19 @@ SOFx::SOFx(char *id, char num) : Marker(id)
 DHT::DHT(char *id, char tab_type, char tab_id) : Marker(id)
 {
     srand( (unsigned)time( NULL ) );
-    int length=0;
+    DHT::length=0;
     DHT::HT_info = 16*tab_type+tab_id;
     for(int i=0;i<16;i++)
     {
         DHT::HT_len[i] = Random(6);
-        length+=DHT::HT_len[i];
+        length+=(int)DHT::HT_len[i];
     }
     DHT::HT_symb = new char[length];
     for(int i=0;i<length;i++)
     {
         DHT::HT_symb[i] = Random(255);
     }
-        DHT::size_int = 2+1+16+sizeof(DHT::HT_symb);
+        DHT::size_int = 2+1+16+length;
 }
 
 SOS::SOS(char *id, char num) : Marker(id)
@@ -86,7 +87,7 @@ SOS::SOS(char *id, char num) : Marker(id)
         SOS::comp_ID = new char[1];
         SOS::comp_ID[0] = 1;
         SOS::tab_Huff = new char[1];
-        SOS::tab_Huff[0] = 16*Random(2)+Random(2);
+        SOS::tab_Huff[0] = 0x11;
                 SOS::size_int+=2;
     }
     else
@@ -96,9 +97,9 @@ SOS::SOS(char *id, char num) : Marker(id)
         SOS::comp_ID[0] = 1;
         SOS::comp_ID[1] = 2;
         SOS::comp_ID[2] = 3;
-        SOS::tab_Huff[0] = 16*Random(2)+Random(2);
-        SOS::tab_Huff[1] = 16*Random(2)+Random(2);
-        SOS::tab_Huff[2] = 16*Random(2)+Random(2);
+        SOS::tab_Huff[0] = 0x11;
+        SOS::tab_Huff[1] = 0x11;
+        SOS::tab_Huff[2] = 0x11;
                 SOS::size_int+=6;
     }
     for(int i=0;i<3;i++)
@@ -145,7 +146,7 @@ DRI::DRI(char *id) : Marker(id)
 COM::COM(char *id) : Marker(id)
 {
     srand( (unsigned)time( NULL ) );
-    COM::len_com = Random(250);
+    COM::len_com = 128+Random(128);
     COM::comment = new char[COM::len_com];
     for(int i=0;i<COM::len_com;i++)
     {
