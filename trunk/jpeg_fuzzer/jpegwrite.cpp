@@ -19,7 +19,6 @@ void Marker::WriteToFile()
     }
     fclose(filehandle);
         buf.clear();
-        //delete filehandle;
 }
 
 void APPx::WriteToFile()
@@ -56,7 +55,6 @@ void APPx::WriteToFile()
     }
     fclose(filehandle);
     buf.clear();
-    //delete filehandle;
 }
 
 void SOFx::WriteToFile()
@@ -86,7 +84,6 @@ void SOFx::WriteToFile()
     }
     fclose(filehandle);
     buf.clear();
-    //delete filehandle;
 }
 
 void DHT::WriteToFile()
@@ -103,7 +100,7 @@ void DHT::WriteToFile()
     {
         buf.push_back(HT_len[i]);
     }
-    for(int i=0;i<sizeof(HT_symb);i++)
+    for(int i=0;i<length;i++)
     {
         buf.push_back(HT_symb[i]);
     }
@@ -113,7 +110,6 @@ void DHT::WriteToFile()
     }
     fclose(filehandle);
     buf.clear();
-    //delete filehandle;
 }
 
 void SOS::WriteToFile()
@@ -141,7 +137,6 @@ void SOS::WriteToFile()
     }
     fclose(filehandle);
     buf.clear();
-    //delete filehandle;
 }
 
 void DQT::WriteToFile()
@@ -176,7 +171,6 @@ void DQT::WriteToFile()
     }
     fclose(filehandle);
     buf.clear();
-    //delete filehandle;
 }
 
 void DRI::WriteToFile()
@@ -196,7 +190,6 @@ void DRI::WriteToFile()
     }
     fclose(filehandle);
     buf.clear();
-    //delete filehandle;
 }
 
 void COM::WriteToFile()
@@ -218,6 +211,5 @@ void COM::WriteToFile()
     }
     fclose(filehandle);
     buf.clear();
-    //delete filehandle;
 }
 
