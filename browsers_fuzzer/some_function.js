@@ -1,7 +1,8 @@
+/* function return random element from "local_array" */
 function randint(local_array) {
 	return Math.floor(Math.random() * (local_array.length));
 };
-
+/* Examples of function, that return clone of object. But it isn't copy methods */
 /*
 function clone(obj)
 {
@@ -26,7 +27,7 @@ function clone(obj) {
    return clone2;
 }
 */
-
+/*
 function clone(o) {
 var c = {};
  if(!o || 'object' !== typeof o)  {
@@ -47,16 +48,14 @@ var c = {};
 }
  return c;
 }
-
-
+*/
 // var c = clone(o);
-
+/* Function return random bad variable with type "type" */
 function getvalue(type) {
 	function randint(local_array) {
 		return Math.floor(Math.random() * (local_array.length));
 	}
-	
-	
+
 	var result = "";
 	switch (type) {
 		case "PRInt8":
@@ -113,7 +112,7 @@ function getvalue(type) {
 		case "PRUnichar":
 		case "charPtr":
 		case "BSTR":
-			result = String(bad_strings[randint(bad_strings)])
+			result = "\"" + String(bad_strings[randint(bad_strings)]) + "\""
 			break
 		default:
 			result = null;
