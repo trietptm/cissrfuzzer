@@ -1,110 +1,84 @@
 <html>
 <head>
 <script src="firefox_interface.js" type="text/javascript"></script>
-<script src="jquery.js" type="text/javascript"></script>
+<script src="webkit_interface.js" type="text/javascript"></script>
+<script src="jquery/jquery.js" type="text/javascript"></script>
 <script src="some_function.js" type="text/javascript"></script>
 <script src="variable.js" type="text/javascript"></script>
 <script src="func.js" type="text/javascript"></script>
 <script src="attr.js" type="text/javascript"></script>
 <script src="clas.js" type="text/javascript"></script>
+<script src="firefox_test.js" type="text/javascript"></script>
+<script src="webkit_test.js" type="text/javascript"></script>
 <script type="text/javascript">
-var fun = all_function.split("\n");
-
-var all_class = [];
-var j = -1;
-var new_clas;
-for(var i=0; i<fun.length; i++) {
-	if (fun[i].length > 4) 
-	{
-		if(fun[i].substring(fun[i].length-5,fun[i].length-1) == ".idl") 
-		{
-			j++;
-			/*
-			new_clas = clone(clas);
-			new_clas.init_name(fun[i].substring(0,fun[i].length-5));
-			all_class[j] = new_clas;
-			*/
-			//all_class[j] = clone(clas);
-			all_class[j] = new clas;
-			//console.log(all_class[j]);
-			//$.extend(all_class[j], clas);
-			
-			//all_class[j].prototype.init_name = init_names;
-			/*
-			all_class[j].prototype.add_attribute = add_attribute;
-			all_class[j].prototype.add_functions = add_functions;
-			all_class[j].prototype.ret_name = ret_name;
-			*/
-			
-			//all_class[j] = clone(clas);
-			//all_class[j] = clas.clone();
-			//all_class[j].init_name(fun[i].substring(0,fun[i].length-5));
-			all_class[j].name = fun[i].substring(0,fun[i].length-5);
-						
-			//all_class.push(new_clas);
-			//console.log(fun[i].substring(0,fun[i].length-5));
-			/*
-			if (j < 100) 
-			console.log(j + " " + all_class[j].ret_name());
-			*/
-		}
-		else {
-		if (fun[i].length > 9) 
-		{ 	//console.log(fun[i]);
-			if(fun[i].substring(0,9) == "attribute") 
-			{	
-				var new_attribute = fun[i].split(" ");
-				all_class[j].add_attribute(new_attribute[2], new_attribute[1]);
-				//console.log(fun[i]);
-			}
-		}
-		
-		if (fun[i].indexOf("(") != -1) 
-		{
-			var fun_1 = fun[i].split("(");
-			var fun_2 = fun_1[0].split(" ");
-			var fun_type = fun_2[0]; // не нужно
-			var fun_name = fun_2[1];
-			fun_1[1] = fun_1[1].replace(')','');
-			var fun_3 = fun_1[1].split(", ");
-			var fun_t = [];
-			var fun_n = [];
-			for(var k =0; k<fun_3.length; k++) 
-			{
-				var fun_4 = fun_3[k].split(" ");
-				fun_t.push(fun_4[0]);
-				fun_n.push(fun_4[1]);
-			};
-			//console.log(all_class[j]);
-			all_class[j].add_functions(fun_name, fun_t, fun_n);
-		};
-		}
-	}
 	
-
-}
-
-//for ( var x = 0; x < j+1; x++ ) 
-
-for ( var x = 0; x < 50; x++ ) 
-{
-	console.log("var xyz" + x + " = new " +  all_class[x].name + "(); \n");
-	var all_at = all_class[x].get_attribute();
-	for (var y = 0; y < all_at.length; y++)
+	var x = 0;
+	var text = "";
+	var text_firefox = "";
+	var text_webkit = "";
+	/* Выполняем случайный запрос для firefox */
+	function get_firefox()
 	{
-	console.log("xyz" + x + all_at[y]);
+		x = Math.floor(Math.random()*(firefox_j+1));
+		text_firefox = "var xyz" + x + " = new " +  firefox_class[x].name + "(); \n"; //объект
+		var all_at = firefox_class[x].get_attribute();
+		for (var y = 0; y < all_at.length; y++)
+		{
+		text_firefox += "xyz" + x + all_at[y] + " \n";		//атрибуты
+		}
+		var all_fun = firefox_class[x].get_function();
+		for (var y = 0; y < all_fun.length; y++)
+		{
+		text_firefox += "xyz" + x + all_fun[y] + " \n";	// функции
+		}	
 	}
-	var all_fun = all_class[x].get_function();
-	for (var y = 0; y < all_fun.length; y++)
+	/* Выполняем случайный запрос для webkit */	
+	function get_webkit()
 	{
-	console.log("xyz" + x + all_fun[y]);
+		x = Math.floor(Math.random()*(webkit_j+1));
+		text_webkit = "var xyz" + x + " = new " +  webkit_class[x].name + "(); \n"; //объект
+		var all_at_2 = webkit_class[x].get_attribute();
+		for (var y = 0; y < all_at_2.length; y++)
+		{
+		text_webkit += "xyz" + x + all_at_2[y] + " \n";		//атрибуты
+		}
+		var all_fun_2 = webkit_class[x].get_function();
+		for (var y = 0; y < all_fun_2.length; y++)
+		{
+		text_webkit += "xyz" + x + all_fun_2[y] + " \n";	// функции
+		}	
 	}	
-
-
-}	
+	/* Creat window and run code */
+	function run()
+	{
+		var newWin = window.open( $("#url").val(), "JSSite");
+		if ( $(":radio[name=browser]").filter(":checked").val() == "firefox") {text = text_firefox;};
+		if ( $(":radio[name=browser]").filter(":checked").val() == "webkit") {text = text_webkit;};		
+		newWin.eval(text);		
+		newWin.focus();		
+	}
+	function update()
+	{
+		if ( $(":radio[name=browser]").filter(":checked").val() == "firefox") {get_firefox(); text = text_firefox;};
+		if ( $(":radio[name=browser]").filter(":checked").val() == "webkit") {get_webkit(); text = text_webkit;};
+		$("#code").val(text);
+	}
 
 </script>
 </head>
 <body>
+	<form>
+	<input type=radio name="browser" value="firefox" checked > Firefox
+	<br>
+	<input type=radio name="browser" value="webkit" > Webkit
+	<br>
+	<input type=button value="Update" onClick="update()">
+	<br>
+	<textarea id=code cols="52" rows="15"></textarea>
+	<br>
+	URL: <input type=text id="url" SIZE=60 >
+	<br>
+	<input type=button value="Run" onClick="run()">
+	</form>	
 </body>
 </html>
