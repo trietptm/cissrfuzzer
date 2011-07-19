@@ -14,6 +14,7 @@
 #include "fpgm_table.h"
 #include "os_2_table.h"
 #include "loca_table.h"
+#include "cff_table.h"
 //for now checked writing and creating functions of:
 //post,name,hmtx,hhea,head
 uint32 CalcTableChecksum(uint32 *table, uint32 numberOfBytesInTable){
@@ -259,15 +260,35 @@ void generate_tables(char * path){
      pt.printTable(path);
      prt.printTable(path);
      
-}
-
+};
+void gener_otf( char* path){
+     //tables: cff,os/2,cmap,head,hhea,hmtx,maxp,name,post  
+     //order of tables matches with definition order below:
+     cff_table cft;
+     os_2_table ost;
+     cmap_table ct;
+     head_table ht;
+     hhea_table hh;
+     hmtx_table hmt;
+     maxp_table mt;
+     name_table nt;
+     post_table pt;
+     //generating tables
+     
+     gener_os_2_table(ost);
+                              
+};
 int main(int argc, char *argv[])
 {
     
     //cmap_table ct;
     //uint32 res=checkSum(ct);
-    char path[]="fonts\\fntX.ttf";
-        generate_tables(path);
-    //system("PAUSE");
+    char path[]="fntX.otf";
+        //generate_tables(path);
+    cff_table cft;
+    gener_cff_table(cft);
+    //for(int i=0;i<10;i++) cout<<cft.strings.str[i];
+    cft.printTable(path);   
+    system("PAUSE");
     return EXIT_SUCCESS;
 }
