@@ -2,7 +2,7 @@
 /* Create new empty attribute */
 function attr () {
 	this.name = "";
-	this.typ = "";
+	this.type = "";
 };
 /* Add name and type */
 attr.prototype.add = function(p_name, p_type) {
