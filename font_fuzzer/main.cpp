@@ -284,7 +284,7 @@ int main(int argc, char *argv[])
     //cmap_table ct;
     //uint32 res=checkSum(ct);
     char path[]="fntX.otf";
-        //generate_tables(path);
+    //generate_tables(path);
     cff_table cft;
     gener_cff_table(cft);
     cft.printTable(path);  
