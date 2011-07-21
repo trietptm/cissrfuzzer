@@ -11,9 +11,13 @@ struct index{
        //only one of previous 4 arrays should be in each table;
        //size of arrays specifies by count+1
        char * data; //size determines by last offset-1
+       virtual void printId(ofstream &file);
+       virtual uint32 getSize();
 };
 struct stringId:public index{
        string * str;
+       virtual void printId(ofstream &file);
+       virtual uint32 getSize();
 };
 struct cff_table:public table{
        //
@@ -26,7 +30,8 @@ struct cff_table:public table{
        index topDict;
        stringId strings;
        index globalSubr;
-       index CharString;
+       index charString;
+       char * privateDict; //temporary not avaible
        virtual void printTable(char* path);
        virtual uint32 getSize();
 };

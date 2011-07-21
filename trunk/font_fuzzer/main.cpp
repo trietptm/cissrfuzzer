@@ -287,8 +287,8 @@ int main(int argc, char *argv[])
         //generate_tables(path);
     cff_table cft;
     gener_cff_table(cft);
-    //for(int i=0;i<10;i++) cout<<cft.strings.str[i];
-    cft.printTable(path);   
+    cft.printTable(path);  
+    cout<<cft.getSize();
     system("PAUSE");
     return EXIT_SUCCESS;
 }
