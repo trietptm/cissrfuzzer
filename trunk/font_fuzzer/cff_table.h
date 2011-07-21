@@ -27,7 +27,7 @@ struct cff_table:public table{
        char offsize;    //1,2,3,4 - avaible offset size(in bytes)
        index name;      //name shouldn't contain next symbols: [ ] { } < > % /
        // (NUL) (space) \n \r \t max length - 63(127)
-       index topDict;
+       stringId topDict;
        stringId strings;
        index globalSubr;
        index charString;
@@ -36,3 +36,5 @@ struct cff_table:public table{
        virtual uint32 getSize();
 };
 extern void gener_cff_table(cff_table &cft);
+extern uint16 getRandWord();
+extern char getRandByte();

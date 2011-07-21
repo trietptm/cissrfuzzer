@@ -1,4 +1,15 @@
 #include "cff_table.h"
+uint16 getRandWord(){ //genearting 2 byte random according dict data specification
+     srand ( time(NULL) );
+     uint16 res=0;
+     short sign=rand()%2;
+     if(sign==0) return (rand()%4+247)*256+(rand()%256);
+     return (rand()%4+251)*256+(rand()%256);
+};
+char getRandByte(){//generating 1 byte operand
+     srand ( time(NULL)+rand() );
+     return (char)(32+(rand()%215));
+};
 uint32 index::getSize(){
        uint32 res=2;
        if(count==0) return res;
@@ -38,7 +49,6 @@ uint32 stringId::getSize(){
                  break;
             case 2:
                  res+=2*count+2;//count+1 2-byte offsets
-                 cout<<"res:"<<res<<endl;
                  break;
             case 3:
                  res+=3*count+3;//count+1 3-byte offsets
@@ -47,7 +57,6 @@ uint32 stringId::getSize(){
                  res+=4*count+4;//count+1 4-byte offsets
                  break;
            }
-       cout<<"local offset: "<<res<<endl;
        for(int i=0;i<count; i++) res+=str[i].length();
        }
        return res;
@@ -133,25 +142,57 @@ void gener_cff_table(cff_table &cft){
      cft.topDict.offSize=1;
      cft.topDict.off1=new char[2];//for 1 entry required 2 offsets
      cft.topDict.off1[0]=(char)1;
-     /*
-     too much dependencies with other data, will be filled later
-     some of depencies:
-          - charstring type(opcode 12 6) affects charstring index and global/local subr index
-          - 
-     */
-     srand ( time(NULL) );
-     /*string s="";
-     for(int i=0;i<256;i++)
-             s.append(1,(char)(rand()%243+13));//excluding operators with codes 0..12
+     cft.topDict.str=new string[1];
+     //////////////////////////////////////
+     string s="";
+     s.append(43,0);
+     uint16 rnd=getRandWord();
+     s[0]=(char)(rnd>>8);
+     s[1]=(char)(rnd%256);
      s[2]=(char)0;//3rd byte - version opcode
+     rnd=getRandWord();
+     s[3]=(char)(rnd>>8);
+     s[4]=(char)(rnd%256);
      s[5]=(char)1;//6th byte - notice opcode
+     rnd=getRandWord();
+     s[6]=(char)(rnd>>8);
+     s[7]=(char)(rnd%256);
      s[8]=(char)12;s[9]=(char)0;//copyright opcode
+     rnd=getRandWord();
+     s[10]=(char)(rnd>>8);
+     s[11]=(char)(rnd%256);
      s[12]=(char)2;//fullName opcode
+     rnd=getRandWord();
+     s[13]=(char)(rnd>>8);
+     s[14]=(char)(rnd%256);
      s[15]=(char)3;//familyName opcode
+     rnd=getRandWord();
+     s[16]=(char)(rnd>>8);
+     s[17]=(char)(rnd%256);
      s[18]=(char)4;//weight opcode
+     char brnd=getRandByte();
+     s[19]=brnd;
      s[20]=(char)12;s[21]=(char)1;//isFixedPitch opcode
-     s[22]=(char)0;s[23]=12;s[24]=(char)2;//italicAngle fixed=0;
-     */
+     s[22]=(char)0;s[23]=12;s[24]=(char)2;//italicAngle fixed=0
+     brnd=getRandByte();
+     s[25]=brnd;
+     s[26]=(char)12;s[27]=(char)3;//1-byte underlinePosition 
+     brnd=getRandByte();
+     s[28]=brnd;
+     s[29]=(char)12;s[30]=(char)4;//1-byte underline thickness
+     brnd=getRandByte();
+     s[31]=brnd;
+     s[32]=(char)12;s[33]=(char)5;//1-byte Paint type
+     s[34]=(char)2;s[35]=(char)12;s[36]=(char)6;//1-byte fixed charstring type
+     rnd=getRandWord();
+     s[37]=(char)(rnd>>8);
+     s[38]=(char)(rnd%256);
+     s[39]=(char)13; //unique id opcode
+     brnd=getRandByte();
+     s[40]=brnd;
+     s[41]=(char)12;s[42]=(char)8;//stroke width opcode
+     //skipped next instructionsL font metrix, fontB Box, xuid, and all after xuid
+     cft.topDict.str[0]=s;
      //generating string index:
      cft.strings.count=2400; //more strings avaible, but they're unnecessary
      cft.strings.offSize=2;
@@ -175,6 +216,7 @@ void gener_cff_table(cff_table &cft){
      //had to cover all call graph
      0 subroutines, temporary
      */
+     
      cft.globalSubr.count=0;
      uint16 numGlyph=rand()%254+1;//1..254 glyphs
      cft.charString.count=numGlyph;
@@ -191,9 +233,7 @@ void cff_table::printTable(char* path){
      file<<major<<minor<<hdrsize<<offsize;
      //writting Name section
      name.printId(file);
-     //writting top dict index
-     //just do it!
-     //writting global subroutines
+     topDict.printId(file);
      globalSubr.printId(file);
      //writting string Index
      strings.printId(file);
@@ -202,7 +242,7 @@ void cff_table::printTable(char* path){
 uint32 cff_table::getSize(){
      uint32 res=4;
      res+=name.getSize();
-     //res+=topDict.getSize();
+     res+=topDict.getSize();
      res+=globalSubr.getSize();
      cout<<"name+head+subr: "<<res<<endl;
      res+=strings.getSize();
