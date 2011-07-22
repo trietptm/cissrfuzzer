@@ -32,3 +32,4 @@ var list_event_element = ['onabort','onblur','onchange','onclick','oncontextmenu
 
 var list_event_element_special = ['onclick','onerror','onkeydown','onkeypress','onkeyup','onload','onmousedown','onmousemove',
 'onmouseout','onmouseover','onmouseup','onmousewheel','onscroll'];
+

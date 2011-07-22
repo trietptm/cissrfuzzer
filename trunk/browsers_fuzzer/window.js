@@ -1,245 +1,251 @@
-/* Object like "window" */
-/* http://www.w3.org/TR/html5/browsers.html#the-window-object */
-function windows() {
-	this.window_ =  new clas;
-
-	/*
-	this.window_.add_object("window"); // тоже самое
-	this.window_.add_object("self"); // тоже самое (текущее)
-	this.window_.add_object("opener"); // тоже самое (родитель)
-	this.window_.add_object("top");
-	this.window_.add_object("parent");
-	this.window_.add_object("frames");
-	*/
-
-	
-	/* document */
-	this.window_.add_object_type("Document", "document"); 
-
-
-	
-	/* frameElement */
-	this.window_.add_object("frameElement"); 
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("tagName", "DOMString"); 
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("getAttribute", ["DOMString"], ["name"]);
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("setAttribute", ["DOMString", "DOMString"], ["name", "value"]);
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("removeAttribute", ["DOMString"], ["name"]);
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("getAttributeNode", ["DOMString"], ["name"]);
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("setAttributeNode", ["Attr"], ["newAttr"]);
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("removeAttributeNode", ["Attr"], ["oldAttr"]);
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("getElementsByTagName", ["DOMString"], ["name"]);
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("getAttributeNS", ["DOMString", "DOMString"], ["namespaceURI", "localName"]);
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("setAttributeNS", ["DOMString", "DOMString", "DOMString"], ["namespaceURI", "qualifiedName", "value"]);
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("removeAttributeNS", ["DOMString", "DOMString"], ["namespaceURI", "localName"]);	
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("getAttributeNodeNS", ["DOMString", "DOMString"], ["namespaceURI", "localName"]);	
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("setAttributeNodeNS", ["Attr"], ["newAttr"]);	
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("getElementsByTagNameNS", ["DOMString", "DOMString"], ["namespaceURI", "localName"]);		
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("hasAttribute", ["DOMString"], ["name"]);	
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("hasAttributeNS", ["DOMString", "DOMString"], ["namespaceURI", "localName"]);	
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("ELEMENT_NODE", "unsignedshort");
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("ATTRIBUTE_NODE", "unsignedshort");
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("TEXT_NODE", "unsignedshort");
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("CDATA_SECTION_NODE", "unsignedshort");
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("ENTITY_REFERENCE_NODE", "unsignedshort");
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("ENTITY_NODE", "unsignedshort");
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("PROCESSING_INSTRUCTION_NODE", "unsignedshort");
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("COMMENT_NODE", "unsignedshort");
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("DOCUMENT_NODE", "unsignedshort");
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("DOCUMENT_TYPE_NODE", "unsignedshort");
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("DOCUMENT_FRAGMENT_NODE", "unsignedshort");
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("NOTATION_NODE", "unsignedshort");
-		// http://www.w3.org/TR/DOM-Level-2-Core/core.html NOde intarfase
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("nodeName", "DOMString");		
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("nodeValue", "DOMString");		
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("nodeType", "unsignedshort");		
-		//NodeList
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("parentNode", "Node");			
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("firstChild", "Node");			
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("lastChild", "Node");			
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("previousSibling", "Node");			
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_attribute ("nextSibling", "Node");			
-		//NamedNodeMap         
-		//Document
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("insertBefore", ["Node", "Node"], ["newChild", "refChild"]);		
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("replaceChild", ["Node", "Node"], ["newChild", "oldChild"]);		
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("removeChild", ["Node"], ["oldChild"]);		
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("appendChild", ["Node"], ["newChild"]);		
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("hasChildNodes", [""], [""]);		
-		this.window_.all_object[this.window_.return_i_clas("frameElement")].add_functions ("cloneNode", ["boolean"], ["deep"]);		
-	
-	/* navigator */
-	this.window_.add_object("navigator"); 
-		this.window_.all_object[this.window_.return_i_clas("navigator")].add_attribute ("appVersion", "DOMString"); 	
-		this.window_.all_object[this.window_.return_i_clas("navigator")].add_attribute ("appName", "DOMString"); 	
-		this.window_.all_object[this.window_.return_i_clas("navigator")].add_attribute ("platform", "DOMString"); 	
-		this.window_.all_object[this.window_.return_i_clas("navigator")].add_attribute ("userAgent", "DOMString"); 	
-		this.window_.all_object[this.window_.return_i_clas("navigator")].add_attribute ("onLine", "boolean"); 	
-		this.window_.all_object[this.window_.return_i_clas("navigator")].add_functions ("registerProtocolHandler", ["DOMString", "DOMString", "DOMString"], ["scheme", "url", "title"]);		
-		this.window_.all_object[this.window_.return_i_clas("navigator")].add_functions ("registerContentHandler", ["DOMString", "DOMString", "DOMString"], ["mimeType", "url", "title"]);		
-		this.window_.all_object[this.window_.return_i_clas("navigator")].add_functions ("yieldForStorageUpdates", [""], [""]);	
-
-	/* location */		
-	this.window_.add_object("location");	
-		this.window_.all_object[this.window_.return_i_clas("location")].add_attribute ("href", "DOMString"); 		
-		this.window_.all_object[this.window_.return_i_clas("location")].add_attribute ("protocol", "DOMString"); 		
-		this.window_.all_object[this.window_.return_i_clas("location")].add_attribute ("host", "DOMString"); 		
-		this.window_.all_object[this.window_.return_i_clas("location")].add_attribute ("hostname", "DOMString"); 		
-		this.window_.all_object[this.window_.return_i_clas("location")].add_attribute ("port", "DOMString"); 		
-		this.window_.all_object[this.window_.return_i_clas("location")].add_attribute ("pathname", "DOMString"); 		
-		this.window_.all_object[this.window_.return_i_clas("location")].add_attribute ("search", "DOMString"); 		
-		this.window_.all_object[this.window_.return_i_clas("location")].add_attribute ("hash", "DOMString"); 		
-		this.window_.all_object[this.window_.return_i_clas("location")].add_functions ("assign", ["DOMString"], ["url"]);
-		this.window_.all_object[this.window_.return_i_clas("location")].add_functions ("replace", ["DOMString"], ["url"]);	
-		this.window_.all_object[this.window_.return_i_clas("location")].add_functions ("reload", [""], [""]);	
-		this.window_.all_object[this.window_.return_i_clas("location")].add_functions ("resolveURL", [""], [""]);			
-	
-	/* history */
-	this.window_.add_object("history");
-		this.window_.all_object[this.window_.return_i_clas("history")].add_attribute ("length", "long"); 
-		this.window_.all_object[this.window_.return_i_clas("history")].add_attribute ("state", "any"); 
-		this.window_.all_object[this.window_.return_i_clas("history")].add_functions ("go", [""], [""]);
-		this.window_.all_object[this.window_.return_i_clas("history")].add_functions ("back", [""], [""]);
-		this.window_.all_object[this.window_.return_i_clas("history")].add_functions ("forward", [""], [""]);
-		this.window_.all_object[this.window_.return_i_clas("history")].add_functions ("pushState", ["any", "DOMString", "DOMString"], ["data", "title", "url"]);
-		this.window_.all_object[this.window_.return_i_clas("history")].add_functions ("replaceState", ["any", "DOMString", "DOMString"], ["data", "title", "url"]);
-
-	/* applicationCache */		
-	this.window_.add_object("applicationCache");
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_functions ("update", [""], [""]);		
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_functions ("swapCache", [""], [""]);		
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_attribute ("UNCACHED", "unsignedshort"); 
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_attribute ("IDLE", "unsignedshort"); 
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_attribute ("CHECKING", "unsignedshort"); 
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_attribute ("DOWNLOADING", "unsignedshort"); 
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_attribute ("UPDATEREADY", "unsignedshort"); 
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_attribute ("OBSOLETE", "unsignedshort"); 
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_attribute ("status", "unsignedshort"); 
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_functions("addEventListener", ["DOMString", "EventListener", "boolean"], ["type", "listener", "useCapture"]);
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_functions("removeEventListener", ["DOMString", "EventListener", "boolean"], ["type", "listener", "useCapture"]);
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_functions("dispatchEvent", ["Event"], ["evt"]);		
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_attribute_function("onchecking");
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_attribute_function("onerror");
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_attribute_function("onnoupdate");
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_attribute_function("ondownloading");
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_attribute_function("onprogress");
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_attribute_function("onupdateready");
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_attribute_function("oncached");
-		this.window_.all_object[this.window_.return_i_clas("applicationCache")].add_attribute_function("onobsolete");
-		
-	this.window_.add_object("locationbar");
-	this.window_.add_object("menubar");
-	this.window_.add_object("personalbar");
-	this.window_.add_object("scrollbars");
-	this.window_.add_object("statusbar");
-	this.window_.add_object("toolbar");
-	
-	/* attribute for locationbar, menubar, personalbar, scrollbars, statusbar, toolbar */
-		this.window_.all_object[this.window_.return_i_clas("locationbar")].add_attribute ("visible", "boolean"); 
-		this.window_.all_object[this.window_.return_i_clas("menubar")].add_attribute ("visible", "boolean"); 
-		this.window_.all_object[this.window_.return_i_clas("personalbar")].add_attribute ("visible", "boolean"); 
-		this.window_.all_object[this.window_.return_i_clas("scrollbars")].add_attribute ("visible", "boolean"); 
-		this.window_.all_object[this.window_.return_i_clas("statusbar")].add_attribute ("visible", "boolean"); 
-		this.window_.all_object[this.window_.return_i_clas("toolbar")].add_attribute ("visible", "boolean"); 
-
-/* function for "window" */
-	this.window_.add_functions("stop", [""], [""]);
-	this.window_.add_functions("focus", [""], [""]);
-	this.window_.add_functions("blur", [""], [""]);
-	this.window_.add_functions("print", [""], [""]);
-	this.window_.add_functions("close", [""], [""]);
-	this.window_.add_functions("alert", ["DOMString"], ["message"]);
-	this.window_.add_functions("confirm", ["DOMString"], ["message"]);
-	this.window_.add_functions("prompt", ["DOMString", "DOMString"], ["message", "default"]);
-	this.window_.add_functions("open", ["DOMString", "DOMString", "DOMString", "DOMString"], ["url", "target", "features", "replace"]);
-
-	this.window_.add_functions("WindowProxy", ["unsignedlong"], ["index"]);
-	this.window_.add_functions("any", ["DOMString"], ["name"]);
-
-	this.window_.add_functions("showModalDialog", ["DOMString"], ["url"]);
+/* window_s for new window_s */
+/* Create new empty window_s */
+function window_() {
+	this.name = "";
+	this.all_func = [];
+	this.num_func = 0;
+	this.all_atrib = [];
+	this.all_atr_func = [];	
+	this.all_object = [];
+	this.num_object = 0;
+	this.dynamic = false;
+	this.dynamic_name = [];
+	this.dynamic_type = [];
+};
+/* add dynamic object in "sleep" array  */
+window_.prototype.add_sleep_object = function(this_type, this_name)
+{
+	this.dynamic == true;
+	this.dynamic_name.push(this_name);
+	this.dynamic_type.push(this_type);
+};
+/* Generate "window" */
+window_.prototype.generate = function () {
+	this.add_sleep_object("WindowProxy", "window");
+	this.add_sleep_object("WindowProxy", "self");	
+	this.add_sleep_object("WindowProxy", "frames");
+	this.add_sleep_object("WindowProxy", "top");
+	this.add_sleep_object("WindowProxy", "opener");
+	this.add_sleep_object("WindowProxy", "parent");	
+	this.add_object_type("Document", "document");	
+	this.add_attribute ("name", "DOMString");	
+	this.add_object_type("Location", "location");		
+	this.add_object_type("History", "history");		
+	this.add_object_type("BarProp", "locationbar");
+	this.add_object_type("BarProp", "menubar");
+	this.add_object_type("BarProp", "personalbar");
+	this.add_object_type("BarProp", "scrollbars");
+	this.add_object_type("BarProp", "statusbar");
+	this.add_object_type("BarProp", "toolbar");
+	this.add_functions ("close", [""], [""]);		
+	this.add_functions ("stop", [""], [""]);		
+	this.add_functions ("focus", [""], [""]);		
+	this.add_functions ("blur", [""], [""]);		
+	this.add_attribute ("length", "unsignedlong");	
+	this.add_object_type("Element", "frameElement");	
+	this.add_functions ("open", [""], [""]); // WindowProxy open(in optional DOMString url, in optional DOMString target, in optional DOMString features, in optional DOMString replace);
+	this.add_functions ("WindowProxy", ["unsignedlong"], ["index"]);	
+	this.add_functions ("any", ["DOMString"], ["name"]);	
+	this.add_object_type("Navigator", "navigator");		
+	this.add_object_type("ApplicationCache", "applicationCache");		
+	this.add_functions ("alert", ["DOMString"], ["message"]);	
+	this.add_functions ("confirm", ["DOMString"], ["message"]);	
+	this.add_functions ("prompt", ["DOMString"], ["message"]);	// DOMString prompt(in DOMString message, in optional DOMString default);
+	this.add_functions ("print", [""], [""]);	
+	this.add_functions ("showModalDialog", ["DOMString"], ["url"]);	// any showModalDialog(in DOMString url, in optional any argument);
+	this.add_attribute_function("onabort");
+	this.add_attribute_function("onafterprint");
+	this.add_attribute_function("onbeforeprint");
+	this.add_attribute_function("onbeforeunload");
+	this.add_attribute_function("onblur");
+	this.add_attribute_function("oncanplay");
+	this.add_attribute_function("oncanplaythrough");
+	this.add_attribute_function("onchange");
+	this.add_attribute_function("onclick");
+	this.add_attribute_function("oncontextmenu");
+	this.add_attribute_function("oncuechange");
+	this.add_attribute_function("ondblclick");
+	this.add_attribute_function("ondrag");
+	this.add_attribute_function("ondragend");
+	this.add_attribute_function("ondragenter");
+	this.add_attribute_function("ondragleave");
+	this.add_attribute_function("ondragover");
+	this.add_attribute_function("ondragstart");
+	this.add_attribute_function("ondrop");
+	this.add_attribute_function("ondurationchange");
+	this.add_attribute_function("onemptied");
+	this.add_attribute_function("onended");
+	this.add_attribute_function("onerror");
+	this.add_attribute_function("onfocus");
+	this.add_attribute_function("onhashchange");
+	this.add_attribute_function("oninput");
+	this.add_attribute_function("oninvalid");
+	this.add_attribute_function("onkeydown");
+	this.add_attribute_function("onkeypress");
+	this.add_attribute_function("onkeyup");
+	this.add_attribute_function("onload");
+	this.add_attribute_function("onloadeddata");
+	this.add_attribute_function("onloadedmetadata");
+	this.add_attribute_function("onloadstart");
+	this.add_attribute_function("onmessage");
+	this.add_attribute_function("onmousedown");
+	this.add_attribute_function("onmousemove");
+	this.add_attribute_function("onmouseout");
+	this.add_attribute_function("onmouseover");
+	this.add_attribute_function("onmouseup");
+	this.add_attribute_function("onmousewheel");
+	this.add_attribute_function("onoffline");
+	this.add_attribute_function("ononline");
+	this.add_attribute_function("onpause");
+	this.add_attribute_function("onplay");
+	this.add_attribute_function("onplaying");
+	this.add_attribute_function("onpagehide");
+	this.add_attribute_function("onpageshow");
+	this.add_attribute_function("onpopstate");
+	this.add_attribute_function("onprogress");
+	this.add_attribute_function("onratechange");
+	this.add_attribute_function("onreadystatechange");
+	this.add_attribute_function("onredo");
+	this.add_attribute_function("onreset");
+	this.add_attribute_function("onresize");
+	this.add_attribute_function("onscroll");
+	this.add_attribute_function("onseeked");
+	this.add_attribute_function("onseeking");
+	this.add_attribute_function("onselect");
+	this.add_attribute_function("onshow");
+	this.add_attribute_function("onstalled");
+	this.add_attribute_function("onstorage");
+	this.add_attribute_function("onsubmit");
+	this.add_attribute_function("onsuspend");
+	this.add_attribute_function("ontimeupdate");
+	this.add_attribute_function("onundo");
+	this.add_attribute_function("onunload");
+	this.add_attribute_function("onvolumechange");
+	this.add_attribute_function("onwaiting");
 	/* !!! + global function */
-	this.window_.add_functions("addEventListener", ["DOMString", "EventListener", "boolean"], ["type", "listener", "useCapture"]);
-	this.window_.add_functions("removeEventListener", ["DOMString", "EventListener", "boolean"], ["type", "listener", "useCapture"]);
-	this.window_.add_functions("dispatchEvent", ["Event"], ["evt"]);
-
-	this.window_.add_attribute("name", "DOMString");
-	this.window_.add_attribute("length", "unsignedlong");
-
-/* attribute like function for "window" */
-	this.window_.add_attribute_function("onabort");
-	this.window_.add_attribute_function("onafterprint");
-	this.window_.add_attribute_function("onbeforeprint");
-	this.window_.add_attribute_function("onbeforeunload");
-	this.window_.add_attribute_function("onblur");
-	this.window_.add_attribute_function("oncanplay");
-	this.window_.add_attribute_function("oncanplaythrough");
-	this.window_.add_attribute_function("onchange");
-	this.window_.add_attribute_function("onclick");
-	this.window_.add_attribute_function("oncontextmenu");
-	this.window_.add_attribute_function("oncuechange");
-	this.window_.add_attribute_function("ondblclick");
-	this.window_.add_attribute_function("ondrag");
-	this.window_.add_attribute_function("ondragend");
-	this.window_.add_attribute_function("ondragenter");
-	this.window_.add_attribute_function("ondragleave");
-	this.window_.add_attribute_function("ondragover");
-	this.window_.add_attribute_function("ondragstart");
-	this.window_.add_attribute_function("ondrop");
-	this.window_.add_attribute_function("ondurationchange");
-	this.window_.add_attribute_function("onemptied");
-	this.window_.add_attribute_function("onended");
-	this.window_.add_attribute_function("onerror");
-	this.window_.add_attribute_function("onfocus");
-	this.window_.add_attribute_function("onhashchange");
-	this.window_.add_attribute_function("oninput");
-	this.window_.add_attribute_function("oninvalid");
-	this.window_.add_attribute_function("onkeydown");
-	this.window_.add_attribute_function("onkeypress");
-	this.window_.add_attribute_function("onkeyup");
-	this.window_.add_attribute_function("onload");
-	this.window_.add_attribute_function("onloadeddata");
-	this.window_.add_attribute_function("onloadedmetadata");
-	this.window_.add_attribute_function("onloadstart");
-	this.window_.add_attribute_function("onmessage");
-	this.window_.add_attribute_function("onmousedown");
-	this.window_.add_attribute_function("onmousemove");
-	this.window_.add_attribute_function("onmouseout");
-	this.window_.add_attribute_function("onmouseover");
-	this.window_.add_attribute_function("onmouseup");
-	this.window_.add_attribute_function("onmousewheel");
-	this.window_.add_attribute_function("onoffline");
-	this.window_.add_attribute_function("ononline");
-	this.window_.add_attribute_function("onpause");
-	this.window_.add_attribute_function("onplay");
-	this.window_.add_attribute_function("onplaying");
-	this.window_.add_attribute_function("onpagehide");
-	this.window_.add_attribute_function("onpageshow");
-	this.window_.add_attribute_function("onpopstate");
-	this.window_.add_attribute_function("onprogress");
-	this.window_.add_attribute_function("onratechange");
-	this.window_.add_attribute_function("onreadystatechange");
-	this.window_.add_attribute_function("onredo");
-	this.window_.add_attribute_function("onreset");
-	this.window_.add_attribute_function("onresize");
-	this.window_.add_attribute_function("onscroll");
-	this.window_.add_attribute_function("onseeked");
-	this.window_.add_attribute_function("onseeking");
-	this.window_.add_attribute_function("onselect");
-	this.window_.add_attribute_function("onshow");
-	this.window_.add_attribute_function("onstalled");
-	this.window_.add_attribute_function("onstorage");
-	this.window_.add_attribute_function("onsubmit");
-	this.window_.add_attribute_function("onsuspend");
-	this.window_.add_attribute_function("ontimeupdate");
-	this.window_.add_attribute_function("onundo");
-	this.window_.add_attribute_function("onunload");
-	this.window_.add_attribute_function("onvolumechange");
-	this.window_.add_attribute_function("onwaiting");
+	this.add_functions("addEventListener", ["DOMString", "EventListener", "boolean"], ["type", "listener", "useCapture"]);
+	this.add_functions("removeEventListener", ["DOMString", "EventListener", "boolean"], ["type", "listener", "useCapture"]);
+	this.add_functions("dispatchEvent", ["Event"], ["evt"]);
 };
-
-windows.prototype.init_name = function (name_parameter) {
-	this.window_.name = name_parameter;
+/* Add name */
+window_.prototype.init_name = function (name_parameter) {
+	this.name = name_parameter;
 };
-windows.prototype.return_clas = function (name){
+/* Add attributes */
+window_.prototype.add_attribute = function (name_attribute, type_attribute) 
+{
+	var new_window_ = new attr;
+	new_window_.add(name_attribute, type_attribute);
+	this.all_atrib.push(new_window_);
+};
+/* Add attribute-function */
+window_.prototype.add_attribute_function = function (name_attribute) 
+{
+	var new_window_ = new attr_func;
+	new_window_.add(name_attribute);
+	this.all_atr_func.push(new_window_);
+};
+/* Add functions(methods) */
+window_.prototype.add_functions = function (name_function, fun_type, fun_name)
+{
+	var new_func = new func;
+	new_func.ini_name(name_function);
+	new_func.init_attribute(fun_name, fun_type);
+	this.all_func[this.num_func] = new_func;
+	this.num_func ++;
+};
+/* Add object */
+window_.prototype.add_object = function (name_object)
+{
+	var new_window_ = new window_;
+	new_window_.init_name(name_object);
+	this.all_object[this.num_object] = new_window_;
+	this.num_object ++;
+}
+window_.prototype.add_object_type = function (type_object, name_object)
+{
+	var new_clas = new clas;
+	if (type_object == "Document") 
+	{
+		new_clas = new document_;
+		new_clas.init_name(name_object);
+		new_clas.generate();
+	}
+	if (type_object == "HTMLCollection") 
+	{
+		new_clas = new htmlcollection_;
+		new_clas.generate();	
+		new_clas.init_name(name_object);	
+	}
+	if (type_object == "WindowProxy") 
+	{
+		new_clas = new window_;
+		new_clas.generate();	
+		new_clas.init_name(name_object);	
+	}		
+	if (type_object == "Navigator") 
+	{
+		new_clas = new navigator_;
+		new_clas.generate();	
+		new_clas.init_name(name_object);	
+	}	
+	if (type_object == "Location") 
+	{
+		new_clas = new location_;
+		new_clas.generate();	
+		new_clas.init_name(name_object);	
+	}	
+	if (type_object == "BarProp") 
+	{
+		new_clas = new barprop_;
+		new_clas.generate();	
+		new_clas.init_name(name_object);	
+	}		
+	if (type_object == "ApplicationCache") 
+	{
+		new_clas = new applicationCache_;
+		new_clas.generate();	
+		new_clas.init_name(name_object);	
+	}		
+	if (type_object == "History") 
+	{
+		new_clas = new history_;
+		new_clas.generate();	
+		new_clas.init_name(name_object);	
+	}
+	if (type_object == "Element") 
+	{
+		new_clas = new element_;
+		new_clas.generate();	
+		new_clas.init_name(name_object);	
+	}
+	
+	this.all_object[this.num_object] = new_clas;
+	this.num_object ++;
+}
+/* Return name of window_s */
+window_.prototype.ret_name = function () {
+	return this.name;
+}
+/* Return attributes */
+window_.prototype.get_attribute = function () {
+	var result = [];
+	for(var i = 0; i < this.all_atrib.length; i++ )
+	{
+		result.push(this.all_atrib[i].ret_str());
+	}
+	return result;
+}
+/* Return functions */
+window_.prototype.get_function = function () {
+	var result = [];
+	for(var i = 0; i < this.num_func; i++ )
+	{
+		result.push(this.all_func[i].ret_str());
+	}
+	return result;
+}
+window_.prototype.return_clas = function (name){
 	var return_;
 	for (var j=0; j < this.num_object; j++)
 	{
@@ -248,7 +254,7 @@ windows.prototype.return_clas = function (name){
 	}
 	return return_;
 }
-windows.prototype.return_i_clas = function (name){
+window_.prototype.return_i_clas = function (name){
 	var return_i;
 	for (var j=0; j < this.num_object; j++)
 	{
@@ -256,4 +262,8 @@ windows.prototype.return_i_clas = function (name){
 			return_i = j;
 	}
 	return return_i;
+}
+
+window_.prototype.random_event = function (){
+	return this.all_atr_func[randint(this.all_atr_func)];
 }

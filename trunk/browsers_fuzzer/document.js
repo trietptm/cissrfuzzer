@@ -1,17 +1,27 @@
 /* document_s for new document_s */
 /* Create new empty document_s */
 function document_() {
-	this.name = "document";
+	this.name = "";
 	this.all_func = [];
 	this.num_func = 0;
 	this.all_atrib = [];
 	this.all_atr_func = [];	
 	this.all_object = [];
 	this.num_object = 0;
+	this.dynamic = false;
+	this.dynamic_name = [];
+	this.dynamic_type = [];
+};
+/* add dynamic object in "sleep" array  */
+document_.prototype.add_sleep_object = function(this_type, this_name)
+{
+	this.dynamic == true;
+	this.dynamic_name.push(this_name);
+	this.dynamic_type.push(this_type);
 };
 /* Generate "document" */
 document_.prototype.generate = function () {
-	//  + Location location
+	this.add_object_type("Location", "location"); 
 	this.add_attribute("URL", "DOMString");
 	this.add_attribute("domain", "DOMString");
 	this.add_attribute("referrer", "DOMString");
@@ -25,10 +35,8 @@ document_.prototype.generate = function () {
 	this.add_functions ("any", ["DOMString"], ["name"]);
 	this.add_attribute("title", "DOMString");
 	this.add_attribute("dir", "DOMString");
-	/*
-           attribute HTMLElement body;
-  readonly attribute HTMLHeadElement head;
-	*/
+	this.add_object_type("HTMLElement", "body"); 	
+	this.add_object_type("HTMLHeadElement", "head"); 	
 	this.add_object_type("HTMLCollection", "images"); 
 	this.add_object_type("HTMLCollection", "embeds"); 
 	this.add_object_type("HTMLCollection", "plugins"); 
@@ -43,8 +51,8 @@ document_.prototype.generate = function () {
 	this.add_functions ("close", [""], [""]);		
 	this.add_functions ("write", ["DOMString"], ["text"]);	
 	this.add_functions ("writeln", ["DOMString"], ["text"]);	
-	// readonly attribute WindowProxy defaultView;
-	// readonly attribute Element activeElement;
+	this.add_sleep_object("WindowProxy", "defaultView");
+	this.add_object_type("Element", "activeElement"); 	
 	this.add_functions ("hasFocus", [""], [""]);	
 	this.add_attribute("designMode", "DOMString");	
 	this.add_functions ("execCommand", ["DOMString"], ["commandId"]);		
@@ -111,6 +119,60 @@ document_.prototype.generate = function () {
 	this.add_attribute_function("ontimeupdate");
 	this.add_attribute_function("onvolumechange");
 	this.add_attribute_function("onwaiting");
+	
+	this.add_attribute("ELEMENT_NODE", "unsignedshort");
+	this.add_attribute("ATTRIBUTE_NODE", "unsignedshort");
+	this.add_attribute("TEXT_NODE", "unsignedshort");
+	this.add_attribute("CDATA_SECTION_NODE", "unsignedshort");
+	this.add_attribute("ENTITY_REFERENCE_NODE", "unsignedshort");
+	this.add_attribute("ENTITY_NODE", "unsignedshort");
+	this.add_attribute("PROCESSING_INSTRUCTION_NODE", "unsignedshort");
+	this.add_attribute("COMMENT_NODE", "unsignedshort");
+	this.add_attribute("DOCUMENT_NODE", "unsignedshort");
+	this.add_attribute("DOCUMENT_TYPE_NODE", "unsignedshort");
+	this.add_attribute("DOCUMENT_FRAGMENT_NODE", "unsignedshort");
+	this.add_attribute("NOTATION_NODE", "unsignedshort");
+	this.add_attribute("nodeName", "DOMString");
+	this.add_attribute("nodeValue", "DOMString");
+	this.add_attribute("nodeType", "unsignedshort");
+	this.add_sleep_object("Node", "parentNode");  
+	this.add_object_type("NodeList", "childNodes"); 	  
+	this.add_sleep_object("Node", "firstChild");
+	this.add_sleep_object("Node", "lastChild");
+	this.add_sleep_object("Node", "previousSibling");
+	this.add_sleep_object("Node", "nextSibling");	
+	this.add_object_type("NamedNodeMap", "attributes");   
+	this.add_sleep_object("Document", "ownerDocument"); 	
+	this.add_functions ("insertBefore", ["Node", "Node"], ["newChild", "refChild"]);	
+	this.add_functions ("replaceChild", ["Node", "Node"], ["newChild", "oldChild"]);	
+	this.add_functions ("removeChild", ["Node"], ["oldChild"]);	
+	this.add_functions ("appendChild", ["Node"], ["newChild"]);	
+	this.add_functions ("hasChildNodes", [""], [""]);	
+	this.add_functions ("cloneNode", ["boolean"], ["deep"]);	
+	this.add_functions ("normalize", [""], [""]);
+	this.add_functions ("isSupported", ["DOMString", "DOMString"], ["feature", "version"]);		
+	this.add_attribute("namespaceURI", "DOMString");								 
+	this.add_attribute("prefix", "DOMString");								 
+	this.add_attribute("localName", "DOMString");								 
+	this.add_functions ("hasAttributes", [""], [""]);	
+	this.add_object_type("DocumentType", "doctype"); 
+	this.add_object_type("DOMImplementation", "implementation"); 
+	this.add_object_type("Element", "documentElement"); 
+	this.add_functions ("createElement", ["DOMString"], ["tagName"]);	
+	this.add_functions ("createDocumentFragment", [""], [""]);	
+	this.add_functions ("createTextNode", ["DOMString"], ["data"]);	
+	this.add_functions ("createComment", ["DOMString"], ["data"]);	
+	this.add_functions ("createCDATASection", ["DOMString"], ["data"]);	
+	this.add_functions ("createProcessingInstruction", ["DOMString", "DOMString"], ["target", "data"]);			
+	this.add_functions ("createAttribute", ["DOMString"], ["name"]);	
+	this.add_functions ("createEntityReference", ["DOMString"], ["name"]);	
+	this.add_functions ("getElementsByTagName", ["DOMString"], ["tagname"]);	
+	this.add_functions ("importNode", ["Node", "boolean"], ["importedNode", "deep"]);	
+	this.add_functions ("createElementNS", ["DOMString", "DOMString"], ["namespaceURI", "qualifiedName"]);	
+	this.add_functions ("createAttributeNS", ["DOMString", "DOMString"], ["namespaceURI", "qualifiedName"]);	
+	this.add_functions ("getElementsByTagNameNS", ["DOMString", "DOMString"], ["namespaceURI", "localName"]);	
+	this.add_functions ("getElementById", ["DOMString"], ["elementId"]);
+	
 };
 /* Add name */
 document_.prototype.init_name = function (name_parameter) {
@@ -162,6 +224,50 @@ document_.prototype.add_object_type = function (type_object, name_object)
 		new_clas.generate();	
 		new_clas.init_name(name_object);	
 	}
+	if (type_object == "Location") 
+	{
+		new_clas = new location_;
+		new_clas.generate();	
+		new_clas.init_name(name_object);	
+	}	
+	if (type_object == "HTMLElement") 
+	{
+		new_clas = new htmlelement_;
+		new_clas.generate();	
+		new_clas.init_name(name_object);	
+	}		
+	if (type_object == "HTMLHeadElement") 
+	{
+		new_clas = new htmlheadelement_;
+		new_clas.generate();	
+		new_clas.init_name(name_object);	
+	}		
+	if (type_object == "Element") 
+	{
+		new_clas = new element_;
+		new_clas.generate();	
+		new_clas.init_name(name_object);	
+	}
+	if (type_object == "WindowProxy") 
+	{
+		new_clas = new window_;
+		new_clas.generate();	
+		new_clas.init_name(name_object);	
+	}	
+	if (type_object == "DocumentType") 
+	{
+		new_clas = new documenttype_;
+		new_clas.generate();	
+		new_clas.init_name(name_object);	
+	}	
+	if (type_object == "DOMImplementation") 
+	{
+		new_clas = new domimplementation_;
+		new_clas.generate();	
+		new_clas.init_name(name_object);	
+	}	
+	
+	
 	this.all_object[this.num_object] = new_clas;
 	this.num_object ++;
 }
