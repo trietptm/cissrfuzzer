@@ -8,6 +8,16 @@ function htmlcollection_() {
 	this.all_atr_func = [];	
 	this.all_object = [];
 	this.num_object = 0;
+	this.dynamic = false;
+	this.dynamic_name = [];
+	this.dynamic_type = [];
+};
+/* add dynamic object in "sleep" array  */
+htmlcollection_.prototype.add_sleep_object = function(this_type, this_name)
+{
+	this.dynamic == true;
+	this.dynamic_name.push(this_name);
+	this.dynamic_type.push(this_type);
 };
 /* Generate "HTMLCollection" */
 htmlcollection_.prototype.generate = function () {
@@ -50,6 +60,7 @@ htmlcollection_.prototype.add_object = function (name_object)
 	this.all_object[this.num_object] = new_htmlcollection_;
 	this.num_object ++;
 }
+/* not use
 htmlcollection_.prototype.add_object = function (type_object)
 {
 	var new_htmlcollection_ = new htmlcollection_;
@@ -62,6 +73,7 @@ htmlcollection_.prototype.add_object = function (type_object)
 	this.all_object[this.num_object] = new_htmlcollection_;
 	this.num_object ++;
 }
+*/
 /* Return name of htmlcollection_s */
 htmlcollection_.prototype.ret_name = function () {
 	return this.name;
