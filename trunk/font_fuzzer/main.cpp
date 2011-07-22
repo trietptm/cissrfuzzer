@@ -47,7 +47,7 @@ uint32 checkSum(table &t){
 }
 void generate_tables(char * path){
      srand ( time(NULL) );
-     uint16 numGlyphs=rand()%512;//let it be: 1..513 glyphs
+     uint16 numGlyphs=rand()%512+1;//let it be: 1..513 glyphs
      //uint16 numGlyphs=10;
      cout<<"nuber of glyphs: "<<numGlyphs<<endl;
      //generating glyph table
@@ -264,31 +264,138 @@ void generate_tables(char * path){
 void gener_otf( char* path){
      //tables: cff,os/2,cmap,head,hhea,hmtx,maxp,name,post  
      //order of tables matches with definition order below:
-     cff_table cft;
-     os_2_table ost;
-     cmap_table ct;
-     head_table ht;
-     hhea_table hh;
-     hmtx_table hmt;
-     maxp_table mt;
-     name_table nt;
-     post_table pt;
+     cff_table cft;//*
+     os_2_table ost;//+
+     cmap_table ct;//+
+     head_table ht;//+
+     hhea_table hh;//+
+     hmtx_table hmt;//*
+     maxp_table mt;//*
+     name_table nt;//*
+     post_table pt;//+
+     uint32 offset=9*16+12;
      //generating tables
-     
+     gener_cff_table(cft);
+     uint16 numGlyphs=cft.charString.count;
      gener_os_2_table(ost);
-                              
+     gener_cmap_table(ct,numGlyphs);
+     gener_head_table(ht,-50,-50,50,50);
+     uint16 numOfLhm=rand()%(numGlyphs-2)+1;
+     gener_hhea_table(hh,numOfLhm);
+     gener_os_2_table(ost);
+     gener_hmtx_table(hmt,numOfLhm,numGlyphs);
+     /*   hhea generation   */
+     //filling hhea with appropriate values
+     hh.minLeftSideBearing=getMinlsb(hmt);
+     hh.advanceWidthMax=getMaxAdvance(hmt);
+     //calculating xMaxExtent for hhea
+     uint16 xMaxExtent=20;
+     hh.xMaxExtent=xMaxExtent;
+     //calculating minRsb for hhea
+     uint16 minRsb=5;
+     hh.minRightSideBearing=minRsb;
+     /*end of hhea generation*/
+     short param[]={100,5,0,0,rand()%128,rand()%128,rand()%128,rand()%128,rand()%128,20,rand()%128,0};
+     gener_maxp_table(mt,numGlyphs,param);
+     mt.version=0x00005000;
+     gener_name_table(nt,20,"nameRecords.txt");
+     gener_post_table_v1_3(pt,0x30000);
+     //later we will generate version 2 table
+     /*   
+          generation tables is over
+                                        */
+     TableDirectoryNod * tdn=new TableDirectoryNod[9];
+     font_directory_table fdt;
+     for(int i=0;i<9;i++) tdn[i].checkSum=0;
+     //generating table directory nod for 'cff'
+     tdn[0].tag=0x43464620;
+     tdn[0].offset=offset;
+     tdn[0].length=cft.getSize();
+     offset+=cft.getSize();
+     cout<<cft.getSize()<<endl;
+     //padding offset with 0 to full 4 bytes
+     if(offset%4!=0) offset+=(4-(offset%4));
+     //generating table directory nod for 'os/2'
+     tdn[1].tag=0x4f532f32;
+     tdn[1].offset=offset;
+     tdn[1].length=ost.getSize();
+     //tdn[0].checkSum=checkSum(ot);
+     offset+=ost.getSize();
+     //generating table directory nod for 'cmap'
+     tdn[2].tag=0x636d6170;
+     tdn[2].offset=offset;
+     tdn[2].length=ct.getSize();
+     //tdn[1].checkSum=checkSum(ct);
+     offset+=ct.getSize();
+     //padding offset with 0 to full 4 bytes
+     if(offset%4!=0) offset+=(4-(offset%4));
+     //generating table directory nod for 'head'
+     tdn[3].tag=0x68656164;
+     tdn[3].offset=offset;
+     tdn[3].length=ht.getSize();;
+     offset+=ht.getSize();
+     //padding offset with 0 to full 4 bytes
+     if(offset%4!=0) offset+=(4-(offset%4));
+     //generating table directory nod for 'hhea'
+     tdn[4].tag=0x68686561;
+     tdn[4].offset=offset;
+     tdn[4].length=hh.getSize();
+     offset+=hh.getSize();
+     //padding offset with 0 to full 4 bytes
+     if(offset%4!=0) offset+=(4-(offset%4));
+      //generating table directory nod for 'hmtx'
+     tdn[5].tag=0x686d7478;
+     tdn[5].offset=offset;
+     tdn[5].length=hmt.getSize();
+     offset+=hmt.getSize();
+     //padding offset with 0 to full 4 bytes
+     if(offset%4!=0) offset+=(4-(offset%4));
+     //generating table directory nod for 'maxp'
+     tdn[6].tag=0x6d617870;
+     tdn[6].offset=offset;
+     tdn[6].length=mt.getSize();
+     offset+=mt.getSize();
+     //padding offset with 0 to full 4 bytes
+     if(offset%4!=0) offset+=(4-(offset%4));
+     //generating table directory nod for 'name'
+     tdn[7].tag=0x6e616d65;
+     tdn[7].offset=offset;
+     tdn[7].length=nt.getSize();
+     offset+=nt.getSize();
+     //padding offset with 0 to full 4 bytes
+     if(offset%4!=0) offset+=(4-(offset%4));
+     //generating table directory nod for 'post'
+     tdn[8].tag=0x706f7374;
+     tdn[8].offset=offset;
+     tdn[8].length=pt.getSize();
+     offset+=pt.getSize();
+     //padding offset with 0 to full 4 bytes
+     if(offset%4!=0) offset+=(4-(offset%4));   
+     gener_fdirectory_table(fdt,9,tdn);
+     fdt.os.scalerType=0x4f54544f;
+     fdt.printTable(path);
+     cft.printTable(path);
+     ost.printTable(path);
+     ct.printTable(path);
+     ht.printTable(path);
+     hh.printTable(path);
+     hmt.printTable(path);
+     mt.printTable(path);
+     nt.printTable(path);
+     pt.printTable(path);     
 };
 int main(int argc, char *argv[])
 {
-    
-    //cmap_table ct;
-    //uint32 res=checkSum(ct);
-    char path[]="fntX.otf";
+    char path[]="fnt.otf";
+    //gener_otf("fntX.otf");
     //generate_tables(path);
     cff_table cft;
     gener_cff_table(cft);
     cft.printTable(path);  
-    cout<<cft.getSize();
+    /*cout<<cft.getSize();*/
+    //cout<<hex<<toSpec(1000)<<endl;
+    //cout<<hex<<toSpecW(1131)<<endl;   
+    //cout<<hex<<toSpecLw(10000)<<endl; 
     system("PAUSE");
     return EXIT_SUCCESS;
 }
