@@ -10,6 +10,16 @@ char getRandByte(){//generating 1 byte operand
      srand ( time(NULL)+rand() );
      return (char)(32+(rand()%215));
 };
+short toSpecW(short val){
+    if(val<0) return (-(val>>8)+251-1)*256+(-108-(val%256));
+    return (val%256-108)+256*(247+(val>>8));
+}
+uint32 toSpecLw(short val){
+        uint32 res=0;
+        res+=(28<<16);
+        res+= (val>>8)*256+val%256;
+        return res;
+} 
 uint32 index::getSize(){
        uint32 res=2;
        if(count==0) return res;
@@ -145,7 +155,7 @@ void gener_cff_table(cff_table &cft){
      cft.topDict.str=new string[1];
      //////////////////////////////////////
      string s="";
-     s.append(43,0);
+     s.append(48,0);
      uint16 rnd=getRandWord();
      s[0]=(char)(rnd>>8);
      s[1]=(char)(rnd%256);
@@ -191,6 +201,9 @@ void gener_cff_table(cff_table &cft){
      brnd=getRandByte();
      s[40]=brnd;
      s[41]=(char)12;s[42]=(char)8;//stroke width opcode
+     s[42]=(char)29;//42-46 symbols for writting offset
+     s[47]=(char)17;//charstring offset
+     cft.topDict.off1[1]=(char)49;
      //skipped next instructionsL font metrix, fontB Box, xuid, and all after xuid
      cft.topDict.str[0]=s;
      //generating string index:
@@ -212,18 +225,27 @@ void gener_cff_table(cff_table &cft){
      }
      //generating global subroutines index
      /*
-     cft.globalSubr.count=rand()%65535;//we don't need too much subroutines, but we
-     //had to cover all call graph
-     0 subroutines, temporary
-     */
-     
+       cft.globalSubr.count=rand()%65535;//we don't need too much subroutines, but we
+       //had to cover all call graph
+       0 subroutines, temporary
+     */   
      cft.globalSubr.count=0;
-     uint16 numGlyph=rand()%254+1;//1..254 glyphs
+     //uint16 numGlyph=rand()%254+1;//1..254 glyphs
+     uint16 numGlyph=32;
+     uint32 offset=4;
+     offset+=cft.name.getSize()+cft.topDict.getSize()+cft.strings.getSize()+cft.globalSubr.getSize();
+     cout<<"offset: "<<hex<<offset<<endl;
+     s[43]=(char)(offset>>24);
+     s[44]=(char)((offset>>16)&255);
+     s[45]=(char)((offset>>8)&255);
+     s[46]=(char)(offset%256);
+     cft.topDict.str[0]=s;
      cft.charString.count=numGlyph;
-     cft.charString.offSize=1;//1 byte offst enough for demo
+     cft.charString.offSize=(char)1;//1 byte offst enough for demo
      cft.charString.off1=new char[numGlyph+1];
-     for(int i=0;i<numGlyph+1;i++) cft.charString.off1[i]=(char)i;
-     
+     for(int i=0;i<numGlyph+1;i++) cft.charString.off1[i]=(char)(i+1);
+     cft.charString.data=new char[numGlyph];
+     for(int i=0;i<numGlyph;i++)cft.charString.data[i]=0x0e;
      //
 };
 void cff_table::printTable(char* path){
@@ -237,15 +259,19 @@ void cff_table::printTable(char* path){
      globalSubr.printId(file);
      //writting string Index
      strings.printId(file);
+     charString.printId(file);
+     if(getSize()%4!=0) for(int i=0;i<4-getSize()%4;i++) file<<(char)0;
      file.close();
 };
 uint32 cff_table::getSize(){
      uint32 res=4;
      res+=name.getSize();
      res+=topDict.getSize();
+     //cout<<"before glabalsubr: "<<res<<endl;
      res+=globalSubr.getSize();
-     cout<<"name+head+subr: "<<res<<endl;
+     //cout<<"before strings: "<<res<<endl;
      res+=strings.getSize();
-     //res+=charString.getSize();
+     //cout<<"before charString: "<<res<<endl;
+     res+=charString.getSize();
      return res;
 }

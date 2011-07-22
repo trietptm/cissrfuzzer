@@ -38,3 +38,5 @@ struct cff_table:public table{
 extern void gener_cff_table(cff_table &cft);
 extern uint16 getRandWord();
 extern char getRandByte();
+extern short toSpecW(short val);
+extern uint32 toSpecLw(short val);
