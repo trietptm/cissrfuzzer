@@ -25,7 +25,10 @@ void gener_maxp_table_header(TableDirectoryNod &tdn,uint32 offSet){
 void maxp_table::printTable(char* path){
      ofstream file;
      file.open(path,ios::binary|ios::app);
-     file<<(char)0<<(char)1<<(char)0<<(char)0;//default 0x00010000
+     if(version==0x00010000){
+     //file<<(char)0<<(char)1<<(char)0<<(char)0;//default 0x00010000
+     file<<(char)(version>>24)<<(char)((version>>16)&255);
+     file<<(char)((version>>8)&255)<<(char)(version%256);
      file<<(char)(numGlyphs>>8)<<(char)(numGlyphs%256);
      file<<(char)(maxPoints>>8)<<(char)(maxPoints%256);
      file<<(char)(maxContours>>8)<<(char)(maxContours%256);
@@ -40,8 +43,16 @@ void maxp_table::printTable(char* path){
      file<<(char)(maxSizeOfInstructions>>8)<<(char)(maxSizeOfInstructions%256);
      file<<(char)(maxComponentElements>>8)<<(char)(maxComponentElements%256);
      file<<(char)(maxComponentDepth>>8)<<(char)(maxComponentDepth%256);
+     }
+     else{
+     file<<(char)(version>>24)<<(char)((version>>16)&255);
+     file<<(char)((version>>8)&255)<<(char)(version%256);
+     file<<(char)(numGlyphs>>8)<<(char)(numGlyphs%256);
+     file<<(char)0<<(char)0;//padding to 4 bytes
+     }
      file.close();     
 };
 uint32 maxp_table::getSize(){
+       if(version==0x00005000) return 6;
        return 32;
 };
