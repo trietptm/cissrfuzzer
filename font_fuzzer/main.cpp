@@ -142,6 +142,7 @@ void generate_tables(char * path){
      tdn[0].length=ot.getSize();
      //tdn[0].checkSum=checkSum(ot);
      offset+=ot.getSize();
+     if(offset%4!=0) offset+=(4-(offset%4));
      //generating table directory nod for 'cmap'
      tdn[1].tag=0x636d6170;
      tdn[1].offset=offset;
@@ -312,20 +313,19 @@ void gener_otf( char* path){
      tdn[0].offset=offset;
      tdn[0].length=cft.getSize();
      offset+=cft.getSize();
-     cout<<cft.getSize()<<endl;
+     //cout<<cft.getSize()<<endl;
      //padding offset with 0 to full 4 bytes
      if(offset%4!=0) offset+=(4-(offset%4));
      //generating table directory nod for 'os/2'
      tdn[1].tag=0x4f532f32;
      tdn[1].offset=offset;
      tdn[1].length=ost.getSize();
-     //tdn[0].checkSum=checkSum(ot);
      offset+=ost.getSize();
+     if(offset%4!=0) offset+=(4-(offset%4));
      //generating table directory nod for 'cmap'
      tdn[2].tag=0x636d6170;
      tdn[2].offset=offset;
      tdn[2].length=ct.getSize();
-     //tdn[1].checkSum=checkSum(ct);
      offset+=ct.getSize();
      //padding offset with 0 to full 4 bytes
      if(offset%4!=0) offset+=(4-(offset%4));
@@ -387,15 +387,17 @@ void gener_otf( char* path){
 int main(int argc, char *argv[])
 {
     char path[]="fnt.otf";
-    //gener_otf("fntX.otf");
+    //gener_otf("fntX.otf"); 
     //generate_tables(path);
+    /*stringId td;
+    gener_topDict(td);
+    ofstream file;
+    file.open("topDict.bin",ios::binary|ios::app);
+    td.printId(file);
+    file.close();*/
     cff_table cft;
     gener_cff_table(cft);
-    cft.printTable(path);  
-    /*cout<<cft.getSize();*/
-    //cout<<hex<<toSpec(1000)<<endl;
-    //cout<<hex<<toSpecW(1131)<<endl;   
-    //cout<<hex<<toSpecLw(10000)<<endl; 
+    cft.printTable("cff.tab");
     system("PAUSE");
     return EXIT_SUCCESS;
 }
