@@ -288,13 +288,13 @@ void gener_cff_table(cff_table &cft){
      for(int i=0;i<numGlyph;i++)cft.charString.data[i]=0x0e;
      gener_topDict(cft.topDict);
      uint16 offset=4+cft.name.getSize()+cft.topDict.getSize()+cft.strings.getSize()+cft.globalSubr.getSize();
-     cft.topDict.str[0][48]=offset>>8;
-     cft.topDict.str[0][49]=offset%256;
+     cft.topDict.str[0][48]=toSpecW(offset)>>8;
+     cft.topDict.str[0][49]=toSpecW(offset)%256;
      gener_privateDict(cft.privateDict);
      offset+=cft.charString.getSize();
      cft.topDict.str[0][51]=cft.privateDict.length()+139;
-     cft.topDict.str[0][52]=offset>>8;
-     cft.topDict.str[0][53]=offset%256;
+     cft.topDict.str[0][52]=toSpecW(offset)>>8;
+     cft.topDict.str[0][53]=toSpecW(offset)%256;
 };
 void cff_table::printTable(char* path){
      ofstream file;
@@ -316,7 +316,7 @@ void cff_table::printTable(char* path){
 uint32 cff_table::getSize(){
      uint32 res=4;
      res+=name.getSize();
-     //res+=topDict.getSize();
+     res+=topDict.getSize();
      //cout<<"before glabalsubr: "<<res<<endl;
      res+=globalSubr.getSize();
      //cout<<"strings: "<<strings.getSize()<<endl;
