@@ -144,31 +144,31 @@ int main()
     int numMCU = (511+(int)(Random(127)))*num;
     vector <string> ord;
     vector <string>::iterator cur;
-    CreateSOI(); //cout<<"SOI is good\n";
-    CreateAPP0(); //cout<<"APP0 is good\n";
+    CreateSOI(); cout<<"SOI is good\n";
+    CreateAPP0(); cout<<"APP0 is good\n";
     ord = Order();
-    //for (cur=ord.begin();cur<ord.end();cur++)
-    //{
-     //   cout<<(*cur).c_str()<<endl;
-    //}
+    for (cur=ord.begin();cur<ord.end();cur++)
+    {
+        cout<<*cur<<endl;
+    }
     cur=ord.begin();
     while(cur!=ord.end())
     {
-        if((*cur).c_str()=="DQT") { CreateDQT(); /*cout<<"DQT is good\n";*/ }
-        if((*cur).c_str()=="DHT")
+        if(*cur=="DQT") { CreateDQT(); cout<<"DQT is good\n"; }
+        if(*cur=="DHT")
         {
-            if(counterDHT==0) { CreateDHT(0, 0); /*cout<<"DHT1 is good\n";*/ }
-            if(counterDHT==1) { CreateDHT(0, 1); /*cout<<"DHT2 is good\n";*/ }
-            if(counterDHT==2) { CreateDHT(1, 0); /*cout<<"DHT3 is good\n";*/ }
-            if(counterDHT==3) { CreateDHT(1, 1); /*cout<<"DHT4 is good\n";*/ }
+            if(counterDHT==0) { CreateDHT(0, 0); cout<<"DHT1 is good\n"; }
+            if(counterDHT==1) { CreateDHT(0, 1); cout<<"DHT2 is good\n"; }
+            if(counterDHT==2) { CreateDHT(1, 0); cout<<"DHT3 is good\n"; }
+            if(counterDHT==3) { CreateDHT(1, 1); cout<<"DHT4 is good\n"; }
             counterDHT++;
         }
-        if((*cur).c_str()=="SOFx") { CreateSOF0(num); /*cout<<"SOFx is good\n";*/ }
-        if((*cur).c_str()=="SOS") { CreateSOS(num); Fill(numMCU); /*cout<<"SOS is good\n";*/ }
-        if((*cur).c_str()=="COM") { CreateCOM(); /*cout<<"COM is good\n";*/ }
+        if(*cur=="SOFx") { CreateSOF0(num); cout<<"SOFx is good\n"; }
+        if(*cur=="SOS") { CreateSOS(num); Fill(numMCU); cout<<"SOS is good\n"; }
+        if(*cur=="COM") { CreateCOM(); cout<<"COM is good\n"; }
         cur++;
     }
-    CreateEOI(); /*cout<<"EOI is good\n";*/
+    CreateEOI(); cout<<"EOI is good\n";
     ord.clear();
     return 0;
 }

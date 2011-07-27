@@ -39,7 +39,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 			CreateBmp32 ("bmp32bit.bmp");break;
 	}
 	
-	MessageBox(NULL,(LPCWSTR)"ALL DONE", (LPCWSTR)"BMP Fuzzer", MB_OK | MB_ICONASTERISK); 
+	MessageBox(NULL,"ALL DONE", "BMP Fuzzer", MB_OK | MB_ICONASTERISK); 
 	return rnd_bmp;
 }
 
@@ -130,7 +130,7 @@ void CreateBmp1 (char *fname)
 	bih.biWidth = Width;
 	bih.biPlanes = 1;										
 
-	hFile = CreateFile ((LPCWSTR)fname, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
+	hFile = CreateFile (fname, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return;
 
@@ -208,7 +208,7 @@ void CreateBmp4 (char *fname)
 	bih.biWidth = Width;
 	bih.biPlanes = 1;										
 
-	hFile = CreateFile ((LPCWSTR)fname, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
+	hFile = CreateFile (fname, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return;
 
@@ -285,7 +285,7 @@ void CreateBmp8 (char *fname)
 	bih.biWidth = Width;
 	bih.biPlanes = 1;										
 
-	hFile = CreateFile ((LPCWSTR)fname, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
+	hFile = CreateFile (fname, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return;
 
@@ -365,7 +365,7 @@ void CreateBmp16 (char *fname)
 	bih.biWidth = Width;
 	bih.biPlanes = 1;										
 
-	hFile = CreateFile ((LPCWSTR)fname, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
+	hFile = CreateFile (fname, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return;
 
@@ -435,7 +435,7 @@ void CreateBmp24 (char *fname)
 	bih.biHeight = Height;
 	bih.biWidth = Width;
 	bih.biPlanes = 1;										
-	hFile = CreateFile ((LPCWSTR)fname, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
+	hFile = CreateFile (fname, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return;
 
@@ -508,7 +508,7 @@ void CreateBmp32 (char *fname)
 	bih.biWidth = Width;
 	bih.biPlanes = 1;										
 
-	hFile = CreateFile ((LPCWSTR)fname, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
+	hFile = CreateFile (fname, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return;
 
