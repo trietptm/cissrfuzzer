@@ -267,7 +267,7 @@ void chunk::tofile()
 	
 	
     //ofstream file("test1.png");
-	f=_wfopen(L"d://2.png",L"wb+");
+	f=_wfopen(L"c://2.png",L"wb+");
 	fwrite(b,i*sizeof(char),1,f);
 	
 }
